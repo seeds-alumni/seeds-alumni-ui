@@ -145,7 +145,17 @@ for (const f of codeFiles) {
   }
 }
 
-// カタログとの対応
+// カタログとの対応（アプリの CSS が共通のクラスを組み合わせて使う分は、アプリのカタログに載せなくてよい）
+if (!isSelf) {
+  const libClasses = new Set();
+  for (const f of libCss) {
+    for (const block of stripComments(readFileSync(f, 'utf8')).matchAll(/([^{}]+)\{/g)) {
+      if (block[1].trim().startsWith('@')) continue;
+      for (const m of block[1].matchAll(/\.([a-zA-Z][\w-]*)/g)) libClasses.add(m[1]);
+    }
+  }
+  for (const c of libClasses) appClasses.delete(c);
+}
 if (args.doc) {
   const doc = readFileSync(resolve(args.doc), 'utf8');
   for (const c of appClasses) if (!doc.includes(`.${c}`)) errors.push(`${args.doc}：クラス .${c} がカタログに載っていません`);
