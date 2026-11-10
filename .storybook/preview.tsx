@@ -30,7 +30,7 @@ const preview: Preview = {
         desktop: { name: 'パソコン（1280px）', styles: { width: '1280px', height: '860px' }, type: 'desktop' },
       },
     },
-    options: { storySort: { order: ['はじめに', 'トークン', '画面の型', '部品', 'クラス'] } },
+    options: { storySort: { order: ['はじめに', 'カタログ', 'トークン', '画面の型', '部品', 'クラス'] } },
   },
   decorators: [
     (Story, context) => {

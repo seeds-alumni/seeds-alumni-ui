@@ -7,8 +7,8 @@ Storybook・デモ・CDN の CSS と JS を、Cloudflare Pages の1つのプロ�
 | パス | 中身 |
 |---|---|
 | `/` | Storybook（部品ごとの見本、カタログ） |
-| `/demo/index.html` | 素の HTML のデモ |
-| `/demo/react.html` | 画面の型のデモ（React） |
+| `/demo/` | 素の HTML のデモ |
+| `/demo/react` | 画面の型のデモ（React）。Pages は `.html` を外した URL に転送する |
 | `/v1/seeds.css`・`/v1/theme.js` | CDN として配る CSS と JS（`/v1/css/*.css` は分けたもの、`/v1/version.txt` は版） |
 
 ### 最初の設定（Cloudflare の画面）
@@ -24,7 +24,9 @@ Storybook・デモ・CDN の CSS と JS を、Cloudflare Pages の1つのプロ�
 4. **Save and Deploy**。PR ごとにプレビューの URL も自動で作られる
 5. 独自ドメイン：プロジェクト → **Custom domains** → **Set up a custom domain** → `ui.seeds-alumni.jp`（`seeds-alumni.jp` のゾーンが同じアカウントにあれば DNS も自動）
 
-`/v1/*` には `Cache-Control: public, max-age=3600` と `Access-Control-Allow-Origin: *` を付けている（`site/_headers`。`scripts/build-site.mjs` が作る）。
+`/v1/*` には `Cache-Control: public, max-age=3600` と `Access-Control-Allow-Origin: *` を、ファイル名にハッシュが入る `/assets/*`・`/demo/assets/*` には1年の `immutable` を付けている（`site/_headers`）。`site/404.html` も作る（無いと Pages は存在しないパスすべてに Storybook のトップを返す）。どちらも `scripts/build-site.mjs` が作る。
+
+Storybook の文書（MDX）からデモなど Storybook の外へリンクするときは、`<a href="/demo/react" target="_blank">` のように**絶対パス＋ target** にする。`./` で始まる相対リンクは Storybook が横取りし、URL 欄だけが変わって画面が移らない。
 
 ## 2. 版の出し方
 

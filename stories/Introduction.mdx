@@ -1,6 +1,5 @@
 import { Meta, Markdown } from '@storybook/addon-docs/blocks';
 import usage from '../docs/usage.md?raw';
-import catalog from '../docs/catalog.md?raw';
 
 <Meta title="はじめに" />
 
@@ -11,12 +10,11 @@ SEEDS同窓会のサービスで共通に使う、デザイントークン・CSS
 - **画面の型**：新しい画面はここから始めます（会員向けのページ・ログイン・フォーム・ダッシュボード・一覧・詳細）
 - **部品**：React の部品を props を変えながら確かめられます
 - **クラス**：React を使わない画面（素の HTML）でも同じクラスで組めます
-- **デモ**：[画面の型のデモ（React）](./demo/react.html)・[素の HTML のデモ](./demo/index.html)
+- **カタログ**：原則・トークン・クラス・部品・ルールの一覧（`docs/catalog.md`）
+- **デモ**（新しいタブで開きます）：<a href="/demo/react" target="_blank" rel="noopener">画面の型のデモ（React）</a>・<a href="/demo/" target="_blank" rel="noopener">素の HTML のデモ</a>
+
+{/* デモへのリンクは絶対パス＋target にする。./ で始まる相対リンクは Storybook が「Storybook の中のページ」として横取りし、URL 欄だけが変わって画面が移らない（2026-11-10） */}
 
 ---
 
 <Markdown>{usage}</Markdown>
-
----
-
-<Markdown>{catalog}</Markdown>
