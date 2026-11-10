@@ -21,6 +21,7 @@ SEEDS同窓会のサービスで共通に使う UI です。会員ポータル�
 | [docs/usage.md](docs/usage.md) | 導入のしかた（React のアプリ・素の HTML・CDN） |
 | [docs/catalog.md](docs/catalog.md) | 原則・トークン・クラス・React の部品と画面の型・ルール（**画面を作るときはまずここ**） |
 | [docs/deploy.md](docs/deploy.md) | 公開（Cloudflare Pages）と版の出し方 |
+| [docs/dependencies.md](docs/dependencies.md) | 依存ライブラリの更新（Dependabot）の対応 |
 
 ## 開発
 
