@@ -1,0 +1,43 @@
+{
+  "name": "@seeds-alumni/ui",
+  "version": "1.0.0",
+  "description": "SEEDS同窓会の共通 UI（デザイントークン・CSS・React の骨組みの部品・素の HTML 用のスクリプト）",
+  "type": "module",
+  "license": "UNLICENSED",
+  "repository": { "type": "git", "url": "git+https://github.com/seeds-alumni/seeds-alumni-ui.git" },
+  "sideEffects": ["*.css", "./js/theme.js"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./css": "./css/index.css",
+    "./css/*": "./css/*",
+    "./theme.js": "./js/theme.js",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
+  "bin": { "seeds-ui-check": "./bin/seeds-ui-check.mjs" },
+  "files": ["dist", "css", "js", "bin", "docs"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check": "node bin/seeds-ui-check.mjs --src src --src stories --src demo --css css --doc docs/catalog.md",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build -o site --quiet",
+    "dev:demo": "vite --config demo/vite.config.ts",
+    "build:site": "node scripts/build-site.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "10.6.4",
+    "@storybook/react-vite": "10.6.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "storybook": "10.6.4",
+    "typescript": "5.9.3",
+    "vite": "7.3.7"
+  }
+}

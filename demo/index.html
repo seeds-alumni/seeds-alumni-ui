@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- 素の HTML での使い方の見本（React なし）。CSS と theme.js は公開先の /v1/ から読み込む（docs/usage.md） -->
+    <script src="../v1/theme.js"></script>
+    <link rel="stylesheet" href="../v1/seeds.css" />
+    <title>素の HTML のデモ | SEEDS同窓会の共通 UI</title>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="app-header-inner">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span class="brand-name">SEEDS TOTP</span>
+        </a>
+        <div class="env-badge" role="note" aria-label="この画面は開発環境です">開発環境</div>
+        <div class="header-actions">
+          <span class="header-user">山田 太郎</span>
+          <a href="#">ログアウト</a>
+          <button class="theme-toggle"></button>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section>
+        <div class="row between">
+          <h2>ワンタイムパスワード</h2>
+          <span class="badge ok">有効</span>
+        </div>
+        <p class="muted">React を使わないサイト（SEEDS TOTP・Wiki など）でも、同じクラスで同じ見た目になります。</p>
+        <dl>
+          <dt>アカウント</dt><dd>seeds-shared@example.com</dd>
+          <dt>残り時間</dt><dd>23 秒</dd>
+        </dl>
+        <div class="row mt-md">
+          <button class="button primary inline">コードをコピー</button>
+          <button class="button secondary">再読み込み</button>
+        </div>
+      </section>
+      <section>
+        <h2>お知らせ</h2>
+        <div class="box warnbox">
+          <strong>このページは見本です</strong>
+          <ul><li>データはすべて架空のものです</li></ul>
+        </div>
+        <ul class="doc-links mt-md">
+          <li><a href="./react.html">React のデモ（会員ポータル・管理画面）</a></li>
+          <li><a href="../">Storybook（部品ごとの見本）</a></li>
+        </ul>
+      </section>
+      <section>
+        <h2>フォーム</h2>
+        <form class="form" onsubmit="return false">
+          <label>氏名<input required /></label>
+          <label>補足（任意）<textarea></textarea><span class="muted small">本人確認の参考になる情報があれば書いてください</span></label>
+          <label class="check"><input type="checkbox" /> 規約に同意します</label>
+          <button class="button primary">送信する</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+/* 補助クラス（文字の色・大きさ、余白の微調整）。インライン style={{}} の代わりに使う */
+.muted { color: var(--color-text-muted); }
+.error { color: var(--color-danger); }
+.ok { color: var(--color-success); }
+.warn { color: var(--color-warning); }
+.small { font-size: var(--font-size-sm); }
+.pre { white-space: pre-wrap; }
+.mt-md { margin-top: var(--space-md); }
+.grow { flex: 1; min-width: 16em; }
+.w-name { width: 12em; }
+.nowrap { white-space: nowrap; }

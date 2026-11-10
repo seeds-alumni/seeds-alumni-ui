@@ -1,0 +1,22 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
+import usage from '../docs/usage.md?raw';
+import catalog from '../docs/catalog.md?raw';
+
+<Meta title="はじめに" />
+
+# SEEDS同窓会の共通 UI（@seeds-alumni/ui）
+
+SEEDS同窓会のサービスで共通に使う、デザイントークン・CSS・React の骨組みの部品です。
+
+- **画面の型**：新しい画面はここから始めます（会員向けのページ・ログイン・フォーム・ダッシュボード・一覧・詳細）
+- **部品**：React の部品を props を変えながら確かめられます
+- **クラス**：React を使わない画面（素の HTML）でも同じクラスで組めます
+- **デモ**：[画面の型のデモ（React）](./demo/react.html)・[素の HTML のデモ](./demo/index.html)
+
+---
+
+<Markdown>{usage}</Markdown>
+
+---
+
+<Markdown>{catalog}</Markdown>
