@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { AppHeader, Badge, Card, Field, Pager, Tabs, Tiles, confirmDialog, inputDialog } from '../src';
+import { SITE_NAV } from './SitePage';
 
 /** React の部品（docs/catalog.md §4）。Controls で props を変えて確かめられる */
 const meta: Meta = { title: '部品' };
@@ -39,6 +40,12 @@ export const ヘッダー: StoryObj<typeof AppHeader> = {
   parameters: { layout: 'fullscreen' },
   render: (args) => <AppHeader {...args}><span className="header-user">管理 太郎（admin）</span><a href="#">会員ページ</a></AppHeader>,
   args: { title: 'SEEDS同窓会 会員管理システム', href: '#', wide: true, envLabel: '開発環境' },
+};
+
+export const メニューつきのヘッダー: StoryObj<typeof AppHeader> = {
+  parameters: { layout: 'fullscreen' },
+  render: (args) => <AppHeader {...args}><a className="button primary small-btn" href="#">会員ログイン</a></AppHeader>,
+  args: { title: '大阪大学SEEDSプログラム同窓会', href: '#', wide: true, nav: SITE_NAV, navFooter: <a className="button primary" href="#">会員ログイン</a> },
 };
 
 export const タブ: StoryObj<typeof Tabs> = {

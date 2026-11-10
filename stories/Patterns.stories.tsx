@@ -8,6 +8,7 @@ import {
   MemberListContent,
   MemberPortalPage,
 } from '../demo/samples';
+import { SitePage } from './SitePage';
 
 /**
  * 画面の型（docs/catalog.md §4）。新しい画面はここから近いものを選んで始める。
@@ -27,3 +28,5 @@ export const ダッシュボード: Story = { render: () => <AdminFrame route=""
 export const 一覧: Story = { render: () => <AdminFrame route="users"><MemberListContent onOpen={() => {}} /></AdminFrame> };
 export const 詳細: Story = { render: () => <AdminFrame route="users/1"><MemberDetailContent /></AdminFrame> };
 export const 開発環境のバッジ: Story = { render: () => <AdminFrame route="" envLabel="開発環境"><DashboardContent /></AdminFrame> };
+/** 公開サイト（ホームページ）のページ。980px 以下ではメニューがハンバーガーメニューに切り替わる */
+export const 公開サイトのページ: Story = { render: () => <SitePage /> };

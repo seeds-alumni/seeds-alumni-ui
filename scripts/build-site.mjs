@@ -1,6 +1,6 @@
 // 公開するサイト（Cloudflare Pages）を site/ に作る。docs/deploy.md
 //   /            Storybook
-//   /demo/       デモ（index.html は素の HTML、react.html は React。Pages は .html を外した URL（/demo/react）に転送する）
+//   /demo/       デモ（index.html・site.html は素の HTML、react.html は React。Pages は .html を外した URL（/demo/react）に転送する）
 //   /404.html    見つからないページ（これが無いと、存在しないパスすべてに Storybook が返る）
 //   /v<大きい版>/ CDN として配る CSS と JS（seeds.css は1ファイルにまとめたもの、css/ は分けたもの、theme.js、nav.js）
 import { execFileSync } from 'node:child_process';
@@ -15,6 +15,7 @@ rmSync(`${root}site`, { recursive: true, force: true });
 run('npx', ['storybook', 'build', '-o', 'site', '--quiet']);
 run('npx', ['vite', 'build', '--config', 'demo/vite.config.ts', '--logLevel', 'warn']);
 cpSync(`${root}demo/index.html`, `${root}site/demo/index.html`);
+cpSync(`${root}demo/site.html`, `${root}site/demo/site.html`);
 
 // CDN の CSS と JS
 const out = `${root}site/${major}`;

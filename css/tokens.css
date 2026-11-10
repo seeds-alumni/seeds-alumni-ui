@@ -115,7 +115,8 @@
 
   /* ── レイアウト ── */
   --layout-narrow: 640px;       /* 会員向け画面 */
-  --layout-wide: 1200px;        /* 管理画面 */
+  --layout-wide: 1200px;        /* 管理画面・ホームページの帯 */
+  --layout-reading: 820px;      /* 長い文章（.prose）の本文の幅。読みやすい1行の長さ（.container.reading） */
   --layout-dialog: 440px;
   --tile-min: 200px;
   --column-min: 300px;
