@@ -13,6 +13,7 @@ SEEDS同窓会の共通 UI（トークン・CSS・React の骨組みの部品・
 - `dist/` は Git に入れる（Git の依存として、ビルドせずに使えるように）。`src/` を変えたら `npm run build` して一緒にコミットする。CI が食い違いを検出する
 - 版は `package.json` の `version` とタグ（`v1.2.3`）。クラスの削除・意味の変更は大きい版（`docs/deploy.md`）
 - ロゴはこのリポジトリに入れない（提供元の決まり。各アプリに置く）
+- 依存の更新（Dependabot）の対応は `docs/dependencies.md`（CI が成功していればマージ。失敗したら Dependabot の PR に手でコミットせず、グループの設定を直すか、別の PR で直す。依存の更新だけなら版を上げない）
 - 公開先は Cloudflare Pages（Storybook・デモ・`/v1/` の CDN）。`npm run build:site` で `site/` に作る
 
 ## 使っているところ

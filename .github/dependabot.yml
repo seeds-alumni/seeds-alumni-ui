@@ -1,18 +1,31 @@
+# 依存ライブラリの更新 PR。対応のしかたは docs/dependencies.md
+# - 月1回。npm は「Storybook（storybook と @storybook/* を必ず一緒に）」と「それ以外のマイナー・パッチ」の2本にまとめる
+#   storybook と @storybook/* は互いに同じ版を peerDependencies で求めるので、別々の PR だと npm ci が ERESOLVE で失敗する（2026-11-10 に実際に起きた）
+# - npm のメジャーアップデートは自動では出さない（必要なときに手作業で上げる）
+# - 脆弱性の修正（Dependabot security updates）は、この設定と関係なくすぐに PR が来る
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: monthly
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 3
     groups:
       storybook:
         patterns: ['storybook', '@storybook/*']
       minor-and-patch:
-        update-types: ['minor', 'patch']
+        patterns: ['*']
+        exclude-patterns: ['storybook', '@storybook/*']
+        update-types: [minor, patch]
     ignore:
       - dependency-name: '*'
-        update-types: ['version-update:semver-major']
+        update-types: [version-update:semver-major]
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: monthly
+      timezone: Asia/Tokyo
+    groups:
+      actions:
+        patterns: ['*']
