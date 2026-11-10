@@ -7,7 +7,7 @@ Storybook・デモ・CDN の CSS と JS を、Cloudflare Pages の1つのプロ�
 | パス | 中身 |
 |---|---|
 | `/` | Storybook（部品ごとの見本、カタログ） |
-| `/demo/` | 素の HTML のデモ |
+| `/demo/` | 素の HTML のデモ（`/demo/site` は公開サイト（ホームページ）の見本） |
 | `/demo/react` | 画面の型のデモ（React）。Pages は `.html` を外した URL に転送する |
 | `/v1/seeds.css`・`/v1/theme.js`・`/v1/nav.js` | CDN として配る CSS と JS（`/v1/css/*.css` は分けたもの、`/v1/version.txt` は版） |
 
@@ -39,3 +39,15 @@ Storybook の文書（MDX）からデモなど Storybook の外へリンクす�
 
 3. 使う側の `package.json` の `#v1.0.0` を新しいタグに変えて `npm install`。素の HTML のサイトは `/v1/` を読んでいるので、main へのマージ（Pages の再デプロイ）から最長1時間で反映される
 4. 大きい版（v2）を出すときは `/v2/` に置かれる。`/v1/` を残したいときは、v1 の最後の `site/v1/` を `public/v1/` として残す仕組みを足す（必要になったら）
+
+## 3. 大きい版（v2）の候補
+
+クラスを消したり意味を変えたりする変更は、使っているサイト（`/v1/` を読む素の HTML のサイトは、main へのマージで勝手に変わる）を壊すので、v1 のあいだは**足すだけ**にする。次の変更は v2 を出すときにまとめて行う（2026-11-10、seeds-alumni/seeds-alumni-ui#12 で決めた）。
+
+| 変更 | v1 のあいだの代わり |
+|---|---|
+| `main` の幅（640px）と余白を外し、幅は `.container` / `main.wide` などのクラスだけで決める | `main.full` で外し、中の `.container`（`.wide`・`.reading`）で幅を決める（v1.3.0） |
+| `section` 要素にカードの見た目を付けず、カードは `.card`（React は `<Card>`）だけにする | `section` 以外をカードにするときは `.card`、カードにしない区切りは `div`（v1.3.0） |
+
+v2 にするときは、idaas の `section` を使っている箇所（`<Card>` 以外）と、totp-site・ホームページの `section`・`main` を先に洗い出す。
+

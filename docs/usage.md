@@ -64,9 +64,9 @@
 </main>
 ```
 
-### ハンバーガーメニュー（ページがいくつもあるサイト）
+### ヘッダーのメニューとハンバーガーメニュー（ページがいくつもあるサイト）
 
-狭い画面で、ヘッダーの右端に3本線のボタンを出し、押すとヘッダーの下にメニューを画面いっぱいに開きます（クラスは `docs/catalog.md` §3.4）。`<head>` に `nav.js` を足します（`defer` を付ける）。
+広い画面ではヘッダーにメニューを横に並べ（`.header-nav`）、980px 以下では右端の3本線のボタンでヘッダーの下にメニューを画面いっぱいに開きます（クラスは `docs/catalog.md` §3.4）。React では `<AppHeader nav={…} navFooter={…}>` が同じものを作ります。`<head>` に `nav.js` を足します（`defer` を付ける）。
 
 ```html
 <script src="https://ui.seeds-alumni.jp/v1/nav.js" defer></script>
@@ -76,8 +76,21 @@
 <header class="app-header wide">
   <div class="app-header-inner">
     <a class="brand" href="/">…</a>
+    <!-- 広い画面のメニュー（980px 以下では隠れる）。いまいるセクションは .active、下にページがある項目は .has-children -->
+    <nav class="header-nav" aria-label="メニュー">
+      <ul>
+        <li class="header-nav-item"><a href="/news/">お知らせ</a></li>
+        <li class="header-nav-item has-children active">
+          <a href="/about/">同窓会について</a>
+          <ul class="header-nav-sub">
+            <li><a href="/about/overview" aria-current="page">団体概要</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
     <div class="header-actions">
       <a class="button primary small-btn" href="https://id.example.jp/">会員ログイン</a>
+      <button type="button" class="theme-toggle"></button>
       <button type="button" class="nav-toggle" aria-controls="nav-screen" aria-expanded="false" aria-label="メニューを開く"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
     </div>
   </div>
@@ -106,7 +119,54 @@
 </div>
 ```
 
-- `.nav-toggle` は既定でいつも出ます。広い画面でメニューを横に並べるサイトは、その幅では使う側の CSS で `.nav-toggle` を隠します（隠れると `nav.js` がメニューを閉じる）
-- 表示の切り替えをメニューの中に置いたときは、ヘッダーの `.theme-toggle` を狭い画面では隠してよい（`theme.js` はどちらのボタンも動かす）
+- ヘッダーに `.header-nav` があると、981px 以上では `.nav-toggle` と `.nav-screen` が、980px 以下では `.header-nav` とヘッダーの `.theme-toggle` が自動で隠れます（表示の切り替えはメニューの中の `.nav-screen-theme` で。`theme.js` はどちらのボタンも動かす）。画面が広くなってボタンが隠れると `nav.js` がメニューを閉じます
+- `.header-nav` を置かないときは、`.nav-toggle` はいつも出ます（出す画面の幅を使う側の CSS で決める）
+
+### 公開サイトのページ（パンくず・題名の帯・文章・フッター）
+
+ホームページのような公開サイトは、`main.full` で本文の幅の決まりを外し、帯ごとに `.container` で幅を決めます。フッターは `body` の直下に置くと、短いページでも画面の下端に寄ります。
+
+```html
+<body>
+  <header class="app-header wide">…</header>
+  <div class="nav-screen" id="nav-screen" hidden>…</div>
+  <main class="full">
+    <div class="page-head">
+      <div class="container reading">
+        <nav class="breadcrumb" aria-label="現在地">
+          <ol>
+            <li><a href="/">ホーム</a></li>
+            <li><a href="/about/">同窓会について</a></li>
+            <li><span aria-current="page">設立経緯</span></li>
+          </ol>
+        </nav>
+        <h1>設立経緯</h1>
+        <!-- 記事なら：<p class="page-meta"><time datetime="2026-11-10">2026年11月10日</time><span class="badge none">お知らせ</span></p> -->
+      </div>
+    </div>
+    <div class="container reading">
+      <article class="card prose">
+        <h2>見出し</h2>
+        <p>Markdown を変換した本文…</p>
+      </article>
+      <div class="tiles">
+        <a class="tile" href="/about/overview"><strong class="tile-title">団体概要</strong><span class="muted small">名称・所在地・目的</span></a>
+      </div>
+    </div>
+  </main>
+  <footer class="app-footer wide">
+    <div class="app-footer-inner">
+      <div>
+        <p class="app-footer-name">大阪大学SEEDSプログラム同窓会</p>
+        <p class="muted small">所在地</p>
+      </div>
+      <nav aria-label="サイトの案内">
+        <ul><li><a href="/about/">同窓会について</a></li><li><a href="/contact">お問い合わせ</a></li></ul>
+      </nav>
+    </div>
+    <p class="app-footer-copy">© 大阪大学SEEDSプログラム同窓会</p>
+  </footer>
+</body>
+```
 
 - ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.0.0 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる）

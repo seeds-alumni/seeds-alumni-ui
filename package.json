@@ -1,6 +1,6 @@
 {
   "name": "@seeds-alumni/ui",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "SEEDS同窓会の共通 UI（デザイントークン・CSS・React の骨組みの部品・素の HTML 用のスクリプト）",
   "type": "module",
   "license": "MIT",

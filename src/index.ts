@@ -1,6 +1,6 @@
 // @seeds-alumni/ui の React の部品。CSS は別に読み込む（import '@seeds-alumni/ui/css'）。使い方は docs/usage.md
 export { AppShell, type AppShellProps } from './AppShell';
-export { AppHeader, type AppHeaderProps } from './AppHeader';
+export { AppHeader, type AppHeaderProps, type NavItem } from './AppHeader';
 export { Tabs, type TabItem } from './Tabs';
 export { Card, type CardProps } from './Card';
 export { ListLayout, type ListLayoutProps } from './ListLayout';

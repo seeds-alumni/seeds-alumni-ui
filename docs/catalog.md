@@ -118,16 +118,22 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--z-header` | 100 | 上部のヘッダー |
 | `--transition` | 0.2s ease | マウスを載せたときの色の変化 |
 | `--layout-narrow` | 640px | 会員向け画面の幅（`main`） |
-| `--layout-wide` | 1200px | 管理画面の幅（`main.wide`） |
+| `--layout-wide` | 1200px | 管理画面の幅（`main.wide`）・ホームページの帯の幅（`.container.wide`） |
+| `--layout-reading` | 820px | 長い文章（`.prose`）の1行の長さ（`.container.reading`。左右の余白は別） |
 | `--layout-dialog` | 440px | ダイアログの幅（狭い画面では左右に `--space-lg` を残して縮む） |
 | `--tile-min` | 200px | `.tiles` の1枚の最小幅 |
 | `--column-min` | 300px | `.grid2` の1列の最小幅 |
 
-狭い画面のブレークポイントは **640px**（`@media (max-width: 640px)`。media query では `var()` を使えないので値を直接書く）。カードとページの余白を詰め、ヘッダーのログイン中の名前を隠す。
+ブレークポイントは **640px と 980px の2段**（media query では `var()` を使えないので値を直接書く）：
+
+- **640px**（`@media (max-width: 640px)`。スマートフォン）：カードとページの余白を詰め、ヘッダーのログイン中の名前を隠す
+- **980px**（`@media (max-width: 980px)`。タブレット）：ヘッダーのメニュー（`.header-nav`）を隠してハンバーガーメニューに切り替える。メニューを横に並べるには 640px では狭すぎるため（ホームページで確かめた）
+
+使う側で幅に応じた見た目を足すときも、この2つの値を使う。
 
 ## 3. クラス（部品カタログ）
 
-クラスのない要素（`h1`〜`h3`、`section`、`dl`、`fieldset`、`input`、`table` など）は `base.css` で整えてあるので、そのまま使う。`section` は**カード**（白い地・角丸 12px・`--shadow-card`、枠線なし）として使う。React では `<Card>` が `section` を作る。
+クラスのない要素（`h1`〜`h3`、`section`、`dl`、`fieldset`、`input`、`table` など）は `base.css` で整えてあるので、そのまま使う。`section` は**カード**（白い地・角丸 12px・`--shadow-card`、枠線なし）として使う。React では `<Card>` が `section` を作る。`section` 以外の要素（`article`・`div`）をカードにするときは `.card` を付ける。カードにしない区切りには `section` を使わず `div` にする（`section` の見た目を外すのは v2 の候補。`docs/deploy.md` §3）。
 
 ### 3.0 アプリの枠（ヘッダー）
 
@@ -141,6 +147,9 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.header-actions` | 右側の操作（ログイン中の人、ログアウト、会員ページへ、表示の切り替え） |
 | `.header-user` | ログイン中の人の名前。狭い画面では隠す |
 | `.theme-toggle` | ライト・ダークの切り替えボタン（React は `<ThemeToggle>`。素の HTML は `<button class="theme-toggle"></button>` を置いて `js/theme.js` を読み込む） |
+| `.app-footer` / `.app-footer.wide` | ページの下のフッター（公開サイト。白い地、上に区切り線）。`body` の直下に置くと、短いページでも画面の下端に寄る。幅はヘッダーとそろえる（`wide`） |
+| `.app-footer-inner` | フッターの中身（左に団体名・所在地、右にメニューの `ul`。狭い画面では折り返す） |
+| `.app-footer-name` / `.app-footer-copy` | 団体名（太字）／一番下の著作権の行（中央、小さい補足の文字） |
 
 ```tsx
 <AppShell title="SEEDS同窓会 会員管理システム" href="/admin" wide envLabel={envLabel}
@@ -154,6 +163,11 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | クラス | 使う場面 |
 |---|---|
 | `main` / `main.wide` | ページの本文の枠。会員向けは `main`（640px）、管理画面は `main.wide`（1200px） |
+| `main.full` | 幅も余白も決めない本文の枠（ホームページなど、帯ごとに幅を変えるサイト）。幅は中の `.container` で決める |
+| `.container` / `.container.wide` / `.container.reading` | 中身の幅を決めて中央に置く（左右に `--space-lg`）。既定は 640px、`wide` は 1200px、`reading` は長い文章の幅（`--layout-reading`＋左右の余白）。`main.full` の中や `.page-head` の中で使う |
+| `.card` | `section` と同じカードの見た目を、`article` や `div` に付ける（`.card.prose` で文章のカード） |
+| `.page-head` | ページの上の帯（白い地。パンくず・題名・記事の日付）。中に `.container` を置き、本文と幅をそろえる |
+| `.page-meta` | 題名の下の行（記事の日付・分類の `.badge`）。補足の色の小さい文字 |
 | `.page-title` | カードの外に置くページの見出し（h1 と同じ大きさ。h1 はヘッダーの名前と重ならないよう、必要なときだけ） |
 | `.back-link` | 一覧へ戻るリンク（先頭に ←）。詳細の画面の一番上（`<DetailLayout back>`） |
 | `.stack` | ボタンや `.choice` を縦に並べる（ログイン方法の選択など） |
@@ -234,6 +248,9 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 |---|---|
 | `.tabs` | 管理画面の上のタブ（`nav.tabs` の中に `a`。vibes の Tab：選択中は `a.active` で緑の文字と太い下線、マウスを載せると淡い地と細い下線。狭い画面では横にスクロール） |
 | `.pager` | ページ送りの行。React は `<Pager>`（`<ListLayout pager>`）が付けるので直接は書かない |
+| `.breadcrumb` | パンくず（`nav.breadcrumb[aria-label="現在地"] > ol > li`。項目の間に ›。いまのページは `<span aria-current="page">`）。`.page-head` の中など |
+| `.header-nav` / `.header-nav-item` / `.header-nav-sub` | ヘッダーのサイトのメニュー（`.brand` と `.header-actions` の間の `nav.header-nav > ul > li.header-nav-item`）。広い画面で横に並べ、**980px 以下では隠れてハンバーガーメニューに切り替わる**（`.nav-toggle` は 981px 以上で自動で隠れ、ヘッダーの表示の切り替えは 980px 以下で隠れるので、`.nav-screen-theme` をメニューの中に置く）。React は `<AppHeader nav>` |
+| `.header-nav-item.active` / `.header-nav-item.has-children` | いまいるセクション（緑の文字と下線）／下にページがある項目（▾。マウスを載せるかフォーカスすると `ul.header-nav-sub` が出る） |
 | `.nav-toggle` / `.nav-toggle-bars` | ハンバーガーメニューのボタン（ヘッダーの右端。3本線、開いているあいだは ×）。ページがいくつもあるサイト（ホームページなど）の狭い画面で使う。出す画面の幅は使う側の CSS で決める |
 | `.nav-screen` / `.nav-screen-inner` | ボタンで開くメニューの画面（ヘッダーの下に画面いっぱいに重ねる）。`.app-header` の**外の直後**に置き、`hidden` で隠しておく |
 | `.nav-screen-list` / `.nav-screen-row` / `.nav-screen-expand` | メニューの一覧（項目ごとに区切り線）。下にページがある項目は `.nav-screen-row` にリンクと `.nav-screen-expand`（＋／−）を並べ、下のページの `ul` を開け閉めする。いまのページは `aria-current="page"`（緑の文字） |
@@ -261,7 +278,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.badge.warn` | 要確認・審査中・仮の状態（黄） |
 | `.badge.ng` | エラー・不一致・却下・停止（赤） |
 | `.badge.none` | 該当なし・未登録・取り下げ（灰色の枠） |
-| `.tiles` / `.tile` / `.tile-value` | ダッシュボードの数値のカード（`a.tile` に `href` を付けると一覧へのリンクになり、右上に →。マウスを載せると淡い緑の地と緑の枠） |
+| `.tiles` / `.tile` / `.tile-value` | ダッシュボードの数値のカード（`a.tile` に `href` を付けると一覧へのリンクになり、右上に →。マウスを載せると淡い緑の地と緑の枠）。中身は上にそろう（説明の行数が違っても位置がずれない） |
+| `.tile-title` | 数値ではなく題名＋説明のリンクのカード（入口のページの「団体概要」「設立経緯」など）。`<a class="tile" href="…"><strong class="tile-title">団体概要</strong><span class="muted small">説明</span></a>` |
 | `.env-badge` | 環境バッジ（`<AppHeader envLabel>` がサイト名の右横に置く。本番では出さない） |
 
 アプリの状態の名前（`approved` など）をそのままバッジの種類にしたいときは、アプリの CSS で `.badge.approved` などに ok / warn / ng と同じ色を当て、アプリのカタログに載せる（seeds-alumni-idaas の `web/src/design/app.css` が例）。
@@ -272,6 +290,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 |---|---|
 | `.doc-links` | 規約・プライバシーポリシーなど文書へのリンクの箇条書き |
 | `.notice` | お知らせ・改訂の通知の本文（淡い地。改行をそのまま表示、長い URL も折り返す） |
+| `.prose` | 長い文章（Markdown を変換した本文・規約・お知らせ）。中の `h2`〜`h4`・段落・箇条書き・引用・`code`・`pre`・`hr`・画像・表（`.table-wrap`）の余白と見た目を整える。`h2` は下線つき。カードにするときは `.card.prose`、幅は `.container.reading` |
 
 ### 3.8 補助クラス（`utilities.css`）
 
@@ -318,7 +337,7 @@ if (ended === null) return; // キャンセル
 | 部品 | 作るもの | 使う場面 |
 |---|---|---|
 | `<AppShell title href wide? envLabel? actions? tabs?>` | ヘッダー＋`main`＋`<DialogHost>` | 画面の一番外側。会員向けは幅 640px、`wide` で管理画面の 1200px。`tabs` で上にタブ |
-| `<AppHeader title href wide? envLabel? mark? logoSrc?>` | `.app-header` | `<AppShell>` を使えないときだけ直接使う |
+| `<AppHeader title href wide? envLabel? mark? logoSrc? nav? navFooter?>` | `.app-header`（`nav` があれば `.header-nav` とハンバーガーメニュー） | `<AppShell>` を使えないときだけ直接使う。`nav`（`{ label, href, active?, current?, children? }` の配列）を渡すと、広い画面では横に並べ、980px 以下ではハンバーガーメニューにする。`navFooter` はメニューの下の操作（ログインのボタンなど）。`<AppShell>` にも同じ props を渡せる |
 | `<Tabs items>` | `nav.tabs` | 画面の切り替え（`{ href, label, active }`） |
 | `<Card title? level? actions? tone?>` | `section` | 1つの目的ごとに1枚。見出しの右に `actions`（バッジ・リンク）。`tone="warn"` で注意のカード |
 | `<ListLayout title filters onSearch summary tools notice pager>` | カード＋`form.filters`＋`.table-wrap`＋`<Pager>` | 一覧の画面（検索 → 件数と操作 → 表 → ページ送り） |

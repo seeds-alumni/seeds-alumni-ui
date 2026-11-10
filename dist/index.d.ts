@@ -1,5 +1,5 @@
 export { AppShell, type AppShellProps } from './AppShell';
-export { AppHeader, type AppHeaderProps } from './AppHeader';
+export { AppHeader, type AppHeaderProps, type NavItem } from './AppHeader';
 export { Tabs, type TabItem } from './Tabs';
 export { Card, type CardProps } from './Card';
 export { ListLayout, type ListLayoutProps } from './ListLayout';
