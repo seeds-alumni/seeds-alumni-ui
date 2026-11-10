@@ -33,7 +33,7 @@
    "check:design": "seeds-ui-check --src web/src --css web/src/design --tokens web/src/design/tokens.css --doc docs/design-system.md"
    ```
 
-### 素の HTML のサイト（SEEDS TOTP・Wiki など）
+### 素の HTML のサイト（SEEDS TOTP・同窓会のホームページなど）
 
 公開先（CDN）から読み込みます。`<head>` に、CSS より前に `theme.js` を置きます（`defer` を付けない）。
 
