@@ -19,5 +19,7 @@ SEEDS同窓会の共通 UI（トークン・CSS・React の骨組みの部品・
 
 ## 使っているところ
 
-- seeds-alumni-idaas（React。`github:seeds-alumni/seeds-alumni-ui#vX.Y.Z`）
-- seeds-alumni-totp-site（素の HTML。いまは CSS のコピー。CDN への切り替えは今後）
+- seeds-alumni-idaas（React。`github:seeds-alumni/seeds-alumni-ui#vX.Y.Z` のタグで取り込む。版を上げたら idaas の指定を変える PR を出す）
+- seeds-alumni-totp-site（素の HTML。2026-11-10 に CSS のコピーをやめ、CDN の `https://ui.seeds-alumni.jp/v1/seeds.css`・`/v1/theme.js` を読み込む形にした。このサイトだけの見た目は `design/totp.css`。CI で `seeds-ui-check` を実行）
+
+**CDN（`/v1/`）は main へのマージから最長1時間で totp-site などに反映される**（タグを待たない）。`css/` や `js/theme.js` の変更は、Storybook と素の HTML のデモ（`/demo/`）で確かめてからマージする。クラスを消す・意味を変える変更は v2 にして `/v2/` に置く（`docs/deploy.md`）
