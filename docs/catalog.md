@@ -61,6 +61,7 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--color-brand-current` | #2b7553 | #8cc7a8 | 現在地（選択中のタブの下線）・フォーカスの輪（G05。vibes の P5 の役割） |
 | `--color-brand-tint` | #dcebe2 | #24382c | 標準ボタン・`.choice`・表示切り替えにマウスを載せたときの地（G02） |
 | `--color-on-solid` | #ffffff | #ffffff | brand-solid・danger-solid・env の上の文字 |
+| `--color-logo-bg` | #ffffff | #ffffff | ロゴの地（`img.brand-mark`）。ロゴは白い地に置く決まりなので、ダークでも白 |
 | `--color-success` / `--color-success-line` / `--color-success-soft` | #18794e / #2b7553 / #e3f2e9 | #5fd59a / #3d9b6c / #1d3527 | 完了・一致・承認済み・利用中（文字／枠／地） |
 | `--color-warning` / `--color-warning-line` / `--color-warning-soft` | #825a0f / #be8c14 / #fff0d2 | #f2c66d / #a87c1c / #3a2f17 | 要確認・部分一致・審査中・仮番号（vibes の YE10 / YE7 / YE02） |
 | `--color-danger` / `--color-danger-line` / `--color-danger-soft` | #a51428 / #dc1e32 / #fad2d7 | #ff8a96 / #e0505e / #45202a | エラー・不一致・却下・停止（vibes の RE7 / RE5 / RE02） |
@@ -136,7 +137,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 |---|---|
 | `.app-header` / `.app-header.wide` | 上部に固定するヘッダー（半透明＋ぼかし、下に区切り線）。管理画面は `wide` |
 | `.app-header-inner` | ヘッダーの中身の幅をページ（`main`）とそろえる |
-| `.brand` / `.brand-mark` / `.brand-name` | 左上のロゴ（深緑の四角に S）とサイト名（例：「SEEDS同窓会 会員ポータル」。「SEEDS同窓会」の間に空白を入れない）。押すとトップへ。狭い画面ではサイト名を2行に折り返す |
+| `.brand` / `.brand-mark` / `.brand-name` | 左上のロゴ（深緑の四角に S。`<img class="brand-mark">` にすると各アプリのロゴの画像を高さ 32px・白い地で出す。幅は縦横比に任せる）とサイト名（例：「SEEDS同窓会 会員ポータル」。「SEEDS同窓会」の間に空白を入れない）。押すとトップへ。狭い画面ではサイト名を2行に折り返す |
 | `.header-actions` | 右側の操作（ログイン中の人、ログアウト、会員ページへ、表示の切り替え） |
 | `.header-user` | ログイン中の人の名前。狭い画面では隠す |
 | `.theme-toggle` | ライト・ダークの切り替えボタン（React は `<ThemeToggle>`。素の HTML は `<button class="theme-toggle"></button>` を置いて `js/theme.js` を読み込む） |
@@ -310,7 +311,7 @@ if (ended === null) return; // キャンセル
 | 部品 | 作るもの | 使う場面 |
 |---|---|---|
 | `<AppShell title href wide? envLabel? actions? tabs?>` | ヘッダー＋`main`＋`<DialogHost>` | 画面の一番外側。会員向けは幅 640px、`wide` で管理画面の 1200px。`tabs` で上にタブ |
-| `<AppHeader title href wide? envLabel? mark?>` | `.app-header` | `<AppShell>` を使えないときだけ直接使う |
+| `<AppHeader title href wide? envLabel? mark? logoSrc?>` | `.app-header` | `<AppShell>` を使えないときだけ直接使う |
 | `<Tabs items>` | `nav.tabs` | 画面の切り替え（`{ href, label, active }`） |
 | `<Card title? level? actions? tone?>` | `section` | 1つの目的ごとに1枚。見出しの右に `actions`（バッジ・リンク）。`tone="warn"` で注意のカード |
 | `<ListLayout title filters onSearch summary tools notice pager>` | カード＋`form.filters`＋`.table-wrap`＋`<Pager>` | 一覧の画面（検索 → 件数と操作 → 表 → ページ送り） |

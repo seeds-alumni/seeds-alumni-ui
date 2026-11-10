@@ -45,6 +45,7 @@
   --color-brand-current: light-dark(#2b7553, #8cc7a8); /* 現在地（選択中のタブの下線）・フォーカスの輪（G05） */
   --color-brand-tint: light-dark(#dcebe2, #24382c);  /* 標準ボタン・選択肢にマウスを載せたときの地（G02） */
   --color-on-solid: #ffffff;                         /* brand-solid・danger-solid・env の上の文字 */
+  --color-logo-bg: #ffffff;                          /* ロゴの地（ロゴは白い地に置く決まり。テーマに関係なく白） */
 
   /* ── 色：状態（vibes：エラー RE、注意 YE。文字は濃い段階、線は中間、地は淡い段階） ── */
   --color-success: light-dark(#18794e, #5fd59a);

@@ -24,6 +24,8 @@
   display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: var(--radius-md);
   background: var(--color-brand-solid); color: var(--color-on-solid); font-size: var(--font-size-sm); font-weight: var(--font-weight-heavy);
 }
+/* ロゴの画像（<img class="brand-mark">）。高さだけを決めて幅は縦横比に任せる（変形しない）。ロゴは白い地に置く決まりなので、ダークでも白い地 */
+img.brand-mark { width: auto; height: 32px; padding: 3px 4px; background: var(--color-logo-bg); }
 .header-actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-sm); font-size: var(--font-size-sm); color: var(--color-text-muted); white-space: nowrap; }
 .theme-toggle {
   display: inline-grid; place-items: center; width: 36px; height: 36px; flex: none; padding: 0;
