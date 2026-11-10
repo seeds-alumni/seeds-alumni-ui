@@ -11,7 +11,7 @@ export type AppHeaderProps = {
     /** 左上の四角に入れる文字（既定は S）。logoSrc を渡したときは使わない */
     mark?: string;
     /**
-     * 左上に出すロゴの画像（正方形。例：'/brand/seeds-icon.png'）。渡すと「S」の四角の代わりに出す。
+     * 左上に出すロゴの画像（例：'/brand/seeds-logo.svg'）。渡すと「S」の四角の代わりに、高さ 32px・白い地で出す（幅は縦横比に任せる）。
      * ロゴはこのライブラリに入れない決まりなので、画像は各アプリに置く
      */
     logoSrc?: string;
