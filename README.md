@@ -34,3 +34,10 @@ npm run build:site  # 公開するサイトを site/ に作る
 ```
 
 ロゴ（`seeds-logo.svg` など）は提供元の決まりがあるので、このリポジトリには入れていません。各アプリの側に置いてください。
+
+## ライセンス
+
+[MIT License](LICENSE)（© 2026 大阪大学SEEDSプログラム同窓会）。
+
+- 値の決め方は freee の [vibes](https://github.com/freee/vibes)（Apache-2.0）を参考にしていますが、vibes のコードは含んでいません
+- ロゴなど同窓会の商標・ブランドの素材は、このライセンスの対象外です（このリポジトリにも入れていません）
