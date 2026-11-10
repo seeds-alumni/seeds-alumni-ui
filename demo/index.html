@@ -6,6 +6,7 @@
     <meta name="color-scheme" content="light dark" />
     <!-- 素の HTML での使い方の見本（React なし）。CSS と theme.js は公開先の /v1/ から読み込む（docs/usage.md） -->
     <script src="../v1/theme.js"></script>
+    <script src="../v1/nav.js" defer></script>
     <link rel="stylesheet" href="../v1/seeds.css" />
     <title>素の HTML のデモ | SEEDS同窓会の共通 UI</title>
   </head>
@@ -21,9 +22,45 @@
           <span class="header-user">山田 太郎</span>
           <a href="#">ログアウト</a>
           <button class="theme-toggle"></button>
+          <button type="button" class="nav-toggle" aria-controls="nav-screen" aria-expanded="false" aria-label="メニューを開く"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
         </div>
       </div>
     </header>
+    <!-- ハンバーガーメニュー（docs/usage.md）。右上の3本線で開く -->
+    <div class="nav-screen" id="nav-screen" hidden>
+      <nav class="nav-screen-inner" aria-label="メニュー">
+        <ul class="nav-screen-list">
+          <li><a href="./index.html" aria-current="page">ホーム</a></li>
+          <li>
+            <div class="nav-screen-row">
+              <a href="#">同窓会について</a>
+              <button type="button" class="nav-screen-expand" aria-controls="nav-about" aria-expanded="true" aria-label="同窓会についての下のページ"></button>
+            </div>
+            <ul id="nav-about">
+              <li><a href="#">団体概要</a></li>
+              <li><a href="#">設立経緯</a></li>
+              <li><a href="#">規約等</a></li>
+            </ul>
+          </li>
+          <li><a href="#">お知らせ</a></li>
+          <li>
+            <div class="nav-screen-row">
+              <a href="#">企画</a>
+              <button type="button" class="nav-screen-expand" aria-controls="nav-projects" aria-expanded="false" aria-label="企画の下のページ"></button>
+            </div>
+            <ul id="nav-projects" hidden>
+              <li><a href="#">同窓生のつどい</a></li>
+              <li><a href="#">SEEDSゼミ</a></li>
+            </ul>
+          </li>
+          <li><a href="#">お問い合わせ</a></li>
+        </ul>
+        <div class="nav-screen-footer">
+          <div class="nav-screen-theme">表示（ライト・ダーク）<button class="theme-toggle"></button></div>
+          <a class="button primary" href="#">会員ログイン</a>
+        </div>
+      </nav>
+    </div>
     <main>
       <section>
         <div class="row between">

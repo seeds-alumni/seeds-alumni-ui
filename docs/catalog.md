@@ -234,6 +234,13 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 |---|---|
 | `.tabs` | 管理画面の上のタブ（`nav.tabs` の中に `a`。vibes の Tab：選択中は `a.active` で緑の文字と太い下線、マウスを載せると淡い地と細い下線。狭い画面では横にスクロール） |
 | `.pager` | ページ送りの行。React は `<Pager>`（`<ListLayout pager>`）が付けるので直接は書かない |
+| `.nav-toggle` / `.nav-toggle-bars` | ハンバーガーメニューのボタン（ヘッダーの右端。3本線、開いているあいだは ×）。ページがいくつもあるサイト（ホームページなど）の狭い画面で使う。出す画面の幅は使う側の CSS で決める |
+| `.nav-screen` / `.nav-screen-inner` | ボタンで開くメニューの画面（ヘッダーの下に画面いっぱいに重ねる）。`.app-header` の**外の直後**に置き、`hidden` で隠しておく |
+| `.nav-screen-list` / `.nav-screen-row` / `.nav-screen-expand` | メニューの一覧（項目ごとに区切り線）。下にページがある項目は `.nav-screen-row` にリンクと `.nav-screen-expand`（＋／−）を並べ、下のページの `ul` を開け閉めする。いまのページは `aria-current="page"`（緑の文字） |
+| `.nav-screen-footer` / `.nav-screen-theme` | メニューの下の操作（表示の切り替えの行・ログインのボタンなど） |
+| `.nav-open` | 開いているあいだ `html` に付く（後ろのページをスクロールさせない）。`js/nav.js` が付けるので書かない |
+
+ハンバーガーメニューは素の HTML 向け。開け閉めは `js/nav.js`（CDN の `/v1/nav.js`）が行う：押すと `aria-expanded` と `hidden` を切り替え、Esc・メニューの中のリンク・画面が広くなったときに閉じる。開いているあいだは本文とフッターを `inert` にする。マークアップは `docs/usage.md`。
 
 ### 3.5 表
 

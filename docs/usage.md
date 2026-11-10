@@ -64,4 +64,49 @@
 </main>
 ```
 
+### ハンバーガーメニュー（ページがいくつもあるサイト）
+
+狭い画面で、ヘッダーの右端に3本線のボタンを出し、押すとヘッダーの下にメニューを画面いっぱいに開きます（クラスは `docs/catalog.md` §3.4）。`<head>` に `nav.js` を足します（`defer` を付ける）。
+
+```html
+<script src="https://ui.seeds-alumni.jp/v1/nav.js" defer></script>
+```
+
+```html
+<header class="app-header wide">
+  <div class="app-header-inner">
+    <a class="brand" href="/">…</a>
+    <div class="header-actions">
+      <a class="button primary small-btn" href="https://id.example.jp/">会員ログイン</a>
+      <button type="button" class="nav-toggle" aria-controls="nav-screen" aria-expanded="false" aria-label="メニューを開く"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+    </div>
+  </div>
+</header>
+<!-- ヘッダーの外の直後に置く -->
+<div class="nav-screen" id="nav-screen" hidden>
+  <nav class="nav-screen-inner" aria-label="メニュー">
+    <ul class="nav-screen-list">
+      <li><a href="/">ホーム</a></li>
+      <li>
+        <div class="nav-screen-row">
+          <a href="/about/">同窓会について</a>
+          <!-- いまのページがこの下にあるときは aria-expanded="true" にして開いておく -->
+          <button type="button" class="nav-screen-expand" aria-controls="nav-about" aria-expanded="false" aria-label="同窓会についての下のページ"></button>
+        </div>
+        <ul id="nav-about" hidden>
+          <li><a href="/about/overview" aria-current="page">団体概要</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="nav-screen-footer">
+      <div class="nav-screen-theme">表示（ライト・ダーク）<button class="theme-toggle"></button></div>
+      <a class="button primary" href="https://id.example.jp/">会員ログイン</a>
+    </div>
+  </nav>
+</div>
+```
+
+- `.nav-toggle` は既定でいつも出ます。広い画面でメニューを横に並べるサイトは、その幅では使う側の CSS で `.nav-toggle` を隠します（隠れると `nav.js` がメニューを閉じる）
+- 表示の切り替えをメニューの中に置いたときは、ヘッダーの `.theme-toggle` を狭い画面では隠してよい（`theme.js` はどちらのボタンも動かす）
+
 - ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.0.0 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる）

@@ -24,4 +24,4 @@ SEEDS同窓会の共通 UI（トークン・CSS・React の骨組みの部品・
 
 - seeds-alumni-wiki（**同窓会の公式ホームページ** https://www.seeds-alumni.jp/ 。リポジトリ名は Wiki だったころのまま。2026-11-10 に HonKit をやめ、`base/` の Markdown を `scripts/build.mjs` で HTML にして、CDN の `/v1/seeds.css`・`/v1/theme.js` を読み込む形にした。このサイトだけの見た目は `theme/site.css`。CI で `seeds-ui-check` を実行）
 
-**CDN（`/v1/`）は main へのマージから最長1時間で totp-site・ホームページなどに反映される**（タグを待たない）。`css/` や `js/theme.js` の変更は、Storybook と素の HTML のデモ（`/demo/`）で確かめてからマージする。クラスを消す・意味を変える変更は v2 にして `/v2/` に置く（`docs/deploy.md`）
+**CDN（`/v1/`）は main へのマージから最長1時間で totp-site・ホームページなどに反映される**（タグを待たない）。`css/` や `js/` の変更は、Storybook と素の HTML のデモ（`/demo/`）で確かめてからマージする。クラスを消す・意味を変える変更は v2 にして `/v2/` に置く（`docs/deploy.md`）

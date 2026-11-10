@@ -138,6 +138,76 @@ label.check > input, label.radio > input { margin-top: calc((var(--line-height) 
 .tabs a.active::after { height: 3px; background: var(--color-brand-current); }
 .pager { margin-top: var(--space-lg); justify-content: center; font-size: var(--font-size-sm); }
 
+/*
+ * ハンバーガーメニュー（狭い画面のサイトのメニュー）。ヘッダーの .nav-toggle を押すと、ヘッダーの下に .nav-screen が画面いっぱいに開く。
+ * 素の HTML は js/nav.js が開け閉めする（aria-expanded・hidden を切り替える）。.nav-toggle を出す画面の幅は、使う側の CSS で決める
+ */
+.nav-toggle {
+  display: inline-grid; place-items: center; width: var(--control-height); height: var(--control-height); flex: none; padding: 0;
+  border: none; border-radius: var(--radius-full); background: none; color: var(--color-text-strong); cursor: pointer;
+  transition: background var(--transition);
+}
+@media (hover: hover) { .nav-toggle:hover { background: var(--color-hover); } } /* タッチの画面では、押したあとに地が残らないように */
+/* 3本線。開いているあいだは × */
+.nav-toggle-bars, .nav-toggle-bars::before, .nav-toggle-bars::after {
+  display: block; width: 20px; height: 2px; border-radius: var(--radius-full); background: currentColor;
+  transition: transform var(--transition), background var(--transition);
+}
+.nav-toggle-bars { position: relative; }
+.nav-toggle-bars::before, .nav-toggle-bars::after { content: ''; position: absolute; left: 0; }
+.nav-toggle-bars::before { transform: translateY(-6px); }
+.nav-toggle-bars::after { transform: translateY(6px); }
+.nav-toggle[aria-expanded='true'] .nav-toggle-bars { background: transparent; }
+.nav-toggle[aria-expanded='true'] .nav-toggle-bars::before { transform: rotate(45deg); }
+.nav-toggle[aria-expanded='true'] .nav-toggle-bars::after { transform: rotate(-45deg); }
+
+/* ヘッダーの下に重ねるメニューの画面（.app-header の外、直後に置く。ヘッダーのぼかしの中に置くと位置がずれる） */
+.nav-screen {
+  position: fixed; inset: calc(var(--header-height) + var(--border-width)) 0 0; z-index: var(--z-header);
+  overflow-y: auto; overscroll-behavior: contain; background: var(--color-surface);
+  animation: nav-screen-in var(--transition);
+}
+.nav-screen[hidden] { display: none; }
+@keyframes nav-screen-in { from { opacity: 0; transform: translateY(calc(-1 * var(--space-sm))); } }
+.nav-screen-inner { max-width: var(--layout-narrow); margin: 0 auto; padding: var(--space-lg) var(--space-2xl) var(--space-4xl); }
+.nav-screen-list, .nav-screen-list ul { list-style: none; margin: 0; padding: 0; }
+.nav-screen-list > li { border-bottom: var(--divider); }
+.nav-screen-row { display: flex; align-items: center; gap: var(--space-sm); }
+.nav-screen-list a {
+  display: flex; align-items: center; flex: 1; min-height: var(--control-height); padding: var(--space-sm) 0;
+  color: var(--color-text-strong); font-weight: var(--font-weight-bold); text-decoration: none;
+}
+.nav-screen-list ul { padding: 0 0 var(--space-md) var(--space-lg); }
+.nav-screen-list ul a { min-height: 0; padding: var(--space-sm) 0; color: var(--color-text); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); }
+.nav-screen-list a:hover { color: var(--color-brand-hover); }
+.nav-screen-list a[aria-current='page'] { color: var(--color-brand); font-weight: var(--font-weight-bold); }
+/* 下のページを開く ＋（開いているあいだは −） */
+.nav-screen-expand {
+  position: relative; width: var(--control-height); height: var(--control-height); flex: none; padding: 0;
+  border: none; border-radius: var(--radius-full); background: none; color: var(--color-text-muted); cursor: pointer;
+  transition: background var(--transition);
+}
+@media (hover: hover) { .nav-screen-expand:hover { background: var(--color-hover); color: var(--color-text-strong); } }
+.nav-screen-expand::before, .nav-screen-expand::after {
+  content: ''; position: absolute; top: 50%; left: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px;
+  border-radius: var(--radius-full); background: currentColor; transition: transform var(--transition);
+}
+.nav-screen-expand::after { transform: rotate(90deg); }
+.nav-screen-expand[aria-expanded='true']::after { transform: rotate(0deg); }
+/* メニューの下：表示の切り替え・ログインなど */
+.nav-screen-footer { display: grid; gap: var(--space-lg); margin-top: var(--space-2xl); }
+.nav-screen-theme {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-md);
+  padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-lg); border-radius: var(--radius-md);
+  background: var(--color-column); color: var(--color-text-muted); font-size: var(--font-size-sm);
+}
+/* 開いているあいだは後ろのページをスクロールさせない（js/nav.js が html に付ける） */
+html.nav-open, html.nav-open body { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .nav-screen { animation: none; }
+  .nav-toggle-bars, .nav-toggle-bars::before, .nav-toggle-bars::after, .nav-screen-expand::after { transition: none; }
+}
+
 /* ── 表 ── */
 .table-wrap { overflow-x: auto; margin: 0 calc(var(--space-md) * -1); padding: 0 var(--space-md); }
 tr.clickable { cursor: pointer; transition: background var(--transition); }
