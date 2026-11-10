@@ -50,6 +50,7 @@
 <header class="app-header">
   <div class="app-header-inner">
     <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">S</span><span class="brand-name">SEEDS TOTP</span></a>
+    <!-- ロゴの画像を出すとき：<a class="brand" href="/"><img class="brand-mark" src="/brand/seeds-icon.png" alt="" width="32" height="32"><span class="brand-name">SEEDS TOTP</span></a>（画像は各サイトに置く） -->
     <!-- 本番以外だけ：<div class="env-badge" role="note" aria-label="この画面は開発環境です">開発環境</div> -->
     <div class="header-actions">
       <span class="header-user">山田 太郎</span>
