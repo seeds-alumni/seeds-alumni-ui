@@ -2,7 +2,7 @@
 //   /            Storybook
 //   /demo/       デモ（index.html は素の HTML、react.html は React。Pages は .html を外した URL（/demo/react）に転送する）
 //   /404.html    見つからないページ（これが無いと、存在しないパスすべてに Storybook が返る）
-//   /v<大きい版>/ CDN として配る CSS と JS（seeds.css は1ファイルにまとめたもの、css/ は分けたもの、theme.js）
+//   /v<大きい版>/ CDN として配る CSS と JS（seeds.css は1ファイルにまとめたもの、css/ は分けたもの、theme.js、nav.js）
 import { execFileSync } from 'node:child_process';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 
@@ -25,6 +25,7 @@ for (const p of parts) cpSync(`${root}css/${p}.css`, `${out}/css/${p}.css`);
 cpSync(`${root}css/index.css`, `${out}/css/index.css`);
 writeFileSync(`${out}/seeds.css`, banner + parts.map((p) => readFileSync(`${root}css/${p}.css`, 'utf8')).join('\n'));
 cpSync(`${root}js/theme.js`, `${out}/theme.js`);
+cpSync(`${root}js/nav.js`, `${out}/nav.js`);
 writeFileSync(`${out}/version.txt`, `${pkg.version}\n`);
 
 // キャッシュ（Cloudflare Pages の _headers）
@@ -75,4 +76,4 @@ writeFileSync(
 </html>
 `,
 );
-console.log(`site/ を作りました（CDN：/${major}/seeds.css・/${major}/theme.js、版 ${pkg.version}）`);
+console.log(`site/ を作りました（CDN：/${major}/seeds.css・/${major}/theme.js・/${major}/nav.js、版 ${pkg.version}）`);

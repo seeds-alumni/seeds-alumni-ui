@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import { ThemeToggle } from '../src/ThemeToggle';
 
 /** クラス（docs/catalog.md §3）。React を使わない画面（素の HTML）でも同じクラスで組める */
 const meta: Meta = { title: 'クラス' };
@@ -123,4 +125,74 @@ export const 候補リスト: Story = {
       </div>
     </section>
   ),
+};
+
+/** ハンバーガーメニュー（.nav-toggle / .nav-screen）。素の HTML では js/nav.js が開け閉めする（ここでは同じ動きを React の状態で見せる） */
+function HamburgerMenu() {
+  const [open, setOpen] = useState(true);
+  const [about, setAbout] = useState(true);
+  const [projects, setProjects] = useState(false);
+  return (
+    <>
+      <header className="app-header wide">
+        <div className="app-header-inner">
+          <a className="brand" href="#"><span className="brand-mark" aria-hidden="true">S</span><span className="brand-name">大阪大学SEEDSプログラム同窓会</span></a>
+          <div className="header-actions">
+            <a className="button primary small-btn" href="#">会員ログイン</a>
+            <button type="button" className="nav-toggle" aria-controls="story-nav-screen" aria-expanded={open} aria-label={open ? 'メニューを閉じる' : 'メニューを開く'} onClick={() => setOpen(!open)}>
+              <span className="nav-toggle-bars" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </header>
+      <div className="nav-screen" id="story-nav-screen" hidden={!open}>
+        <nav className="nav-screen-inner" aria-label="メニュー">
+          <ul className="nav-screen-list">
+            <li><a href="#">ホーム</a></li>
+            <li>
+              <div className="nav-screen-row">
+                <a href="#">同窓会について</a>
+                <button type="button" className="nav-screen-expand" aria-controls="story-nav-about" aria-expanded={about} aria-label="同窓会についての下のページ" onClick={() => setAbout(!about)} />
+              </div>
+              <ul id="story-nav-about" hidden={!about}>
+                <li><a href="#">団体概要</a></li>
+                <li><a href="#" aria-current="page">設立経緯</a></li>
+                <li><a href="#">役員名簿</a></li>
+                <li><a href="#">規約等</a></li>
+              </ul>
+            </li>
+            <li><a href="#">お知らせ</a></li>
+            <li>
+              <div className="nav-screen-row">
+                <a href="#">企画</a>
+                <button type="button" className="nav-screen-expand" aria-controls="story-nav-projects" aria-expanded={projects} aria-label="企画の下のページ" onClick={() => setProjects(!projects)} />
+              </div>
+              <ul id="story-nav-projects" hidden={!projects}>
+                <li><a href="#">同窓生のつどい</a></li>
+                <li><a href="#">SEEDSゼミ</a></li>
+                <li><a href="#">会報誌</a></li>
+              </ul>
+            </li>
+            <li><a href="#">お問い合わせ</a></li>
+          </ul>
+          <div className="nav-screen-footer">
+            <div className="nav-screen-theme">表示（ライト・ダーク）<ThemeToggle /></div>
+            <a className="button primary" href="#">会員ログイン</a>
+          </div>
+        </nav>
+      </div>
+      <main>
+        <section>
+          <h2>本文</h2>
+          <p className="muted">右上の3本線でメニューを開け閉めします。</p>
+        </section>
+      </main>
+    </>
+  );
+}
+
+export const ハンバーガーメニュー: Story = {
+  parameters: { layout: 'fullscreen' },
+  globals: { viewport: { value: 'phone' } },
+  render: () => <HamburgerMenu />,
 };
