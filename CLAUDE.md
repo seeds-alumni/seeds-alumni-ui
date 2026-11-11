@@ -5,6 +5,7 @@ SEEDS同窓会の共通 UI（トークン・CSS・React の骨組みの部品・
 ## 決めごと
 
 - ユーザーとは日本語でやりとりする。画面の文言も日本語
+- **構築（実装）が終わったら PR を出し、レビュアーまたはアサイニー（Assignees）にユーザー本人（GitHub の `massasnake`）を入れる**。この環境から出す PR は作成者が `massasnake` 本人になり、GitHub は作成者をレビュアーにできないので、そのときはアサイニーに入れる（作成者がほかの人・Bot のときはレビュアーに入れる）。どちらも付けられなかったときは、PR を出したうえでそのことを伝える（ユーザーの指定、2026-11-11。同日にレビュアーだけの指定から変更。向き先は main）
 - **作り込みすぎない**：共通にするのはトークンと CSS、画面の骨組みの React の部品、小さな共通処理だけ。細かい見た目の React の部品は作らず、クラスで組む。1つのアプリだけで使う見た目は、そのアプリの側に置く
 - **依存を小さく**：実行時の依存は React（peerDependencies）だけ。UI ライブラリ・CSS-in-JS・Tailwind は入れない。Storybook などは devDependencies
 - 値の決め方は freee の vibes にならい、ブランド色は深緑（seeds-alumni-idaas の CLAUDE.md の経緯を参照）
@@ -20,8 +21,9 @@ SEEDS同窓会の共通 UI（トークン・CSS・React の骨組みの部品・
 
 ## 使っているところ
 
-- seeds-alumni-idaas（React。`github:seeds-alumni/seeds-alumni-ui#vX.Y.Z` のタグで取り込む。版を上げたら idaas の指定を変える PR を出す）
-- seeds-alumni-totp-site（素の HTML。2026-11-10 に CSS のコピーをやめ、CDN の `https://ui.seeds-alumni.jp/v1/seeds.css`・`/v1/theme.js` を読み込む形にした。このサイトだけの見た目は `design/totp.css`。CI で `seeds-ui-check` を実行）
+- seeds-alumni-idaas（React。`github:seeds-alumni/seeds-alumni-ui#vX.Y.Z` のタグで取り込む。版を上げたら idaas の指定を変える PR を出す。2026-11-11 に v1.4.0 にした）
+- seeds-alumni-event-manager（React。idaas と同じ取り込み方。2026-11-11 に v1.4.0 にした）
+- seeds-alumni-totp-site（素の HTML。2026-11-10 に CSS のコピーをやめ、CDN の `https://ui.seeds-alumni.jp/v1/seeds.css`・`/v1/theme.js` を読み込む形にした。このサイトだけの見た目は `design/totp.css`。CI で `seeds-ui-check` を実行。チェックの版は `.github/workflows/check.yml` と README に書いてあり、2026-11-11 に v1.4.0 にした）
 
 - seeds-alumni-wiki（**同窓会の公式ホームページ** https://www.seeds-alumni.jp/ 。リポジトリ名は Wiki だったころのまま。2026-11-10 に HonKit をやめ、`base/` の Markdown を `scripts/build.mjs` で HTML にして、CDN の `/v1/seeds.css`・`/v1/theme.js` を読み込む形にした。このサイトだけの見た目は `theme/site.css`。CI で `seeds-ui-check` を実行）
 
