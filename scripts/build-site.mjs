@@ -20,7 +20,7 @@ cpSync(`${root}demo/site.html`, `${root}site/demo/site.html`);
 // CDN の CSS と JS
 const out = `${root}site/${major}`;
 mkdirSync(`${out}/css`, { recursive: true });
-const parts = ['tokens', 'base', 'components', 'utilities'];
+const parts = ['tokens', 'base', 'components', 'site', 'utilities'];
 const banner = `/* @seeds-alumni/ui ${pkg.version} — https://github.com/seeds-alumni/seeds-alumni-ui */\n`;
 for (const p of parts) cpSync(`${root}css/${p}.css`, `${out}/css/${p}.css`);
 cpSync(`${root}css/index.css`, `${out}/css/index.css`);

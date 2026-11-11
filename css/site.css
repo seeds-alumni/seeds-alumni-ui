@@ -1,0 +1,122 @@
+/*
+ * 公開サイト（ホームページ）の見た目と部品。docs/catalog.md §3.10
+ * <html data-look="site"> を付けると、白い地・Noto Sans JP になり、ヘッダー・題名の帯・文章・フッターが公開サイト向けに変わる（値は tokens.css）。
+ * 決め方：白い地に黒い文字、深緑の色面。画面の端から伸びて角を1つだけ大きく丸めた色面（.photo-block・.color-band）をくり返す。
+ * カードと影は使わず、淡い灰色の帯（.band.soft）・罫線・丸い矢印（.arrow-dot）で区切る。
+ * 下の部品（.arrow-dot など）は data-look がなくても使える。
+ */
+
+/* ── data-look="site" のときに変わるもの ── */
+[data-look='site'] { background: var(--color-bg); color: var(--color-text); font-family: var(--font-family); letter-spacing: 0.02em; }
+[data-look='site'] .app-header { box-shadow: none; }
+[data-look='site'] img.brand-mark { height: 40px; }
+[data-look='site'] .header-nav-item > a { color: var(--color-text-strong); font-weight: var(--font-weight-medium); }
+[data-look='site'] .header-nav-item.active > a { color: var(--color-brand); font-weight: var(--font-weight-bold); }
+/* 題名の帯：淡い灰色の地に大きい題名（影なし） */
+[data-look='site'] .page-head { background: var(--color-band); box-shadow: none; padding: var(--space-2xl) 0 var(--space-3xl); margin-bottom: var(--space-4xl); }
+[data-look='site'] .page-head h1 { font-size: var(--font-size-2xl); margin-top: var(--space-md); font-feature-settings: 'palt'; }
+/* 文章：カードに入れずに白い地へ直接置くので、見出しの差をはっきりさせる */
+[data-look='site'] .prose h2 { font-size: var(--font-size-xl); padding-bottom: var(--space-md); border-bottom-color: var(--color-text-strong); }
+[data-look='site'] .prose h2:not(:first-child) { margin-top: var(--space-4xl); }
+[data-look='site'] .prose h3 { font-size: var(--font-size-lg); padding-left: var(--space-md); border-left: 4px solid var(--color-brand-solid); }
+[data-look='site'] .prose thead th { background: var(--color-band); }
+[data-look='site'] .prose tbody tr:last-child td { border-bottom: var(--divider); }
+/* フッター：淡い灰色の地（上の線なし） */
+[data-look='site'] .app-footer { background: var(--color-band); border-top: none; padding-top: var(--space-4xl); }
+@media (max-width: 640px) {
+  [data-look='site'] img.brand-mark { height: 34px; }
+  [data-look='site'] .page-head { padding: var(--space-lg) 0 var(--space-2xl); margin-bottom: var(--space-3xl); }
+}
+
+/* ── 丸い矢印（リンクの目印）。リンクの中に <span class="arrow-dot" aria-hidden="true"></span> ── */
+.arrow-dot {
+  flex: none; display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: var(--radius-full);
+  background: var(--color-brand-solid); color: var(--color-on-solid); transition: transform var(--transition);
+}
+.arrow-dot::before { content: ''; width: 7px; height: 7px; border-top: 2px solid currentColor; border-right: 2px solid currentColor; transform: translateX(-1.5px) rotate(45deg); }
+.arrow-dot.sm { width: 24px; height: 24px; }
+.arrow-dot.sm::before { width: 5px; height: 5px; border-width: 1.5px; transform: translateX(-1px) rotate(45deg); }
+.arrow-dot.ink { background: var(--color-ink); }
+.arrow-dot.on-solid { background: var(--color-on-solid); color: var(--color-brand-solid); }
+a:hover > .arrow-dot { transform: translateX(var(--space-2xs)); }
+@media (prefers-reduced-motion: reduce) { .arrow-dot { transition: none; } }
+
+/* ── 区画（トップの帯）と、左に見出し・右に中身の2段組み ── */
+.band { padding: clamp(var(--space-4xl), 7vw, 96px) 0; overflow-x: clip; } /* clip：中の色面（.photo-block・.color-band）が画面の端からはみ出した分を切る */
+.band.soft { background: var(--color-band); }
+.split { display: grid; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); gap: var(--space-3xl) clamp(var(--space-3xl), 6vw, 80px); align-items: start; }
+.heading-en { margin: 0; font-size: var(--font-size-en); font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); color: var(--color-text-strong); }
+.heading-ja { display: flex; align-items: center; gap: var(--space-sm); margin: var(--space-2xs) 0 0; font-size: var(--font-size-base); font-weight: var(--font-weight-bold); color: var(--color-brand); }
+.heading-ja::before { content: ''; flex: none; width: 28px; height: 2px; background: currentColor; }
+.text-link { display: inline-flex; align-items: center; gap: var(--space-sm); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-strong); text-decoration: none; }
+.text-link:hover { color: var(--color-brand); }
+
+/* ── 罫線で区切ったリンクの一覧（下層ページへの入口。カードを並べる代わり） ── */
+.link-list { display: grid; list-style: none; margin: 0; padding: 0; }
+.link-list.cols2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column-min)), 1fr)); column-gap: var(--space-3xl); }
+.link-list a {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-md); align-items: center; align-content: center; height: 100%;
+  padding: var(--space-lg) var(--space-2xs); border-bottom: var(--border-width) solid var(--color-text-strong);
+  color: var(--color-text); text-decoration: none;
+}
+.link-list-title { font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); color: var(--color-text-strong); transition: color var(--transition); }
+.link-list-desc { grid-column: 1; font-size: var(--font-size-sm); color: var(--color-text-muted); }
+.link-list .arrow-dot { grid-column: 2; grid-row: 1 / span 2; }
+.link-list a:hover .link-list-title { color: var(--color-brand); }
+
+/* ── 大きなリンクボタン（トップの写真の下など。いちばん大事なものに .main） ── */
+.quick-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--tile-min)), 1fr)); gap: var(--space-md); }
+.quick-links a {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); min-height: 64px;
+  padding: var(--space-sm) var(--space-lg) var(--space-sm) var(--space-2xl); border-radius: var(--radius-lg);
+  background: var(--color-ink); color: var(--color-on-solid); font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); text-decoration: none;
+  transition: background var(--transition);
+}
+.quick-links a:hover { background: var(--color-ink-hover); color: var(--color-on-solid); }
+.quick-links a.main { background: var(--color-brand-solid); }
+.quick-links a.main:hover { background: var(--color-brand-solid-hover); }
+
+/* ── 写真の後ろに、画面の左端から伸びる深緑の色面（figure.photo-block > img + figcaption）。.band の中に置く ── */
+.photo-block { position: relative; margin: 0; padding: var(--space-md) 0 0 clamp(0px, 5vw, 64px); }
+.photo-block::before { content: ''; position: absolute; top: 0; left: -100vw; right: 38%; height: 52%; background: var(--color-brand-solid); border-radius: 0 var(--radius-block) 0 0; }
+.photo-block img { position: relative; display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-lg); }
+.photo-block figcaption { position: relative; margin-top: var(--space-sm); text-align: right; font-size: var(--font-size-xs); color: var(--color-text-muted); }
+
+/* ── 画面の右端まで伸びる深緑の色面（案内を左右に並べる）。.band の中の .container に置く ── */
+.color-band { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column-min)), 1fr)); color: var(--color-on-solid); }
+.color-band::before { content: ''; position: absolute; inset: 0 -100vw 0 0; background: var(--color-brand-solid); border-radius: var(--radius-block) 0 0 0; }
+.color-band-item { position: relative; padding: clamp(var(--space-3xl), 5vw, 56px) clamp(var(--space-2xl), 4vw, 48px); }
+.color-band-item + .color-band-item { border-left: var(--border-width) solid var(--color-on-solid-muted); }
+.color-band-label { margin: 0; font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 0.12em; color: var(--color-on-solid-muted); }
+.color-band h2 { margin: var(--space-2xs) 0 0; font-size: var(--font-size-2xl); color: var(--color-on-solid); }
+.color-band p { margin: var(--space-sm) 0 0; font-size: var(--font-size-sm); color: var(--color-on-solid-muted); }
+.color-band p.color-band-label { margin: 0; font-size: var(--font-size-xs); }
+.color-band-link {
+  display: inline-flex; align-items: center; gap: var(--space-md); margin-top: var(--space-xl); padding-bottom: var(--space-sm);
+  border-bottom: var(--border-width) solid currentColor; color: var(--color-on-solid); font-weight: var(--font-weight-bold); text-decoration: none;
+}
+.color-band-link:hover { color: var(--color-on-solid); }
+/* 色面の上のフォーカスの輪は白 */
+.color-band a:focus-visible, .quick-links a:focus-visible { box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-text-strong); }
+
+/* ── フッターの段組み（サイトマップ）と、いちばん下の黒い帯 ── */
+.app-footer-nav { flex: 1 1 min(28rem, 100%); min-width: 0; max-width: 42rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--space-2xl); }
+.app-footer-nav .app-footer-heading { margin: 0 0 var(--space-sm); padding-bottom: var(--space-sm); border-bottom: var(--border-width) solid var(--color-text-strong); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-strong); }
+.app-footer-nav ul { display: grid; gap: var(--space-2xs); }
+.app-footer-nav a { color: var(--color-text); text-decoration: none; }
+.app-footer-nav a:hover { color: var(--color-brand-hover); text-decoration: underline; }
+.app-footer-bar { margin: var(--space-3xl) 0 0; padding: var(--space-md) var(--space-lg); background: var(--color-bar); color: var(--color-on-solid); font-size: var(--font-size-xs); text-align: center; }
+.app-footer:has(> .app-footer-bar) { padding-bottom: 0; }
+
+@media (max-width: 980px) {
+  .split { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .link-list-title { font-size: var(--font-size-base); }
+  .quick-links { gap: var(--space-sm); }
+  .quick-links a { min-height: 56px; }
+  .photo-block::before { right: 30%; }
+  .photo-block img { aspect-ratio: 3 / 2; }
+  .color-band-item { padding: var(--space-2xl) var(--space-sm) var(--space-2xl) var(--space-xl); }
+  .color-band-item + .color-band-item { border-left: none; border-top: var(--border-width) solid var(--color-on-solid-muted); }
+}
