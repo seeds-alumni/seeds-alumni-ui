@@ -70,7 +70,7 @@ body:has(> .app-footer) > main { flex: 1 0 auto; width: 100%; }
 .row.between:has(> h2) { margin-bottom: var(--space-md); }
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column-min)), 1fr)); gap: var(--space-lg); }
 .box { background: var(--color-field); border: var(--divider); border-radius: var(--radius-md); padding: var(--space-lg); display: grid; gap: var(--space-sm); }
-/* vibes の MessageBlock（notice）：注意の色の枠と淡い地 */
+/* 注意の箱（notice）：注意の色の枠と淡い地 */
 .warnbox { background: var(--color-warning-soft); border: var(--border-width) solid var(--color-warning-line); }
 .warnbox ul { margin: 0; padding-left: 1.2em; }
 
@@ -88,7 +88,7 @@ body:has(> .app-footer) > main { flex: 1 0 auto; width: 100%; }
   font: inherit; font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); text-align: center; text-decoration: none;
   cursor: pointer; transition: border-color var(--transition), background var(--transition), color var(--transition), box-shadow var(--transition);
 }
-/* vibes のボタン：マウスを載せると淡いブランド色の地に、枠と文字が濃いブランド色 */
+/* ボタン：マウスを載せると淡いブランド色の地に、枠と文字が濃いブランド色 */
 .button:hover { background: var(--color-brand-tint); border-color: var(--color-brand-hover); color: var(--color-brand-hover); }
 .button:disabled { opacity: 0.5; cursor: not-allowed; }
 .button:disabled:hover { background: var(--color-field); border-color: var(--color-border-soft); color: var(--color-text-strong); }
@@ -137,7 +137,7 @@ label.check > input, label.radio > input { margin-top: calc((var(--line-height) 
 .suggest button:hover, .suggest button:focus { background: var(--color-hover); }
 
 /* ── ナビゲーション ── */
-/* vibes の Tab：下線で現在地を示す（選択中は太い下線とブランド色の文字、マウスを載せると淡い地と細い下線） */
+/* タブ：下線で現在地を示す（選択中は太い下線とブランド色の文字、マウスを載せると淡い地と細い下線） */
 .tabs {
   display: flex; gap: var(--space-2xs); margin: 0 0 var(--space-2xl);
   border-bottom: var(--divider); overflow-x: auto; scrollbar-width: none;
@@ -288,7 +288,7 @@ table.compare td:first-child { color: var(--color-text-muted); white-space: nowr
   font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); white-space: nowrap;
   background: var(--color-surface); color: var(--color-text-muted);
 }
-/* vibes の StatusIcon：枠と文字を状態の色に、地は淡い色（色だけでなく文字でも伝える） */
+/* 状態のバッジ：枠と文字を状態の色に、地は淡い色（色だけでなく文字でも伝える） */
 .badge.ok { color: var(--color-success); border-color: var(--color-success-line); background: var(--color-success-soft); }
 .badge.warn { color: var(--color-warning); border-color: var(--color-warning-line); background: var(--color-warning-soft); }
 .badge.ng { color: var(--color-danger); border-color: var(--color-danger-line); background: var(--color-danger-soft); }

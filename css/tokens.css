@@ -4,15 +4,15 @@
  * ほかの CSS・TSX では var(--…) で参照し、生の値（#fff、13px など）を書かない。
  * 一覧と使い分けは docs/catalog.md。値を足したら、そちらの表にも追記する（npm run check で確認）。
  *
- * 値の決め方は freee のデザインシステム vibes（https://github.com/freee/vibes、Apache-2.0）にならう：
+ * 値の決め方：
  *   - 色は「段階のある色（01 淡い 〜 10 濃い）」から、意味（リンク・現在地・注意・エラー）ごとに選ぶ。
- *     vibes の青（P01〜P10）の代わりに、ブランド色の深緑の段階を使う（docs/design-system.md 3.1）
+ *     ブランド色の深緑の段階を使う（docs/catalog.md 2.1）
  *   - 文字は 4.5:1、入力欄の枠など読み取りに必要な線は 3:1 以上のコントラスト
  *   - 地の色（淡いブランド色）の上に白いカードを影で浮かせる。影は card → float → popup の3段階
  *   - 角丸は役割で決める（小さい部品 4px、ボタン・入力欄 8px、カード 12px、ダイアログ 24px）
  *   - フォーカスは「白・ブランド色・白」の二重の輪（どの地の上でも見える）
  *
- * ライト・ダーク：色は light-dark(ライト, ダーク) で1行に書く（vibes にはダークがないので、ダークは独自に決めた）。
+ * ライト・ダーク：色は light-dark(ライト, ダーク) で1行に書く。
  * どちらが使われるかは color-scheme で決まる（既定は OS の設定、<html data-theme="light|dark"> で固定。src/ThemeToggle.tsx・js/theme.js）。
  */
 :root { color-scheme: light dark; }
@@ -20,28 +20,28 @@
 :root[data-theme='dark'] { color-scheme: dark; }
 
 :root {
-  /* ── 色：面（vibes：地は P01、カードは白、コラムは S01） ── */
-  --color-bg: light-dark(#f1f6f3, #121413);         /* ページの地（淡い深緑。vibes の P01 に当たる） */
+  /* ── 色：面（地は淡いブランド色、カードは白、コラムは淡い灰色） ── */
+  --color-bg: light-dark(#f1f6f3, #121413);         /* ページの地（淡い深緑） */
   --color-surface: light-dark(#ffffff, #1d201e);    /* カード（section、tile、choice）。影で浮かせる */
   --color-field: light-dark(#ffffff, #161817);      /* 入力欄・標準ボタン・カードの中の箱 */
-  --color-column: light-dark(#f7f5f5, #252826);     /* カードの中で文を載せる淡い地（vibes の S01。通知文・表の見出し） */
+  --color-column: light-dark(#f7f5f5, #252826);     /* カードの中で文を載せる淡い地（通知文・表の見出し） */
   --color-hover: light-dark(#ecf4ef, #26302a);      /* 行・項目にマウスを載せたとき（ブランド色 6%） */
   --color-header: light-dark(#ffffffeb, #1d201eeb); /* 上部のヘッダー（半透明） */
-  --color-backdrop: light-dark(#00000080, #000000a6); /* ダイアログの後ろを暗くする（vibes の scrim 50%） */
+  --color-backdrop: light-dark(#00000080, #000000a6); /* ダイアログの後ろを暗くする（50%） */
   --color-band: light-dark(#f4f4f4, #1e211f);       /* 公開サイトの淡い灰色の帯（区画の地・題名の帯・フッター） */
   --color-ink: light-dark(#3f4441, #3a403d);        /* 濃い灰色の面（大きなリンクボタン・丸い矢印・分類の札） */
   --color-ink-hover: light-dark(#2b2f2d, #4a514d);  /* 濃い灰色の面にマウスを載せたとき */
   --color-bar: light-dark(#111111, #0a0b0a);        /* 公開サイトのフッターのいちばん下の黒い帯 */
 
-  /* ── 色：文字・線（vibes：本文 GY7、補足 S9、線 S3 / 入力欄 S8） ── */
+  /* ── 色：文字・線 ── */
   --color-text: light-dark(#323232, #e3e5e3);       /* 本文 */
   --color-text-strong: light-dark(#1e1e1e, #f5f6f5);/* 見出し・数値 */
   --color-text-muted: light-dark(#6e6b6b, #a3a7a4); /* 補足・ラベル・表の見出し */
   --color-divider: light-dark(#e9e7e7, #2f3431);    /* 区切り線・カードの中の線 */
   --color-border: light-dark(#8c8989, #6b716d);     /* 入力欄の枠（3:1 以上） */
-  --color-border-soft: light-dark(#dcdcdc, #3d433f);/* 標準ボタンの枠（文字が太字なので淡い線でよい。vibes の GY02） */
+  --color-border-soft: light-dark(#dcdcdc, #3d433f);/* 標準ボタンの枠（文字が太字なので淡い線でよい） */
 
-  /* ── 色：ブランド（深緑。vibes の P5 / P7 / P2 の役割に合わせる） ── */
+  /* ── 色：ブランド（深緑） ── */
   --color-brand: light-dark(#1d5c3f, #8cc7a8);       /* リンク・選択中の文字（G07） */
   --color-brand-hover: light-dark(#163d2b, #b4dcc6); /* リンク・標準ボタンにマウスを載せたとき（G09） */
   --color-brand-solid: light-dark(#1d5c3f, #2f6a4e); /* 主要ボタンの地（G07） */
@@ -52,7 +52,7 @@
   --color-on-solid-muted: light-dark(#d5e5dc, #c4dccf); /* brand-solid の色面の上の補足の文字・線 */
   --color-logo-bg: #ffffff;                          /* ロゴの地（ロゴは白い地に置く決まり。テーマに関係なく白） */
 
-  /* ── 色：状態（vibes：エラー RE、注意 YE。文字は濃い段階、線は中間、地は淡い段階） ── */
+  /* ── 色：状態（文字は濃い段階、線は中間、地は淡い段階） ── */
   --color-success: light-dark(#18794e, #5fd59a);
   --color-success-line: light-dark(#2b7553, #3d9b6c);
   --color-success-soft: light-dark(#e3f2e9, #1d3527);
@@ -67,25 +67,25 @@
   --color-neutral-line: light-dark(#8c8989, #6b716d); /* 既定のバッジの枠（S8） */
   --color-env: #d9480f;                              /* 環境バッジ（本番以外であることを示す）専用 */
 
-  /* ── 文字（vibes の書体の順。和文はヒラギノ・游ゴシック・メイリオ・Noto Sans JP） ── */
+  /* ── 文字（和文はヒラギノ・游ゴシック・メイリオ・Noto Sans JP） ── */
   --font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic UI', Meiryo, 'Noto Sans JP', Arial, sans-serif;
-  --font-size-xs: 0.75rem;      /* バッジ・表の見出し・項目名（vibes の caption） */
-  --font-size-sm: 0.875rem;     /* 補足（.small）、表、小さいボタン（vibes の本文） */
-  --font-size-base: 1rem;       /* 本文（スマートフォンで読む会員が多いので vibes より一回り大きく） */
+  --font-size-xs: 0.75rem;      /* バッジ・表の見出し・項目名 */
+  --font-size-sm: 0.875rem;     /* 補足（.small）、表、小さいボタン */
+  --font-size-base: 1rem;       /* 本文（スマートフォンで読む会員が多いので一回り大きく） */
   --font-size-lg: 1.125rem;     /* カードの見出し（h2）、ヘッダーの名前 */
-  --font-size-xl: 1.5rem;       /* ページの見出し（h1 / .page-title。vibes の headline1） */
+  --font-size-xl: 1.5rem;       /* ページの見出し（h1 / .page-title） */
   --font-size-display: 2rem;    /* ダッシュボードの数値 */
   --font-size-2xl: clamp(1.5rem, 1.2rem + 1.3vw, 2rem);   /* 公開サイトの下層ページの題名・色面の見出し（画面の幅で伸び縮みする） */
   --font-size-3xl: clamp(1.5rem, 0.8rem + 3.4vw, 3rem);   /* 公開サイトのトップの大見出し */
   --font-size-en: clamp(2rem, 1.5rem + 2vw, 2.75rem);     /* 公開サイトの欧文の大きい見出し（.heading-en） */
   --font-family-site: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic UI', Meiryo, sans-serif; /* 公開サイトの書体（Noto Sans JP は使う側が読み込む） */
   --font-weight-medium: 500;    /* タブ（選択していないもの） */
-  --font-weight-bold: 700;      /* ボタン・ラベル・見出し・バッジ（vibes は bold） */
+  --font-weight-bold: 700;      /* ボタン・ラベル・見出し・バッジ */
   --font-weight-heavy: 700;     /* 数値・環境バッジ */
   --line-height: 1.7;
   --line-height-tight: 1.4;     /* 見出し・ボタン・表 */
 
-  /* ── 余白（vibes：8px を基本に 4 / 8 / 16 / 24 / 32 / 48。間を 6・12・20 で補う） ── */
+  /* ── 余白（8px を基本に 4 / 8 / 16 / 24 / 32 / 48。間を 6・12・20 で補う） ── */
   --space-2xs: 4px;
   --space-xs: 6px;
   --space-sm: 8px;
@@ -97,13 +97,13 @@
   --space-4xl: 48px;
 
   /* ── 大きさ ── */
-  --control-height: 40px;       /* 入力欄・ボタン（横並びで高さがそろう。vibes の 36px より押しやすく） */
+  --control-height: 40px;       /* 入力欄・ボタン（横並びで高さがそろう。押しやすい高さ） */
   --control-height-sm: 32px;    /* 小さいボタン */
   --check-size: 1.125rem;       /* チェックボックス・ラジオボタン */
   --header-height: 56px;
   --tab-height: 44px;           /* 管理画面のタブ */
 
-  /* ── 角丸（vibes：小さい部品 4、ボタン・入力欄 8、カード 12、ダイアログ 24） ── */
+  /* ── 角丸（小さい部品 4、ボタン・入力欄 8、カード 12、ダイアログ 24） ── */
   --radius-sm: 4px;             /* バッジ・小さいボタン・ロゴ・候補 */
   --radius-md: 8px;             /* 入力欄・ボタン・タブ・box */
   --radius-lg: 12px;            /* カード（section、tile、choice） */
@@ -115,7 +115,7 @@
   --border-width: 1px;
   --border: var(--border-width) solid var(--color-border);
   --divider: var(--border-width) solid var(--color-divider);
-  /* フォーカス：内側から 白 1px・ブランド色 2px・白 1px（vibes の focus highlight） */
+  /* フォーカス：内側から 白 1px・ブランド色 2px・白 1px */
   --focus-ring: 0 0 0 1px var(--color-surface), 0 0 0 3px var(--color-brand-current), 0 0 0 4px var(--color-surface);
   --shadow-card: 0 0 1rem light-dark(#0000000f, #00000059), 0 0.0625rem 0.1875rem light-dark(#0000001f, #00000080); /* カード */
   --shadow-float: 0 0 1.5rem light-dark(#0000001a, #00000066), 0 0.25rem 0.5rem light-dark(#00000033, #00000099); /* 浮かせる要素（候補リスト・会員証） */

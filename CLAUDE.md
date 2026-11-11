@@ -8,8 +8,8 @@ SEEDS同窓会の共通 UI（トークン・CSS・React の骨組みの部品・
 - **構築（実装）が終わったら PR を出し、レビュアーまたはアサイニー（Assignees）にユーザー本人（GitHub の `massasnake`）を入れる**。この環境から出す PR は作成者が `massasnake` 本人になり、GitHub は作成者をレビュアーにできないので、そのときはアサイニーに入れる（作成者がほかの人・Bot のときはレビュアーに入れる）。どちらも付けられなかったときは、PR を出したうえでそのことを伝える（ユーザーの指定、2026-11-11。同日にレビュアーだけの指定から変更。向き先は main）
 - **作り込みすぎない**：共通にするのはトークンと CSS、画面の骨組みの React の部品、小さな共通処理だけ。細かい見た目の React の部品は作らず、クラスで組む。1つのアプリだけで使う見た目は、そのアプリの側に置く
 - **依存を小さく**：実行時の依存は React（peerDependencies）だけ。UI ライブラリ・CSS-in-JS・Tailwind は入れない。Storybook などは devDependencies
-- 値の決め方は freee の vibes にならい、ブランド色は深緑（seeds-alumni-idaas の CLAUDE.md の経緯を参照）
-- **見た目は2つ**（2026-11-11、ユーザーの決定。1.4.0）：アプリ（既定。会員ポータル・管理画面・ツール。淡い深緑の地に白いカード。**今のまま変えない**）と、公開サイト（`<html data-look="site">`。ホームページ。https://www.omu.ac.jp/ の空気を参考に、白い地・Noto Sans JP・深緑の色面・丸い矢印）。公開サイトの値の上書きは `css/tokens.css` の末尾、部品は `css/site.css`、決めごとは `docs/catalog.md` §3.10。アプリの画面に公開サイトの部品を持ち込まない
+- ブランド色は深緑（seeds-alumni-idaas の CLAUDE.md の経緯を参照）
+- **見た目は2つ**（2026-11-11、ユーザーの決定。1.4.0）：アプリ（既定。会員ポータル・管理画面・ツール。淡い深緑の地に白いカード。**今のまま変えない**）と、公開サイト（`<html data-look="site">`。ホームページ。白い地・Noto Sans JP・深緑の色面・丸い矢印）。公開サイトの値の上書きは `css/tokens.css` の末尾、部品は `css/site.css`、決めごとは `docs/catalog.md` §3.10。アプリの画面に公開サイトの部品を持ち込まない
 - 色の値は `css/tokens.css` にだけ書く。インライン style は書かない（Storybook の見本も同じ）。`npm run check` が確かめる
 - クラス・トークン・部品を足したら `docs/catalog.md` に書き、`stories/` に見本を足す
 - `dist/` は Git に入れる（Git の依存として、ビルドせずに使えるように）。`src/` を変えたら `npm run build` して一緒にコミットする。CI が食い違いを検出する
