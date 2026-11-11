@@ -1,5 +1,6 @@
-/* @seeds-alumni/ui の入口。順番を変えない（トークン → 要素 → 部品 → 補助クラス） */
+/* @seeds-alumni/ui の入口。順番を変えない（トークン → 要素 → 部品 → 公開サイト → 補助クラス） */
 @import './tokens.css';
 @import './base.css';
 @import './components.css';
+@import './site.css';
 @import './utilities.css';

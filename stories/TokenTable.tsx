@@ -1,11 +1,13 @@
 import tokensCss from '../css/tokens.css?raw';
 
 /** tokens.css を読んで、名前・見本・説明（行末のコメント）の表にする（Storybook の「トークン」ページ用） */
-const rows = [...tokensCss.matchAll(/^\s*(--[a-z0-9-]+)\s*:\s*([^;]+);\s*(?:\/\*\s*(.*?)\s*\*\/)?/gm)].map((m) => ({
+const all = [...tokensCss.matchAll(/^\s*(--[a-z0-9-]+)\s*:\s*([^;]+);\s*(?:\/\*\s*(.*?)\s*\*\/)?/gm)].map((m) => ({
   name: m[1]!,
   value: m[2]!.trim(),
   note: m[3] ?? '',
 }));
+// 同じ名前が2回出てくるもの（公開サイトの見た目 [data-look='site'] で上書きする値）は、最初の定義だけを表にする
+const rows = all.filter((r, i) => all.findIndex((x) => x.name === r.name) === i);
 
 /** 見本の色・影・角丸を、トークンを参照する CSS 変数で当てる（インライン style は使わない決まりなので、DOM に直接設定する） */
 function Swatch({ name }: { name: string }) {

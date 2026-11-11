@@ -7,7 +7,7 @@ Storybook・デモ・CDN の CSS と JS を、Cloudflare Pages の1つのプロ�
 | パス | 中身 |
 |---|---|
 | `/` | Storybook（部品ごとの見本、カタログ） |
-| `/demo/` | 素の HTML のデモ（`/demo/site` は公開サイト（ホームページ）の見本） |
+| `/demo/` | 素の HTML のデモ（`/demo/site` は公開サイト（ホームページ）の見本。`data-look="site"`） |
 | `/demo/react` | 画面の型のデモ（React）。Pages は `.html` を外した URL に転送する |
 | `/v1/seeds.css`・`/v1/theme.js`・`/v1/nav.js` | CDN として配る CSS と JS（`/v1/css/*.css` は分けたもの、`/v1/version.txt` は版） |
 

@@ -3,7 +3,7 @@
 SEEDS同窓会のサービス（会員ポータル・会員管理システム・SEEDS TOTP など）で共通に使う見た目のルール。**人と AI（Claude Code など）の両方が読む前提**で書いている。
 画面を作る・直すときは、この文書の「React の部品と画面の型」（§4）と「クラス」（§3）から選び、新しい見た目を作らない。
 
-- 実装：`css/`（`tokens.css` → `base.css` → `components.css` → `utilities.css` の順に `index.css` で読み込む）、`src/`（React の部品）、`js/theme.js`（素の HTML 向けの表示の切り替え）
+- 実装：`css/`（`tokens.css` → `base.css` → `components.css` → `site.css` → `utilities.css` の順に `index.css` で読み込む）、`src/`（React の部品）、`js/theme.js`（素の HTML 向けの表示の切り替え）
 - 導入のしかた：`docs/usage.md`（React のアプリ・素の HTML・CDN）
 - 見本：Storybook（部品ごと）とデモ（画面の型）。公開先は `docs/deploy.md`
 - 検査：`seeds-ui-check`（§6。このリポジトリでは `npm run check`）。カタログと CSS が食い違うと失敗する
@@ -25,6 +25,15 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 - **角丸は役割で決める**：小さい部品 4px、ボタン・入力欄 8px、カード 12px、ダイアログ 24px
 - **フォーカスは二重の輪**：内側から白・ブランド色・白（どの地の上でも見える）
 - **部品の見た目**：ボタンは太字、マウスを載せると淡いブランド色の地。タブは下線で現在地を示す。状態のバッジは枠つき（vibes の StatusIcon）。注意の箱は色の枠と淡い地（MessageBlock）
+
+**見た目は2つ**（2026-11-11）：
+
+| 見た目 | 使うところ | 決め方 |
+|---|---|---|
+| **アプリ**（既定） | 会員ポータル・会員管理システム・SEEDS TOTP などのツール | 上の vibes の決め方。淡い深緑の地に白いカードを影で浮かせる |
+| **公開サイト**（`<html data-look="site">`） | 同窓会のホームページ | 白い地に黒い文字と深緑の色面。カードと影は使わず、淡い灰色の帯・罫線・丸い矢印で区切る。書体は Noto Sans JP（§3.10） |
+
+トークンの名前・ブランド色・ボタン・バッジ・フォーカスの輪・ライト／ダークは2つで共通。公開サイトは地の色・書体・ヘッダーの高さだけを上書きし、公開サイト向けの部品（§3.10）を足す。**アプリの画面で公開サイトの部品（色面・大きな写真）を使わない**（操作する画面は静かに保つ）。
 
 そのうえで守ること：
 
@@ -50,6 +59,10 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--color-hover` | #ecf4ef | #26302a | 表の行・タブ・タイルにマウスを載せたとき（ブランド色 6%） |
 | `--color-header` | 白 92% | カードの色 92% | 上部のヘッダー（半透明＋ぼかし） |
 | `--color-backdrop` | 黒 50% | 黒 65% | ダイアログの後ろを暗くする（`.dialog::backdrop`。vibes の scrim） |
+| `--color-band` | #f4f4f4 | #1e211f | 公開サイトの淡い灰色の帯（`.band.soft`・題名の帯・フッター） |
+| `--color-ink` / `--color-ink-hover` | #3f4441 / #2b2f2d | #3a403d / #4a514d | 濃い灰色の面（`.quick-links` の大きなリンクボタン、`.arrow-dot.ink`）。上の文字は `--color-on-solid` |
+| `--color-bar` | #111111 | #0a0b0a | 公開サイトのフッターのいちばん下の黒い帯（`.app-footer-bar`） |
+| `--color-on-solid-muted` | #d5e5dc | #c4dccf | 深緑の色面（`.color-band`）の上の補足の文字と線 |
 | `--color-text` | #323232 | #e3e5e3 | 本文（vibes の GY7） |
 | `--color-text-strong` | #1e1e1e | #f5f6f5 | 見出し・ラベル・数値 |
 | `--color-text-muted` | #6e6b6b | #a3a7a4 | 補足・表の見出し・`dt`（`.muted`。vibes の S9） |
@@ -80,6 +93,10 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--font-size-lg` | 1.125rem | カードの見出し（h2）、ヘッダーの名前 |
 | `--font-size-xl` | 1.5rem | ページの見出し（h1、`.page-title`） |
 | `--font-size-display` | 2rem | ダッシュボードの数値（`.tile-value`） |
+| `--font-family-site` | Noto Sans JP、ヒラギノ角ゴ、游ゴシック、メイリオ | 公開サイト（`data-look="site"`）の書体。Noto Sans JP は使う側のページで Google Fonts から読み込む（§3.10） |
+| `--font-size-2xl` | 1.5〜2rem（画面の幅で伸び縮み） | 公開サイトの下層ページの題名（`.page-head h1`）・色面の見出し |
+| `--font-size-3xl` | 1.5〜3rem（同上） | 公開サイトのトップの大見出し |
+| `--font-size-en` | 2〜2.75rem（同上） | 公開サイトの欧文の大きい見出し（`.heading-en`） |
 | `--font-weight-medium` | 500 | 表の中のリンク |
 | `--font-weight-bold` | 700 | 見出し・ラベル・バッジ・ボタン・タブ（vibes は bold） |
 | `--font-weight-heavy` | 700 | 数値・ロゴ・環境バッジ |
@@ -108,6 +125,7 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--radius-md` | 8px | 入力欄・ボタン・タブ（上だけ）・`.box`・`fieldset`・ヘッダーのロゴ |
 | `--radius-lg` | 12px | カード（`section`、`.tile`、`.choice`） |
 | `--radius-xl` | 24px | ダイアログ（`.dialog`） |
+| `--radius-block` | 28px | 公開サイトの色面の、1つだけ大きく丸める角（`.photo-block`・`.color-band`） |
 | `--radius-full` | 999px | 丸いボタン（表示の切り替え） |
 | `--border-width` / `--border` | 1px / 1px solid border 色 | 入力欄・ボタンの枠（`border: var(--border)`） |
 | `--divider` | 1px solid divider 色 | 区切り線（`border-bottom: var(--divider)`） |
@@ -330,6 +348,71 @@ if (ended === null) return; // キャンセル
 - 入力ダイアログは既定で必須（空欄では決定できない）。空欄を許すときは `optional: true`
 - 確認の文は「〜しますか？」で終え、決定ボタンには操作の名前（「削除する」「承認する」）を書く
 
+### 3.10 公開サイトの見た目（`data-look="site"`、`site.css`）
+
+同窓会のホームページのような**公開サイトだけ**で使う見た目（2026-11-11、ユーザーの依頼。大阪公立大学のサイト https://www.omu.ac.jp/ の空気を参考に、金色の役割を深緑に置き換えた）。会員ポータル・管理画面・ツールでは使わない。
+
+**使い方**：`<html lang="ja" data-look="site">` にし、`<head>` で Noto Sans JP を読み込む（共通 UI は Web フォントを配らない）。
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap">
+```
+
+**`data-look="site"` で変わるもの**（クラスは同じ）：
+
+| もの | アプリ | 公開サイト |
+|---|---|---|
+| ページの地（`--color-bg`） | 淡い深緑 | 白（ダークは #151716） |
+| 書体（`--font-family`） | システムフォント | `--font-family-site`（Noto Sans JP）、字間 0.02em |
+| ヘッダー（`.app-header`） | 高さ 56px・影あり | 高さ 72px・影なし（下の線だけ）。ロゴの画像は高さ 40px（狭い画面は 34px） |
+| 題名の帯（`.page-head`） | 白い地・影 | 淡い灰色の地（`--color-band`）・影なし。題名は `--font-size-2xl` |
+| 文章（`.prose`） | カード（`.card.prose`）に入れる | **カードに入れず**白い地に直接置く。h2 は大きく黒い下線、h3 は左に深緑の線 |
+| フッター（`.app-footer`） | 白い地・上に線 | 淡い灰色の地。段組み（`.app-footer-nav`）と黒い帯（`.app-footer-bar`）を使う |
+
+**決めごと**：
+
+- **カード（`.card`・`.tile`・`section`）と影を使わない**。区切りは白と淡い灰色の帯（`.band` / `.band.soft`）の切り替えと罫線
+- **色面は深緑だけ**。画面の端から伸びて角を1つだけ大きく丸める（`--radius-block`）。1ページに使うのは写真の後ろ（`.photo-block`）と案内の帯（`.color-band`）の2か所まで
+- **リンクの目印は丸い矢印（`.arrow-dot`）にそろえる**。「→」の文字や別のアイコンを混ぜない
+- 欧文の見出し（`.heading-en`）はトップの区画の見出しだけに使う（News・About など、区画の名前そのもの）
+- 写真は実際の活動の写真を使う。生成した画像・飾りのイラストは入れない
+
+| クラス | 使う場面 |
+|---|---|
+| `.band` / `.band.soft` | トップなどの区画（上下に大きな余白）。`soft` は淡い灰色の地。中に `.container.wide` を置く。色面（`.photo-block`・`.color-band`）が画面の端からはみ出す分をここで切るので、色面は必ず `.band` の中に置く |
+| `.split` | 左に見出し（17rem）、右に中身の2段組み。980px 以下は縦に並ぶ |
+| `.heading-en` / `.heading-ja` | 区画の見出し。欧文の大きい文字（`<p class="heading-en">News</p>`）の下に、短い線つきの日本語の見出し（`<h2 class="heading-ja">お知らせ</h2>`） |
+| `.text-link` | 文字と丸い矢印のリンク（「すべてのお知らせ」など。中に `.arrow-dot.sm`） |
+| `.arrow-dot` | 丸い矢印（深緑の丸に白い ›）。リンクの中に `<span class="arrow-dot" aria-hidden="true"></span>`。リンクにマウスを載せると右に少し動く |
+| `.arrow-dot.sm` / `.arrow-dot.ink` / `.arrow-dot.on-solid` | 小さい（24px）／濃い灰色（目立たせない行）／色面の上（白い丸に深緑の ›） |
+| `.link-list` / `.link-list.cols2` | 罫線で区切ったリンクの一覧（`ul.link-list > li > a`）。下層ページへの入口に、カード（`.tiles`）の代わりに使う。`cols2` は広い画面で2列 |
+| `.link-list-title` / `.link-list-desc` | 一覧の1行の題名（太字）／その下の短い説明（なくてもよい）。行の右に `.arrow-dot` |
+| `.quick-links` | 大きなリンクボタンの並び（`div.quick-links > a`。濃い灰色の地、右に `.arrow-dot`）。3つまで |
+| `.quick-links a.main` | いちばん大事な1つ（深緑の地。矢印は `.arrow-dot.on-solid`） |
+| `.photo-block` | 写真の後ろに、画面の左端から伸びる深緑の色面（`figure.photo-block > img + figcaption`）。写真は 16:9（狭い画面は 3:2）に切り抜く。切り抜く位置は使う側の CSS の `object-position` で決める |
+| `.color-band` | 画面の右端まで伸びる深緑の色面。案内を左右に並べる（狭い画面は縦）。`.band` の中の `.container` に置く |
+| `.color-band-item` / `.color-band-label` / `.color-band-link` | 色面の中の1つの案内（`h2` と `p`）／その上の小さい欧文のラベル／下線つきのリンク（中に `.arrow-dot.sm.on-solid`） |
+| `.app-footer-nav` / `.app-footer-heading` | フッターの段組みのサイトマップ（`nav.app-footer-nav > div > p.app-footer-heading + ul`） |
+| `.app-footer-bar` | フッターのいちばん下の黒い帯（著作権の行。`.app-footer-copy` の代わり） |
+
+```html
+<div class="band soft">
+  <div class="container wide split">
+    <div>
+      <p class="heading-en">About</p>
+      <h2 class="heading-ja">同窓会について</h2>
+    </div>
+    <ul class="link-list cols2">
+      <li><a href="/about/overview"><span class="link-list-title">団体概要</span><span class="link-list-desc">名称・所在地・目的など</span><span class="arrow-dot" aria-hidden="true"></span></a></li>
+    </ul>
+  </div>
+</div>
+```
+
+見本はデモの `/demo/site`（素の HTML）と Storybook の「画面の型 → 公開サイトのページ」。
+
 ## 4. React の部品と画面の型
 
 `import { AppShell, Card, ListLayout, … } from '@seeds-alumni/ui'`。部品は**画面の骨組み**だけで、中身（`dl`・`table`・ボタン）は §3 のクラスで組む。Storybook に部品ごとの見本、デモに画面の型の見本がある。
@@ -447,7 +530,7 @@ if (ended === null) return; // キャンセル
 ## 7. 変更の手順
 
 - **トークンを足す・変える**：`css/tokens.css`（色は `light-dark()` でダークも）→ §2 の表
-- **クラスを足す**：`css/components.css` → §3 に「クラス・使う場面・例」。似た部品が既にないか先に探す。1つのアプリだけで使うものは、そのアプリの CSS に置く
+- **クラスを足す**：`css/components.css`（公開サイトだけの部品は `css/site.css`）→ §3 に「クラス・使う場面・例」。似た部品が既にないか先に探す。1つのアプリだけで使うものは、そのアプリの CSS に置く
 - **React の部品を足す**：`src/` → `src/index.ts` で書き出す → §4 の表 → `stories/` に見本。骨組みの部品だけを足し、細かい見た目の部品は作らない
 - 最後に `npm run check`・`npm run typecheck`・`npm run build`（`dist/` も Git に入れる）。見た目は Storybook とデモで、ライト・ダーク・スマートフォンの幅を確かめる
 - **版**：変更を main に入れたら `package.json` の `version` を上げ、`v1.2.3` のタグを付ける（`docs/deploy.md`）。使う側は版を指定して取り込むので、勝手には変わらない。表示が変わる変更（クラスの削除・トークンの意味の変更）は大きい版（v2）にする

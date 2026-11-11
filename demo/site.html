@@ -1,12 +1,16 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" data-look="site">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <!-- 公開サイト（ホームページ）の素の HTML の見本（docs/usage.md）。980px 以下ではメニューがハンバーガーメニューに切り替わる -->
+    <!-- 公開サイト（ホームページ）の素の HTML の見本（docs/usage.md、カタログ §3.10）。<html data-look="site"> で公開サイトの見た目になる。980px 以下ではメニューがハンバーガーメニューに切り替わる -->
     <script src="../v1/theme.js"></script>
     <script src="../v1/nav.js" defer></script>
+    <!-- 公開サイトの書体（Noto Sans JP）は使う側で読み込む -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&amp;display=swap" />
     <link rel="stylesheet" href="../v1/seeds.css" />
     <title>公開サイトのデモ | SEEDS同窓会の共通 UI</title>
   </head>
@@ -81,6 +85,59 @@
       </nav>
     </div>
     <main class="full">
+      <!-- トップの最初の画面：題名 → 写真（後ろに色面）→ 大きなリンクボタン -->
+      <div class="band">
+        <div class="container wide">
+          <h1>大阪大学SEEDSプログラム同窓会</h1>
+          <p>トップページの見本です。データはすべて見本です。</p>
+          <figure class="photo-block">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23cfd8d2'/%3E%3Ctext x='800' y='470' font-family='sans-serif' font-size='56' text-anchor='middle' fill='%235b6660'%3E写真（見本）%3C/text%3E%3C/svg%3E" alt="写真の見本" width="1600" height="900" />
+            <figcaption>写真の説明（figcaption）</figcaption>
+          </figure>
+          <div class="quick-links mt-md">
+            <a class="main" href="#">入会のご案内<span class="arrow-dot on-solid" aria-hidden="true"></span></a>
+            <a href="#">同窓生のつどい<span class="arrow-dot" aria-hidden="true"></span></a>
+            <a href="#">会員ポータル<span class="arrow-dot" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+      <!-- 区画：左に欧文と日本語の見出し、右に中身 -->
+      <div class="band soft">
+        <div class="container wide split">
+          <div>
+            <p class="heading-en">About</p>
+            <h2 class="heading-ja">同窓会について</h2>
+            <p class="small mt-md">区画の説明の文章です。</p>
+            <a class="text-link" href="#">同窓会について<span class="arrow-dot sm" aria-hidden="true"></span></a>
+          </div>
+          <ul class="link-list cols2">
+            <li><a href="#"><span class="link-list-title">団体概要</span><span class="link-list-desc">名称・所在地・目的など</span><span class="arrow-dot" aria-hidden="true"></span></a></li>
+            <li><a href="#"><span class="link-list-title">設立経緯</span><span class="link-list-desc">同窓会ができるまで</span><span class="arrow-dot" aria-hidden="true"></span></a></li>
+            <li><a href="#"><span class="link-list-title">役員名簿</span><span class="arrow-dot" aria-hidden="true"></span></a></li>
+            <li><a href="#"><span class="link-list-title">規約等</span><span class="link-list-desc">会則・プライバシーポリシーなど</span><span class="arrow-dot ink" aria-hidden="true"></span></a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- 画面の右端まで伸びる色面 -->
+      <div class="band">
+        <div class="container wide">
+          <div class="color-band">
+            <div class="color-band-item">
+              <p class="color-band-label">MEMBERS</p>
+              <h2>会員の方へ</h2>
+              <p>会員ポータルにログインすると、会員証の表示や登録情報の確認・変更ができます。</p>
+              <a class="color-band-link" href="#">会員ポータルにログイン<span class="arrow-dot sm on-solid" aria-hidden="true"></span></a>
+            </div>
+            <div class="color-band-item">
+              <p class="color-band-label">CONTACT</p>
+              <h2>お問い合わせ</h2>
+              <p>ご質問・ご連絡は、お問い合わせフォームからお送りください。</p>
+              <a class="color-band-link" href="#">お問い合わせフォーム<span class="arrow-dot sm on-solid" aria-hidden="true"></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 下層ページ：題名の帯（パンくず）と文章 -->
       <div class="page-head">
         <div class="container reading">
           <nav class="breadcrumb" aria-label="現在地">
@@ -95,8 +152,8 @@
         </div>
       </div>
       <div class="container reading">
-        <article class="card prose">
-          <p>長い文章（Markdown を変換した本文・規約など）は <code>.prose</code> で整えます。カードにするときは <code>.card</code> と組み合わせます。データはすべて見本です。</p>
+        <article class="prose">
+          <p>長い文章（Markdown を変換した本文・規約など）は <code>.prose</code> で整えます。公開サイトではカードに入れず、白い地に直接置きます。</p>
           <h2>見出し（h2）</h2>
           <p>段落の文章です。読みやすい1行の長さ（<code>--layout-reading</code>）で並べます。</p>
           <ul>
@@ -112,11 +169,6 @@
             </table>
           </div>
         </article>
-        <div class="tiles">
-          <a class="tile" href="#"><strong class="tile-title">団体概要</strong><span class="muted small">名称・所在地・目的など</span></a>
-          <a class="tile" href="#"><strong class="tile-title">設立経緯</strong><span class="muted small">同窓会ができるまで。説明が2行以上になっても、題名の位置はそろいます</span></a>
-          <a class="tile" href="#"><strong class="tile-title">役員名簿</strong></a>
-        </div>
         <ul class="doc-links mt-md">
           <li><a href="./index.html">素の HTML のデモ（SEEDS TOTP の見本）</a></li>
           <li><a href="./react.html">React のデモ（会員ポータル・管理画面）</a></li>
@@ -129,11 +181,22 @@
           <p class="app-footer-name">大阪大学SEEDSプログラム同窓会</p>
           <p class="muted small">大阪府吹田市（見本）</p>
         </div>
-        <nav aria-label="サイトの案内">
-          <ul><li><a href="#">お知らせ</a></li><li><a href="#">同窓会について</a></li><li><a href="#">企画</a></li><li><a href="#">お問い合わせ</a></li></ul>
+        <nav class="app-footer-nav" aria-label="サイトの案内">
+          <div>
+            <p class="app-footer-heading">同窓会について</p>
+            <ul><li><a href="#">団体概要</a></li><li><a href="#">設立経緯</a></li><li><a href="#">役員名簿</a></li></ul>
+          </div>
+          <div>
+            <p class="app-footer-heading">企画</p>
+            <ul><li><a href="#">同窓生のつどい</a></li><li><a href="#">SEEDSゼミ</a></li></ul>
+          </div>
+          <div>
+            <p class="app-footer-heading">そのほか</p>
+            <ul><li><a href="#">お知らせ</a></li><li><a href="#">お問い合わせ</a></li></ul>
+          </div>
         </nav>
       </div>
-      <p class="app-footer-copy">© 大阪大学SEEDSプログラム同窓会</p>
+      <p class="app-footer-bar">© 大阪大学SEEDSプログラム同窓会</p>
     </footer>
   </body>
 </html>

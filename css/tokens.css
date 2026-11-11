@@ -28,6 +28,10 @@
   --color-hover: light-dark(#ecf4ef, #26302a);      /* 行・項目にマウスを載せたとき（ブランド色 6%） */
   --color-header: light-dark(#ffffffeb, #1d201eeb); /* 上部のヘッダー（半透明） */
   --color-backdrop: light-dark(#00000080, #000000a6); /* ダイアログの後ろを暗くする（vibes の scrim 50%） */
+  --color-band: light-dark(#f4f4f4, #1e211f);       /* 公開サイトの淡い灰色の帯（区画の地・題名の帯・フッター） */
+  --color-ink: light-dark(#3f4441, #3a403d);        /* 濃い灰色の面（大きなリンクボタン・丸い矢印・分類の札） */
+  --color-ink-hover: light-dark(#2b2f2d, #4a514d);  /* 濃い灰色の面にマウスを載せたとき */
+  --color-bar: light-dark(#111111, #0a0b0a);        /* 公開サイトのフッターのいちばん下の黒い帯 */
 
   /* ── 色：文字・線（vibes：本文 GY7、補足 S9、線 S3 / 入力欄 S8） ── */
   --color-text: light-dark(#323232, #e3e5e3);       /* 本文 */
@@ -45,6 +49,7 @@
   --color-brand-current: light-dark(#2b7553, #8cc7a8); /* 現在地（選択中のタブの下線）・フォーカスの輪（G05） */
   --color-brand-tint: light-dark(#dcebe2, #24382c);  /* 標準ボタン・選択肢にマウスを載せたときの地（G02） */
   --color-on-solid: #ffffff;                         /* brand-solid・danger-solid・env の上の文字 */
+  --color-on-solid-muted: light-dark(#d5e5dc, #c4dccf); /* brand-solid の色面の上の補足の文字・線 */
   --color-logo-bg: #ffffff;                          /* ロゴの地（ロゴは白い地に置く決まり。テーマに関係なく白） */
 
   /* ── 色：状態（vibes：エラー RE、注意 YE。文字は濃い段階、線は中間、地は淡い段階） ── */
@@ -70,6 +75,10 @@
   --font-size-lg: 1.125rem;     /* カードの見出し（h2）、ヘッダーの名前 */
   --font-size-xl: 1.5rem;       /* ページの見出し（h1 / .page-title。vibes の headline1） */
   --font-size-display: 2rem;    /* ダッシュボードの数値 */
+  --font-size-2xl: clamp(1.5rem, 1.2rem + 1.3vw, 2rem);   /* 公開サイトの下層ページの題名・色面の見出し（画面の幅で伸び縮みする） */
+  --font-size-3xl: clamp(1.5rem, 0.8rem + 3.4vw, 3rem);   /* 公開サイトのトップの大見出し */
+  --font-size-en: clamp(2rem, 1.5rem + 2vw, 2.75rem);     /* 公開サイトの欧文の大きい見出し（.heading-en） */
+  --font-family-site: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic UI', Meiryo, sans-serif; /* 公開サイトの書体（Noto Sans JP は使う側が読み込む） */
   --font-weight-medium: 500;    /* タブ（選択していないもの） */
   --font-weight-bold: 700;      /* ボタン・ラベル・見出し・バッジ（vibes は bold） */
   --font-weight-heavy: 700;     /* 数値・環境バッジ */
@@ -99,6 +108,7 @@
   --radius-md: 8px;             /* 入力欄・ボタン・タブ・box */
   --radius-lg: 12px;            /* カード（section、tile、choice） */
   --radius-xl: 24px;            /* ダイアログ */
+  --radius-block: 28px;         /* 公開サイトの色面の、1つだけ大きく丸める角（.photo-block・.color-band） */
   --radius-full: 999px;         /* 丸いボタン */
 
   /* ── 線・影・重なり・動き ── */
@@ -120,4 +130,16 @@
   --layout-dialog: 440px;
   --tile-min: 200px;
   --column-min: 300px;
+}
+
+/*
+ * 公開サイト（ホームページ）の見た目：<html data-look="site">。docs/catalog.md §3.10
+ * 会員ポータル・管理画面（淡い深緑の地に白いカード）とは別の顔にする：白い地・Noto Sans JP・少し高いヘッダー。
+ * ここで変えるのは値だけ。色面・丸い矢印などの部品は css/site.css
+ */
+[data-look='site'] {
+  --color-bg: light-dark(#ffffff, #151716);
+  --color-header: light-dark(#fffffff2, #151716f2);
+  --font-family: var(--font-family-site);
+  --header-height: 72px;
 }
