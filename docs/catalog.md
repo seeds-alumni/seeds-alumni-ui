@@ -10,27 +10,27 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 
 ## 1. 原則
 
-**作り込みすぎない**：細かい部品をたくさん持つデザインシステムは、作るのも保守するのも手間がかかる。少人数の運営で続けられるよう、共通にするのは次の3つに絞る（大阪公立大学の共通フロントエンドライブラリの考え方を参考にした。[記事](https://zenn.dev/omu_tryangle/articles/29115afcef04eb)）。
+**作り込みすぎない**：細かい部品をたくさん持つデザインシステムは、作るのも保守するのも手間がかかる。少人数の運営で続けられるよう、共通にするのは次の3つに絞る。
 
 1. **トークンと CSS**：色・余白・角丸などの値と、素の HTML でも使えるクラス（§2・§3）
 2. **画面の骨組みの React の部品**：画面の枠・カード・一覧・詳細・ダッシュボード・フォームの1項目（§4）。細かい見た目はクラスで組む
 3. **小さな共通処理**：表示の切り替え、アプリ内のダイアログ
 
-**値の決め方は freee の [vibes](https://github.com/freee/vibes)（Apache-2.0）にならう**。パッケージは入れず、考え方と値の決め方だけを取り込み、ブランド色の深緑を当てはめている：
+**値の決め方**（ブランド色は深緑）：
 
-- **地と面**：ページの地は淡い深緑（vibes の P01 に当たる）、その上に白いカードを影で浮かせる。カードの中で文を載せる淡い地（コラム）は温かみのある灰色（S01）
+- **地と面**：ページの地は淡い深緑、その上に白いカードを影で浮かせる。カードの中で文を載せる淡い地（コラム）は温かみのある灰色
 - **色の段階と意味**：深緑を淡い（01）〜濃い（10）の段階で考え、役割ごとに使う段階を決める（§2.1）。リンク・ボタンは G07、現在地（選択中のタブ）・フォーカスは G05、マウスを載せたときの地は G02
 - **コントラスト**：文字は 4.5:1 以上、入力欄の枠など画面を読み取るのに必要な線は 3:1 以上
 - **影は3段階**：カード（`--shadow-card`）→ 浮かせる要素（`--shadow-float`）→ ダイアログ（`--shadow-popup`）
 - **角丸は役割で決める**：小さい部品 4px、ボタン・入力欄 8px、カード 12px、ダイアログ 24px
 - **フォーカスは二重の輪**：内側から白・ブランド色・白（どの地の上でも見える）
-- **部品の見た目**：ボタンは太字、マウスを載せると淡いブランド色の地。タブは下線で現在地を示す。状態のバッジは枠つき（vibes の StatusIcon）。注意の箱は色の枠と淡い地（MessageBlock）
+- **部品の見た目**：ボタンは太字、マウスを載せると淡いブランド色の地。タブは下線で現在地を示す。状態のバッジは枠つき。注意の箱は色の枠と淡い地
 
 **見た目は2つ**（2026-11-11）：
 
 | 見た目 | 使うところ | 決め方 |
 |---|---|---|
-| **アプリ**（既定） | 会員ポータル・会員管理システム・SEEDS TOTP などのツール | 上の vibes の決め方。淡い深緑の地に白いカードを影で浮かせる |
+| **アプリ**（既定） | 会員ポータル・会員管理システム・SEEDS TOTP などのツール | 上の決め方。淡い深緑の地に白いカードを影で浮かせる |
 | **公開サイト**（`<html data-look="site">`） | 同窓会のホームページ | 白い地に黒い文字と深緑の色面。カードと影は使わず、淡い灰色の帯・罫線・丸い矢印で区切る。書体は Noto Sans JP（§3.10） |
 
 トークンの名前・ブランド色・ボタン・バッジ・フォーカスの輪・ライト／ダークは2つで共通。公開サイトは地の色・書体・ヘッダーの高さだけを上書きし、公開サイト向けの部品（§3.10）を足す。**アプリの画面で公開サイトの部品（色面・大きな写真）を使わない**（操作する画面は静かに保つ）。
@@ -46,38 +46,38 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 
 ## 2. デザイントークン
 
-すべて `css/tokens.css` に定義する（アプリ固有のトークンはアプリのトークンのファイルに）。色は `light-dark(ライト, ダーク)` で1行に書く。どちらの値が使われるかは `color-scheme` で決まり、既定は OS の設定、`<html data-theme="light|dark">` で固定する（React は `<ThemeToggle>`、素の HTML は `js/theme.js` が切り替え、`localStorage` の `theme` に残す。描画の前に戻すスクリプトを `<head>` に置くので、ちらつかない。`docs/usage.md`）。vibes にはダークがないので、ダークの値は同じ考え方で独自に決めた。
+すべて `css/tokens.css` に定義する（アプリ固有のトークンはアプリのトークンのファイルに）。色は `light-dark(ライト, ダーク)` で1行に書く。どちらの値が使われるかは `color-scheme` で決まり、既定は OS の設定、`<html data-theme="light|dark">` で固定する（React は `<ThemeToggle>`、素の HTML は `js/theme.js` が切り替え、`localStorage` の `theme` に残す。描画の前に戻すスクリプトを `<head>` に置くので、ちらつかない。`docs/usage.md`）。ダークの値も同じ考え方で決めた。
 
 ### 2.1 色
 
 | トークン | ライト | ダーク | 使う場面 |
 |---|---|---|---|
-| `--color-bg` | #f1f6f3 | #121413 | ページの地（淡い深緑。vibes の P01 に当たる） |
+| `--color-bg` | #f1f6f3 | #121413 | ページの地（淡い深緑） |
 | `--color-surface` | #ffffff | #1d201e | カード（`section`、`.tile`）・ダイアログ・候補リスト。`--shadow-card` で浮かせる |
 | `--color-field` | #ffffff | #161817 | 入力欄・標準ボタン・`.choice`・カードの中の箱（`.box`） |
-| `--color-column` | #f7f5f5 | #252826 | カードの中で文を載せる淡い地（vibes の S01）。表の見出しの行、`.notice` |
+| `--color-column` | #f7f5f5 | #252826 | カードの中で文を載せる淡い地。表の見出しの行、`.notice` |
 | `--color-hover` | #ecf4ef | #26302a | 表の行・タブ・タイルにマウスを載せたとき（ブランド色 6%） |
 | `--color-header` | 白 92% | カードの色 92% | 上部のヘッダー（半透明＋ぼかし） |
-| `--color-backdrop` | 黒 50% | 黒 65% | ダイアログの後ろを暗くする（`.dialog::backdrop`。vibes の scrim） |
+| `--color-backdrop` | 黒 50% | 黒 65% | ダイアログの後ろを暗くする（`.dialog::backdrop`） |
 | `--color-band` | #f4f4f4 | #1e211f | 公開サイトの淡い灰色の帯（`.band.soft`・題名の帯・フッター） |
 | `--color-ink` / `--color-ink-hover` | #3f4441 / #2b2f2d | #3a403d / #4a514d | 濃い灰色の面（`.quick-links` の大きなリンクボタン、`.arrow-dot.ink`）。上の文字は `--color-on-solid` |
 | `--color-bar` | #111111 | #0a0b0a | 公開サイトのフッターのいちばん下の黒い帯（`.app-footer-bar`） |
 | `--color-on-solid-muted` | #d5e5dc | #c4dccf | 深緑の色面（`.color-band`）の上の補足の文字と線 |
-| `--color-text` | #323232 | #e3e5e3 | 本文（vibes の GY7） |
+| `--color-text` | #323232 | #e3e5e3 | 本文 |
 | `--color-text-strong` | #1e1e1e | #f5f6f5 | 見出し・ラベル・数値 |
-| `--color-text-muted` | #6e6b6b | #a3a7a4 | 補足・表の見出し・`dt`（`.muted`。vibes の S9） |
-| `--color-divider` | #e9e7e7 | #2f3431 | 区切り線（表の行、ヘッダーの下、タブの下。vibes の S3） |
-| `--color-border` | #8c8989 | #6b716d | 入力欄の枠（白に対して 3:1 以上。vibes の S8） |
-| `--color-border-soft` | #dcdcdc | #3d433f | 標準ボタン・`.choice` の枠（文字が太字なので淡い線でよい。vibes の GY02） |
+| `--color-text-muted` | #6e6b6b | #a3a7a4 | 補足・表の見出し・`dt`（`.muted`） |
+| `--color-divider` | #e9e7e7 | #2f3431 | 区切り線（表の行、ヘッダーの下、タブの下） |
+| `--color-border` | #8c8989 | #6b716d | 入力欄の枠（白に対して 3:1 以上） |
+| `--color-border-soft` | #dcdcdc | #3d433f | 標準ボタン・`.choice` の枠（文字が太字なので淡い線でよい） |
 | `--color-brand` / `--color-brand-hover` | #1d5c3f / #163d2b | #8cc7a8 / #b4dcc6 | リンク・選択中の文字（G07）／マウスを載せたとき（G09） |
 | `--color-brand-solid` / `--color-brand-solid-hover` | #1d5c3f / #163d2b | #2f6a4e / #3a7d5d | 主要ボタン（`.button.primary`）の地、ロゴ |
-| `--color-brand-current` | #2b7553 | #8cc7a8 | 現在地（選択中のタブの下線）・フォーカスの輪（G05。vibes の P5 の役割） |
+| `--color-brand-current` | #2b7553 | #8cc7a8 | 現在地（選択中のタブの下線）・フォーカスの輪（G05） |
 | `--color-brand-tint` | #dcebe2 | #24382c | 標準ボタン・`.choice`・表示切り替えにマウスを載せたときの地（G02） |
 | `--color-on-solid` | #ffffff | #ffffff | brand-solid・danger-solid・env の上の文字 |
 | `--color-logo-bg` | #ffffff | #ffffff | ロゴの地（`img.brand-mark`）。ロゴは白い地に置く決まりなので、ダークでも白 |
 | `--color-success` / `--color-success-line` / `--color-success-soft` | #18794e / #2b7553 / #e3f2e9 | #5fd59a / #3d9b6c / #1d3527 | 完了・一致・承認済み・利用中（文字／枠／地） |
-| `--color-warning` / `--color-warning-line` / `--color-warning-soft` | #825a0f / #be8c14 / #fff0d2 | #f2c66d / #a87c1c / #3a2f17 | 要確認・部分一致・審査中・仮番号（vibes の YE10 / YE7 / YE02） |
-| `--color-danger` / `--color-danger-line` / `--color-danger-soft` | #a51428 / #dc1e32 / #fad2d7 | #ff8a96 / #e0505e / #45202a | エラー・不一致・却下・停止（vibes の RE7 / RE5 / RE02） |
+| `--color-warning` / `--color-warning-line` / `--color-warning-soft` | #825a0f / #be8c14 / #fff0d2 | #f2c66d / #a87c1c / #3a2f17 | 要確認・部分一致・審査中・仮番号 |
+| `--color-danger` / `--color-danger-line` / `--color-danger-soft` | #a51428 / #dc1e32 / #fad2d7 | #ff8a96 / #e0505e / #45202a | エラー・不一致・却下・停止 |
 | `--color-danger-solid` / `--color-danger-solid-hover` | #dc1e32 / #a51428 | #c13a44 / #d14b55 | 取り消せない操作のボタン（`.button.danger`）の地（RE5 → RE7） |
 | `--color-neutral-line` | #8c8989 | #6b716d | 既定のバッジ（`.badge.none` など）の枠 |
 | `--color-env` | #d9480f | （同じ） | 環境バッジ専用（本番以外であることを示す） |
@@ -86,10 +86,10 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 
 | トークン | 値 | 使う場面 |
 |---|---|---|
-| `--font-family` | -apple-system、Helvetica Neue、ヒラギノ角ゴ、游ゴシック、メイリオ、Noto Sans JP ほか（vibes の順） | すべて（Web フォントは読み込まない） |
+| `--font-family` | -apple-system、Helvetica Neue、ヒラギノ角ゴ、游ゴシック、メイリオ、Noto Sans JP ほか | すべて（Web フォントは読み込まない） |
 | `--font-size-xs` | 0.75rem | バッジ・表の見出し・環境バッジ |
 | `--font-size-sm` | 0.875rem | 補足（`.small`）、表、`dt`、タブ、小さいボタン |
-| `--font-size-base` | 1rem | 本文・h3（vibes の本文は 14px だが、スマートフォンで読む会員が多いので一回り大きく） |
+| `--font-size-base` | 1rem | 本文・h3（スマートフォンで読む会員が多いので大きめ） |
 | `--font-size-lg` | 1.125rem | カードの見出し（h2）、ヘッダーの名前 |
 | `--font-size-xl` | 1.5rem | ページの見出し（h1、`.page-title`） |
 | `--font-size-display` | 2rem | ダッシュボードの数値（`.tile-value`） |
@@ -98,7 +98,7 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--font-size-3xl` | 1.5〜3rem（同上） | 公開サイトのトップの大見出し |
 | `--font-size-en` | 2〜2.75rem（同上） | 公開サイトの欧文の大きい見出し（`.heading-en`） |
 | `--font-weight-medium` | 500 | 表の中のリンク |
-| `--font-weight-bold` | 700 | 見出し・ラベル・バッジ・ボタン・タブ（vibes は bold） |
+| `--font-weight-bold` | 700 | 見出し・ラベル・バッジ・ボタン・タブ |
 | `--font-weight-heavy` | 700 | 数値・ロゴ・環境バッジ |
 | `--line-height` | 1.7 | 本文（日本語の読みやすさのため広め） |
 | `--line-height-tight` | 1.4 | 見出し・ボタン・入力欄・表 |
@@ -121,7 +121,7 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--check-size` | 1.125rem | チェックボックス・ラジオボタン（1行目の中央にそろえる） |
 | `--header-height` | 56px | 上部のヘッダー |
 | `--tab-height` | 44px | 管理画面のタブ（`.tabs a`） |
-| `--radius-sm` | 4px | バッジ・小さいボタン・候補（vibes の「余白の小さい部品」） |
+| `--radius-sm` | 4px | バッジ・小さいボタン・候補 |
 | `--radius-md` | 8px | 入力欄・ボタン・タブ（上だけ）・`.box`・`fieldset`・ヘッダーのロゴ |
 | `--radius-lg` | 12px | カード（`section`、`.tile`、`.choice`） |
 | `--radius-xl` | 24px | ダイアログ（`.dialog`） |
@@ -192,7 +192,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.row` | 横に並べて折り返す（ボタンの組、入力欄＋ボタン）。`.row.between` は両端に寄せる（見出し＋操作） |
 | `.grid2` | 2列（狭い画面では1列）。審査画面の「申請」と「名簿」の比較など |
 | `.box` | カードの中の白い箱。フォームの中の小さなまとまり（追加フォーム、確認コードの入力） |
-| `.warnbox` | `.box` と組み合わせて注意を促す（`.box.warnbox`、注意の色の枠と淡い黄色の地。vibes の MessageBlock）。中の `ul` は箇条書き |
+| `.warnbox` | `.box` と組み合わせて注意を促す（`.box.warnbox`、注意の色の枠と淡い黄色の地）。中の `ul` は箇条書き |
 
 ```tsx
 <div className="row between">
@@ -203,7 +203,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 
 ### 3.2 ボタン・リンク
 
-`.button` は単独で**幅いっぱいのブロック**になる（スマートフォンで押しやすい）。管理画面や横並びでは `inline` などを付ける。高さは入力欄と同じ 40px、文字は太字。マウスを載せると淡い緑の地に、枠と文字が濃い緑になる（vibes のボタン）。
+`.button` は単独で**幅いっぱいのブロック**になる（スマートフォンで押しやすい）。管理画面や横並びでは `inline` などを付ける。高さは入力欄と同じ 40px、文字は太字。マウスを載せると淡い緑の地に、枠と文字が濃い緑になる。
 
 | クラス | 使う場面 |
 |---|---|
@@ -264,7 +264,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 
 | クラス | 使う場面 |
 |---|---|
-| `.tabs` | 管理画面の上のタブ（`nav.tabs` の中に `a`。vibes の Tab：選択中は `a.active` で緑の文字と太い下線、マウスを載せると淡い地と細い下線。狭い画面では横にスクロール） |
+| `.tabs` | 管理画面の上のタブ（`nav.tabs` の中に `a`。選択中は `a.active` で緑の文字と太い下線、マウスを載せると淡い地と細い下線。狭い画面では横にスクロール） |
 | `.pager` | ページ送りの行。React は `<Pager>`（`<ListLayout pager>`）が付けるので直接は書かない |
 | `.breadcrumb` | パンくず（`nav.breadcrumb[aria-label="現在地"] > ol > li`。項目の間に ›。いまのページは `<span aria-current="page">`）。`.page-head` の中など |
 | `.header-nav` / `.header-nav-item` / `.header-nav-sub` | ヘッダーのサイトのメニュー（`.brand` と `.header-actions` の間の `nav.header-nav > ul > li.header-nav-item`）。広い画面で横に並べ、**980px 以下では隠れてハンバーガーメニューに切り替わる**（`.nav-toggle` は 981px 以上で自動で隠れ、ヘッダーの表示の切り替えは 980px 以下で隠れるので、`.nav-screen-theme` をメニューの中に置く）。React は `<AppHeader nav>` |
@@ -291,7 +291,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 
 | クラス | 使う場面 |
 |---|---|
-| `.badge` | 状態の小さなラベル（vibes の StatusIcon：角丸 4px、状態の色の枠と文字、淡い地）。React では `<Badge kind="…">` |
+| `.badge` | 状態の小さなラベル（角丸 4px、状態の色の枠と文字、淡い地）。React では `<Badge kind="…">` |
 | `.badge.ok` | 完了・一致・利用中（緑） |
 | `.badge.warn` | 要確認・審査中・仮の状態（黄） |
 | `.badge.ng` | エラー・不一致・却下・停止（赤） |
@@ -350,7 +350,7 @@ if (ended === null) return; // キャンセル
 
 ### 3.10 公開サイトの見た目（`data-look="site"`、`site.css`）
 
-同窓会のホームページのような**公開サイトだけ**で使う見た目（2026-11-11、ユーザーの依頼。大阪公立大学のサイト https://www.omu.ac.jp/ の空気を参考に、金色の役割を深緑に置き換えた）。会員ポータル・管理画面・ツールでは使わない。
+同窓会のホームページのような**公開サイトだけ**で使う見た目（2026-11-11、ユーザーの依頼）。会員ポータル・管理画面・ツールでは使わない。
 
 **使い方**：`<html lang="ja" data-look="site">` にし、`<head>` で Noto Sans JP を読み込む（共通 UI は Web フォントを配らない）。
 
