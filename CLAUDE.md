@@ -23,8 +23,8 @@ SEEDS同窓会の共通 UI（トークン・CSS・React の骨組みの部品・
 
 ## 使っているところ
 
-- seeds-alumni-idaas（React。`github:seeds-alumni/seeds-alumni-ui#vX.Y.Z` のタグで取り込む。版を上げたら idaas の指定を変える PR を出す。2026-11-11 に v1.4.0 にした）
-- seeds-alumni-event-manager（React。idaas と同じ取り込み方。2026-11-11 に v1.4.0 にした）
+- seeds-alumni-idaas（React。`github:seeds-alumni/seeds-alumni-ui#vX.Y.Z` のタグで取り込む。版を上げたら idaas の指定を変える PR を出す。2026-11-12 に v1.5.0 にした（seeds-alumni/seeds-alumni-idaas#56。管理画面を管理コンソールに））
+- seeds-alumni-event-manager（React。idaas と同じ取り込み方。2026-11-12 に v1.5.0 にした（seeds-alumni/seeds-alumni-event-manager#13。運営画面を管理コンソールに））
 - seeds-alumni-totp-site（素の HTML。2026-11-10 に CSS のコピーをやめ、CDN の `https://ui.seeds-alumni.jp/v1/seeds.css`・`/v1/theme.js` を読み込む形にした。このサイトだけの見た目は `design/totp.css`。CI で `seeds-ui-check` を実行。チェックの版は `.github/workflows/check.yml` と README に書いてあり、2026-11-11 に v1.4.0 にした）
 
 - seeds-alumni-wiki（**同窓会の公式ホームページ** https://www.seeds-alumni.jp/ 。リポジトリ名は Wiki だったころのまま。2026-11-10 に HonKit をやめ、`base/` の Markdown を `scripts/build.mjs` で HTML にして、CDN の `/v1/seeds.css`・`/v1/theme.js` を読み込む形にした。このサイトだけの見た目は `theme/site.css`。CI で `seeds-ui-check` を実行）
