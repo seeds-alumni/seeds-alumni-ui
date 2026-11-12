@@ -8,7 +8,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 type ConfirmOptions = {
   title?: string;
-  /** 決定ボタンの文字（既定は「OK」） */
+  /** 決定ボタンの文字。問いの動詞と同じにする（「削除する」）。既定は「続ける」なので、必ず渡す */
   okLabel?: string;
   /** 取り消せない操作（削除・停止など）。決定ボタンを .button.danger にする */
   danger?: boolean;
@@ -25,6 +25,7 @@ type InputOptions = {
   /** 入力欄の下の補足 */
   hint?: string;
   placeholder?: string;
+  /** 決定ボタンの文字（「保存する」「終了する」）。既定は「決定する」 */
   okLabel?: string;
 };
 
@@ -34,7 +35,7 @@ type Request =
 
 let open: ((r: Request) => void) | null = null;
 
-/** 確認ダイアログ。OK なら true、キャンセル・Esc なら false */
+/** 確認ダイアログ。決定なら true、キャンセル・Esc なら false */
 export function confirmDialog(message: string, options: ConfirmOptions = {}): Promise<boolean> {
   return new Promise((resolve) => {
     if (!open) throw new Error('DialogHost が置かれていません');
@@ -105,7 +106,7 @@ export function DialogHost() {
         )}
         <div className="dialog-actions">
           <button className="button secondary" type="button" onClick={() => finish('cancel')}>キャンセル</button>
-          <button className={okClass} type="submit" disabled={disabled} autoFocus={req.kind === 'confirm'}>{req.okLabel ?? 'OK'}</button>
+          <button className={okClass} type="submit" disabled={disabled} autoFocus={req.kind === 'confirm'}>{req.okLabel ?? (req.kind === 'confirm' ? '続ける' : '決定')}</button>
         </div>
       </form>
     </dialog>

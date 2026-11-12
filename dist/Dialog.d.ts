@@ -5,7 +5,7 @@
  */
 type ConfirmOptions = {
     title?: string;
-    /** 決定ボタンの文字（既定は「OK」） */
+    /** 決定ボタンの文字。問いの動詞と同じにする（「削除する」）。既定は「続ける」なので、必ず渡す */
     okLabel?: string;
     /** 取り消せない操作（削除・停止など）。決定ボタンを .button.danger にする */
     danger?: boolean;
@@ -21,9 +21,10 @@ type InputOptions = {
     /** 入力欄の下の補足 */
     hint?: string;
     placeholder?: string;
+    /** 決定ボタンの文字（「保存する」「終了する」）。既定は「決定する」 */
     okLabel?: string;
 };
-/** 確認ダイアログ。OK なら true、キャンセル・Esc なら false */
+/** 確認ダイアログ。決定なら true、キャンセル・Esc なら false */
 export declare function confirmDialog(message: string, options?: ConfirmOptions): Promise<boolean>;
 /** 入力ダイアログ。決定なら入力値（前後の空白を除く）、キャンセル・Esc なら null */
 export declare function inputDialog(options: InputOptions & {

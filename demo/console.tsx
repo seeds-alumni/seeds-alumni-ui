@@ -41,7 +41,7 @@ const ROWS: Row[] = Array.from({ length: 63 }, (_, i) => {
     email: `member${String(i + 1).padStart(2, '0')}@example.com`,
     cohort,
     type: TYPES[i % 7 === 0 ? 1 : i % 11 === 4 ? 2 : 0]!,
-    role: i === 2 ? '理事' : i === 9 ? '監事' : undefined,
+    role: i === 2 ? '理事' : i === 9 ? '監査' : undefined,
     status,
     lastLogin: status === 'warn' ? '' : `2026/${String(month).padStart(2, '0')}/${String(day).padStart(2, '0')} ${String((i * 3) % 24).padStart(2, '0')}:${String((i * 11) % 60).padStart(2, '0')}`,
   };
@@ -83,7 +83,8 @@ const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigat
 export function ConsoleFrame({ route, envLabel, children }: { route: string; envLabel?: string | null; children: ReactNode }) {
   return (
     <ConsoleShell
-      title="SEEDS同窓会"
+      title="SEEDS-ID"
+      label="会員管理システム"
       href="#console"
       envLabel={envLabel}
       nav={navFor(route)}
@@ -106,7 +107,7 @@ export function ConsoleFrame({ route, envLabel, children }: { route: string; env
               </span>
             </summary>
             <div className="dropdown-menu end">
-              <a href="#member">会員ページへ</a>
+              <a href="#member">マイポータル</a>
               <a href="#console/settings">同窓会の設定</a>
               <hr />
               <button type="button" onClick={() => toast('ログアウトしました（見本）。')}>ログアウト</button>
@@ -187,19 +188,19 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
   const open = (id: number) => (location.hash = `#console/members/${id}`);
 
   async function addTag() {
-    const tag = await inputDialog({ title: 'タグを付ける', label: 'タグの名前', message: `${sel.count} 人の会員にタグを付けます。` });
+    const tag = await inputDialog({ title: 'タグを付ける', label: 'タグの名前', message: `${sel.count} 人の会員にタグを付けます。`, okLabel: 'タグを付ける' });
     if (tag === null) return;
     toast(`${sel.count} 人に「${tag}」のタグを付けました。`);
     sel.clear();
   }
   async function suspend() {
-    if (!(await confirmDialog(`${sel.count} 人の会員を停止しますか？すぐにログアウトされ、ログインしても利用できなくなります。`, { title: '会員の停止', okLabel: '停止する', danger: true }))) return;
+    if (!(await confirmDialog(`${sel.count} 人の会員を停止しますか？すぐにログアウトされ、ログインしても利用できなくなります。`, { title: '会員の停止', okLabel: '停止', danger: true }))) return;
     const ids = sel.selected;
     setRows((list) => list.map((r) => (ids.has(r.id) ? { ...r, status: 'ng' } : r)));
     toast(`${ids.size} 人の会員を停止しました。`);
   }
   async function invite() {
-    const email = await inputDialog({ title: '会員を招待', label: 'メールアドレス', hint: '本登録の申請の案内を送ります。', okLabel: '招待を送る' });
+    const email = await inputDialog({ title: '会員の招待', label: 'メールアドレス', hint: '本登録の申請の案内を送ります。', okLabel: '招待を送信' });
     if (email === null) return;
     toast(`${email} に招待を送りました。`);
   }
@@ -213,7 +214,7 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
         description="SEEDS同窓会の会員と、ログイン・利用の状態を管理します。"
         actions={
           <>
-            <button type="button" className="button secondary" onClick={() => toast(`${filtered.length} 件を CSV で書き出しました（見本）。`)}>{icons.download}CSV で書き出す</button>
+            <button type="button" className="button secondary" onClick={() => toast(`${filtered.length} 件の CSV をダウンロードしました（見本）。`)}>{icons.download}CSV をダウンロード</button>
             <button type="button" className="button primary inline" onClick={invite}>{icons.plus}会員を招待</button>
           </>
         }
@@ -243,7 +244,7 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
             {cohorts.map((c) => <button key={c} type="button" className="filter-tag" aria-label={`期：${c}期 の条件を外す`} onClick={() => change(setCohorts)(cohorts.filter((x) => x !== c))}>期：{c}期</button>)}
             {types.map((t) => <button key={t} type="button" className="filter-tag" aria-label={`区分：${t} の条件を外す`} onClick={() => change(setTypes)(types.filter((x) => x !== t))}>区分：{t}</button>)}
             {query && <button type="button" className="filter-tag" aria-label={`検索「${query}」を外す`} onClick={() => { setQ(''); change(setQuery)(''); }}>検索：{query}</button>}
-            <button type="button" className="link" onClick={clearAll}>すべてクリア</button>
+            <button type="button" className="link" onClick={clearAll}>すべて外す</button>
           </>
         )}
         selection={{
@@ -252,7 +253,7 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
           actions: (
             <>
               <button type="button" className="button small-btn" onClick={addTag}>タグを付ける</button>
-              <button type="button" className="button small-btn" onClick={suspend}>停止する</button>
+              <button type="button" className="button small-btn" onClick={suspend}>停止</button>
             </>
           ),
         }}
@@ -261,7 +262,7 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
           <div className="empty-state">
             <p className="empty-state-title">条件に当てはまる会員はいません</p>
             <p>検索の言葉を変えるか、絞り込みの条件を外してください。</p>
-            <div className="row"><button type="button" className="button secondary" onClick={clearAll}>条件をすべてクリア</button></div>
+            <div className="row"><button type="button" className="button secondary" onClick={clearAll}>条件をすべて外す</button></div>
           </div>
         ) : undefined}
         pager={{ total: filtered.length, page: current, pageSize: PAGE_SIZE, onPage: setPage }}
@@ -306,14 +307,14 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
 export function ConsoleEmptyPage() {
   return (
     <>
-      <PageHeader breadcrumb={[{ label: '運営', href: '#console/notices' }, { label: 'お知らせ' }]} title="お知らせ" count={0} description="会員ポータルに出すお知らせを作ります。"
-        actions={<button type="button" className="button primary inline">{icons.plus}お知らせを作る</button>} />
+      <PageHeader breadcrumb={[{ label: '運営', href: '#console/notices' }, { label: 'お知らせ' }]} title="お知らせ" count={0} description="マイポータルに出すお知らせを作成します。"
+        actions={<button type="button" className="button primary inline">{icons.plus}お知らせを作成</button>} />
       <CollectionLayout
         empty={
           <div className="empty-state">
             <p className="empty-state-title">お知らせはまだありません</p>
-            <p>作ったお知らせは、公開する日時になると会員ポータルのトップに出ます。</p>
-            <div className="row"><button type="button" className="button primary inline">{icons.plus}お知らせを作る</button></div>
+            <p>作成したお知らせは、公開する日時になるとマイポータルのトップに出ます。</p>
+            <div className="row"><button type="button" className="button primary inline">{icons.plus}お知らせを作成</button></div>
           </div>
         }
       />
@@ -330,7 +331,7 @@ export function ConsoleSettingsPage() {
     const data = new FormData(e.currentTarget);
     const email = String(data.get('email') ?? '').trim();
     const next: typeof errors = {};
-    if (!/^[^@\s]+@[^@\s]+$/.test(email)) next.email = 'メールアドレスの形で入力してください（例：office@example.com）';
+    if (!/^[^@\s]+@[^@\s]+$/.test(email)) next.email = 'メールアドレスの形式が正しくありません（例：office@example.com）。';
     setErrors(next);
     if (Object.keys(next).length) {
       toast('保存できませんでした。入力の誤りを直してください。', { kind: 'ng' });
@@ -344,12 +345,12 @@ export function ConsoleSettingsPage() {
   const errorList = Object.values(errors);
   return (
     <>
-      <PageHeader breadcrumb={[{ label: '設定' }, { label: '同窓会の設定' }]} title="同窓会の設定" description="会員ポータルと、送るメールに使う情報です。" />
-      <Card title="基本の情報">
+      <PageHeader breadcrumb={[{ label: '設定' }, { label: '同窓会の設定' }]} title="同窓会の設定" description="マイポータルと、送るメールに使う情報です。" />
+      <Card title="基本情報">
         <form className="form aligned" onSubmit={submit} noValidate>
           {errorList.length > 0 && (
             <div className="message-box ng" role="alert">
-              <p className="message-title">{errorList.length} 件の入力の誤りがあります</p>
+              <p className="message-title">入力の誤りが {errorList.length} 件あります</p>
               <ul>{errorList.map((m) => <li key={m}>{m}</li>)}</ul>
             </div>
           )}

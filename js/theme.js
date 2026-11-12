@@ -27,7 +27,7 @@
   };
   const render = (button) => {
     const dark = current() === 'dark';
-    const label = dark ? 'ライトモードに切り替え' : 'ダークモードに切り替え';
+    const label = dark ? 'ライトモードに切り替える' : 'ダークモードに切り替える';
     button.innerHTML = dark ? SUN : MOON;
     button.setAttribute('aria-label', label);
     button.title = label;

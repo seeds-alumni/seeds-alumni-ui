@@ -27,32 +27,32 @@ export const MEMBERS: Member[] = [
 ];
 const STATUS_LABEL = { ok: '利用中', warn: '審査中', ng: '停止中' } as const;
 
-const MEMBER_TITLE = 'SEEDS同窓会 会員ポータル';
-const ADMIN_TITLE = 'SEEDS同窓会 会員管理システム';
+const MEMBER_TITLE = 'SEEDS-ID マイポータル';
+const ADMIN_TITLE = 'SEEDS-ID 会員管理システム';
 
-/** 会員向けのページ（マイページ） */
+/** 会員向けのページ（マイポータル） */
 export function MemberPortalPage({ envLabel }: { envLabel?: string | null }) {
   const [editing, setEditing] = useState(false);
   const [saved, setSaved] = useState(false);
   return (
     <AppShell title={MEMBER_TITLE} href="#" envLabel={envLabel} actions={<button type="button" className="link">ログアウト</button>}>
-      <Card title="マイページ">
+      <Card title="登録情報">
         <dl>
           <dt>会員番号</dt><dd>15100</dd>
           <dt>期</dt><dd>1期（2015年度）</dd>
           <dt>氏名</dt><dd>管理 太郎（カンリ タロウ）</dd>
-          <dt>連絡用メール</dt><dd>taro@example.com</dd>
+          <dt>メールアドレス</dt><dd>taro@example.com</dd>
         </dl>
         {saved && <p className="ok mt-md">保存しました。</p>}
         {!editing && (
           <div className="row mt-md">
-            <button type="button" className="button secondary" onClick={() => setEditing(true)}>登録情報を変更</button>
+            <button type="button" className="button secondary" onClick={() => setEditing(true)}>登録情報を編集</button>
           </div>
         )}
         {editing && (
           <form className="form box" onSubmit={(e) => { e.preventDefault(); setEditing(false); setSaved(true); }}>
             <Field label="氏名"><input defaultValue="管理 太郎" required /></Field>
-            <Field label="現在の所属" optional hint="勤務先・在籍校など（200文字まで）"><input placeholder="勤務先・在籍校など" /></Field>
+            <Field label="現在の所属" optional hint="勤務先・在籍校など（200文字まで）"><input placeholder="例：大阪大学 工学部" /></Field>
             <div className="row">
               <button className="button primary inline">変更を保存</button>
               <button type="button" className="button secondary" onClick={() => setEditing(false)}>キャンセル</button>
@@ -75,11 +75,10 @@ export function LoginPage() {
   return (
     <AppShell title={MEMBER_TITLE} href="#">
       <Card title="ログイン">
-        <p>SEEDS同窓会の会員ポータルです。ログイン方法を選んでください。</p>
+        <p>SEEDS同窓会のマイポータルです。ログイン方法を選んでください。</p>
         <div className="stack">
           <a className="choice" href="#">Google でログイン</a>
           <a className="choice" href="#">メールアドレスでログイン（確認コード）</a>
-          <a className="choice" href="#">Discord でログイン</a>
         </div>
       </Card>
     </AppShell>
@@ -94,7 +93,7 @@ export function ApplicationFormPage() {
     <AppShell title={MEMBER_TITLE} href="#">
       <Card title="本登録の申請">
         <p className="muted">会員として利用するには本登録の申請が必要です。運営が名簿と照合してから承認します。</p>
-        <form className="form" onSubmit={(e) => { e.preventDefault(); setError(agreed ? null : '同意が必要です'); }}>
+        <form className="form" onSubmit={(e) => { e.preventDefault(); setError(agreed ? null : 'プライバシーポリシーと会則に同意してください。'); }}>
           <fieldset>
             <legend>登録区分</legend>
             <label className="radio"><input type="radio" name="type" defaultChecked /> 受講生・卒業生</label>
@@ -102,16 +101,16 @@ export function ApplicationFormPage() {
             <label className="radio"><input type="radio" name="type" /> その他の関係者</label>
           </fieldset>
           <Field label="氏名"><input required /></Field>
-          <Field label="氏名（カナ）"><input placeholder="ヤマダ タロウ" required /></Field>
-          <Field label="会員番号（受講生番号・5桁）" hint="わからなければ空欄で構いません"><input inputMode="numeric" placeholder="例：15001" /></Field>
-          <Field label="補足情報" optional><textarea placeholder="本人確認の参考になる情報があれば書いてください" /></Field>
+          <Field label="氏名（カナ）"><input placeholder="例：ヤマダ タロウ" required /></Field>
+          <Field label="会員番号（受講生番号・5桁）" hint="分からなければ空欄のままで構いません。"><input inputMode="numeric" placeholder="例：15001" /></Field>
+          <Field label="補足" optional hint="本人確認の参考になる情報があれば書いてください。"><textarea /></Field>
           <ul className="doc-links">
             <li><a href="#">プライバシーポリシー</a></li>
             <li><a href="#">会則</a></li>
           </ul>
           <label className="check"><input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} /> プライバシーポリシー・会則を確認し、同意します</label>
           {error && <span className="error small">{error}</span>}
-          <button className="button primary">申請する</button>
+          <button className="button primary">申請</button>
         </form>
       </Card>
     </AppShell>
@@ -134,7 +133,7 @@ export function AdminFrame({ route, envLabel, children }: { route: string; envLa
       href="#/"
       wide
       envLabel={envLabel}
-      actions={<><span className="header-user">管理 太郎（admin）</span><a href="#">会員ページ</a></>}
+      actions={<><span className="header-user">管理 太郎（管理者）</span><a href="#">マイポータル</a></>}
       tabs={ADMIN_TABS.map((t) => ({ href: `#/${t.key}`, label: t.label, active: section === t.key }))}
     >
       {children}
@@ -178,8 +177,8 @@ export function MemberListContent({ onOpen }: { onOpen?: (id: number) => void })
         </>
       }
       onSearch={() => { setQuery(q.trim()); setPage(1); }}
-      summary={`${rows.length}件`}
-      tools={<button type="button" className="button small-btn">検索結果を CSV で保存</button>}
+      summary={`${rows.length} 件`}
+      tools={<button type="button" className="button small-btn">CSV をダウンロード</button>}
       pager={{ total: rows.length, page, pageSize: 20, onPage: setPage }}
     >
       <table>
@@ -207,11 +206,11 @@ export function MemberDetailContent({ id = 4, backHref = '#/users' }: { id?: num
   const [status, setStatus] = useState(m.status);
   const [note, setNote] = useState('');
   async function suspend() {
-    const reason = await inputDialog({ title: '会員の停止', label: '理由', hint: '本人には知らせません' });
+    const reason = await inputDialog({ title: '会員の停止', label: '理由', hint: '本人には知らせません。', okLabel: '次へ' });
     if (reason === null) return;
-    if (!(await confirmDialog('この会員を停止しますか？すぐにログアウトされ、ログインしても利用できなくなります。', { title: '会員の停止', okLabel: '停止する', danger: true }))) return;
+    if (!(await confirmDialog('この会員を停止しますか？すぐにログアウトされ、ログインしても利用できなくなります。', { title: '会員の停止', okLabel: '停止', danger: true }))) return;
     setStatus('ng');
-    setNote(`停止しました（理由：${reason}）`);
+    setNote(`会員を停止しました（理由：${reason}）。`);
   }
   return (
     <DetailLayout
@@ -233,7 +232,7 @@ export function MemberDetailContent({ id = 4, backHref = '#/users' }: { id?: num
       <Card title="名簿と結合（仮番号 → 受講生番号）" level={3} tone="warn">
         <p className="small">名簿で本人の受講生番号を確認できたら、ここで結合します。</p>
         <div className="row">
-          <input className="w-name" aria-label="名簿の会員番号" placeholder="名簿の会員番号" />
+          <input className="w-name" aria-label="名簿の会員番号" placeholder="例：16005" />
           <button type="button" className="button small-btn">名簿を確認</button>
         </div>
       </Card>
@@ -250,9 +249,9 @@ export function MemberDetailContent({ id = 4, backHref = '#/users' }: { id?: num
       <Card title="例外的な操作" level={3}>
         {note && <p className="warn">{note}</p>}
         <div className="box">
-          <strong>会員を停止する</strong>
+          <strong>会員の停止</strong>
           <p className="muted small">停止すると、すぐにログアウトされます。</p>
-          <div className="row"><button type="button" className="button danger inline" disabled={status === 'ng'} onClick={suspend}>停止する</button></div>
+          <div className="row"><button type="button" className="button danger inline" disabled={status === 'ng'} onClick={suspend}>停止</button></div>
         </div>
       </Card>
     </DetailLayout>
@@ -268,12 +267,12 @@ export function AdminDemo({ route, envLabel }: { route: string; envLabel?: strin
       {section === 'users' && (id ? <MemberDetailContent id={Number(id)} /> : <MemberListContent />)}
       {section === 'applications' && (
         <Card title="申請審査">
-          <p className="muted">（見本では省略しています。一覧の型は「会員」タブを見てください）</p>
+          <p className="muted">見本では省略しています。一覧の型は「会員」タブを見てください。</p>
         </Card>
       )}
       {section === 'settings' && (
         <Card title="設定">
-          <div className="notice">設定の画面は、マスタごとにカードを1枚ずつ並べます。</div>
+          <div className="notice">設定の画面は、設定のまとまりごとにカードを1枚ずつ並べます。</div>
         </Card>
       )}
     </AdminFrame>

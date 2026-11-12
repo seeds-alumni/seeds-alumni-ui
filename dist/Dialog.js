@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useRef, useState } from 'react';
 let open = null;
-/** 確認ダイアログ。OK なら true、キャンセル・Esc なら false */
+/** 確認ダイアログ。決定なら true、キャンセル・Esc なら false */
 export function confirmDialog(message, options = {}) {
     return new Promise((resolve) => {
         if (!open)
@@ -59,5 +59,5 @@ export function DialogHost() {
     const okClass = req.kind === 'confirm' && req.danger ? 'button danger inline' : 'button primary inline';
     const disabled = req.kind === 'input' && !req.optional && !value.trim();
     return (_jsx("dialog", { ref: ref, className: "dialog", onClose: onClose, onClick: (e) => { if (e.target === ref.current)
-            finish('cancel'); }, "aria-labelledby": "dialog-title", children: _jsxs("form", { className: "form", onSubmit: submit, children: [_jsx("h2", { id: "dialog-title", children: title }), req.message && _jsx("p", { className: "pre", children: req.message }), req.kind === 'input' && (_jsxs("label", { children: [req.label, req.optional && '（任意）', _jsx("input", { type: req.type ?? 'text', value: value, placeholder: req.placeholder, autoFocus: true, onChange: (e) => setValue(e.target.value) }), req.hint && _jsx("span", { className: "muted small", children: req.hint })] })), _jsxs("div", { className: "dialog-actions", children: [_jsx("button", { className: "button secondary", type: "button", onClick: () => finish('cancel'), children: "\u30AD\u30E3\u30F3\u30BB\u30EB" }), _jsx("button", { className: okClass, type: "submit", disabled: disabled, autoFocus: req.kind === 'confirm', children: req.okLabel ?? 'OK' })] })] }) }));
+            finish('cancel'); }, "aria-labelledby": "dialog-title", children: _jsxs("form", { className: "form", onSubmit: submit, children: [_jsx("h2", { id: "dialog-title", children: title }), req.message && _jsx("p", { className: "pre", children: req.message }), req.kind === 'input' && (_jsxs("label", { children: [req.label, req.optional && '（任意）', _jsx("input", { type: req.type ?? 'text', value: value, placeholder: req.placeholder, autoFocus: true, onChange: (e) => setValue(e.target.value) }), req.hint && _jsx("span", { className: "muted small", children: req.hint })] })), _jsxs("div", { className: "dialog-actions", children: [_jsx("button", { className: "button secondary", type: "button", onClick: () => finish('cancel'), children: "\u30AD\u30E3\u30F3\u30BB\u30EB" }), _jsx("button", { className: okClass, type: "submit", disabled: disabled, autoFocus: req.kind === 'confirm', children: req.okLabel ?? (req.kind === 'confirm' ? '続ける' : '決定') })] })] }) }));
 }

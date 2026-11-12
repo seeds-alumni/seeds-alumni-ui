@@ -1,10 +1,11 @@
 # カタログ（@seeds-alumni/ui）
 
-SEEDS同窓会のサービス（会員ポータル・会員管理システム・SEEDS TOTP など）で共通に使う見た目のルール。**人と AI（Claude Code など）の両方が読む前提**で書いている。
+SEEDS同窓会のサービス（マイポータル・会員管理システム・SEEDS-TOTP など）で共通に使う見た目のルール。**人と AI（Claude Code など）の両方が読む前提**で書いている。
 画面を作る・直すときは、この文書の「React の部品と画面の型」（§4）と「クラス」（§3）から選び、新しい見た目を作らない。
 
 - 実装：`css/`（`tokens.css` → `base.css` → `components.css` → `console.css` → `site.css` → `utilities.css` の順に `index.css` で読み込む）、`src/`（React の部品）、`js/theme.js`（素の HTML 向けの表示の切り替え）、`js/nav.js`（ハンバーガーメニュー）、`js/console.js`（管理コンソールの左のメニュー・ドロップダウン）
 - 画面の組み方の決めごと（一覧・検索・フォーム・空の状態・知らせ）：§8
+- **UI の日本語の書き方（表記規約・用語の統一）：`docs/writing.md`**（すべてのサービスで共通）
 - 導入のしかた：`docs/usage.md`（React のアプリ・素の HTML・CDN）
 - 見本：Storybook（部品ごと）とデモ（画面の型）。公開先は `docs/deploy.md`
 - 検査：`seeds-ui-check`（§6。このリポジトリでは `npm run check`）。カタログと CSS が食い違うと失敗する
@@ -31,7 +32,7 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 
 | 見た目 | 使うところ | 決め方 |
 |---|---|---|
-| **アプリ**（既定） | 会員ポータル・会員管理システム・SEEDS TOTP などのツール | 上の決め方。淡い深緑の地に白いカードを影で浮かせる |
+| **アプリ**（既定） | マイポータル・会員管理システム・SEEDS-TOTP などのツール | 上の決め方。淡い深緑の地に白いカードを影で浮かせる |
 | **公開サイト**（`<html data-look="site">`） | 同窓会のホームページ | 白い地に黒い文字と深緑の色面。カードと影は使わず、淡い灰色の帯・罫線・丸い矢印で区切る。書体は Noto Sans JP（§3.10） |
 
 **管理画面の枠は2つ**（2026-11-12。どちらも「アプリ」の見た目で、色は同じ）：
@@ -177,8 +178,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 |---|---|
 | `.app-header` / `.app-header.wide` | 上部に固定するヘッダー（半透明＋ぼかし、下に区切り線）。管理画面は `wide` |
 | `.app-header-inner` | ヘッダーの中身の幅をページ（`main`）とそろえる |
-| `.brand` / `.brand-mark` / `.brand-name` | 左上のロゴ（深緑の四角に S。`<img class="brand-mark">` にすると各アプリのロゴの画像を高さ 32px・白い地で出す。幅は縦横比に任せる）とサイト名（例：「SEEDS同窓会 会員ポータル」。「SEEDS同窓会」の間に空白を入れない）。押すとトップへ。狭い画面ではサイト名を2行に折り返す |
-| `.header-actions` | 右側の操作（ログイン中の人、ログアウト、会員ページへ、表示の切り替え） |
+| `.brand` / `.brand-mark` / `.brand-name` | 左上のロゴ（深緑の四角に S。`<img class="brand-mark">` にすると各アプリのロゴの画像を高さ 32px・白い地で出す。幅は縦横比に任せる）とサイト名（例：「SEEDS-ID マイポータル」。「SEEDS同窓会」の間に空白を入れない）。押すとトップへ。狭い画面ではサイト名を2行に折り返す |
+| `.header-actions` | 右側の操作（ログイン中の人、ログアウト、マイポータルへのリンク、表示の切り替え） |
 | `.header-user` | ログイン中の人の名前。狭い画面では隠す |
 | `.theme-toggle` | ライト・ダークの切り替えボタン（React は `<ThemeToggle>`。素の HTML は `<button class="theme-toggle"></button>` を置いて `js/theme.js` を読み込む） |
 | `.app-footer` / `.app-footer.wide` | ページの下のフッター（公開サイト。白い地、上に区切り線）。`body` の直下に置くと、短いページでも画面の下端に寄る。幅はヘッダーとそろえる（`wide`） |
@@ -186,8 +187,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.app-footer-name` / `.app-footer-copy` | 団体名（太字）／一番下の著作権の行（中央、小さい補足の文字） |
 
 ```tsx
-<AppShell title="SEEDS同窓会 会員管理システム" href="/admin" wide envLabel={envLabel}
-  actions={<><span className="header-user">管理 者（admin）</span><a href="/">会員ページ</a></>}>
+<AppShell title="SEEDS-ID 会員管理システム" href="/admin" wide envLabel={envLabel}
+  actions={<><span className="header-user">管理 太郎（管理者）</span><a href="/">マイポータル</a></>}>
   …
 </AppShell>
 ```
@@ -249,8 +250,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 
 ```tsx
 <div className="row">
-  <button className="button primary inline" onClick={approve}>承認する</button>
-  <button className="button danger inline" onClick={reject}>却下する</button>
+  <button className="button primary inline" onClick={approve}>承認</button>
+  <button className="button danger inline" onClick={reject}>却下</button>
 </div>
 ```
 
@@ -268,7 +269,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `[aria-invalid="true"]` | 誤りのある入力欄（枠が赤）。誤りの文は欄の直後の `.error.small`（`<Field error>`） |
 | `.search-field` | 虫めがねつきの検索欄（`span.search-field > input[type=search]`）。入力欄に `aria-label`（「会員を検索」）。一覧の上は `.toolbar` の中、全体の検索は `.console-search` の中 |
 | `.dropdown` / `.dropdown-menu` / `.dropdown-label` | 押すと開くメニュー（`details.dropdown > summary + div.dropdown-menu`）。中は `a`・`button`・`label.check`（絞り込みの選択肢）・`hr`・小さい見出しの `.dropdown-label`。`.dropdown-menu.end` は右端にそろえる（ヘッダーの右など）。`button.danger` は赤い文字。外を押す・Esc・項目を押すと閉じる（React は `<AppShell>`・`<ConsoleShell>`、素の HTML は `js/console.js`）。表の中では開かない（表の枠で切れる） |
-| `.filter-tags` / `.filter-tag` | 適用中の絞り込みの条件（`.toolbar` の下）。1つの条件ごとに `button.filter-tag`（「期：1期 ×」。押すとその条件を外す。`aria-label` は「期：1期 の条件を外す」）、最後に「すべてクリア」（`.link`）。条件がないときは出さない |
+| `.filter-tags` / `.filter-tag` | 適用中の絞り込みの条件（`.toolbar` の下）。1つの条件ごとに `button.filter-tag`（「期：1期 ×」。押すとその条件を外す。`aria-label` は「期：1期 の条件を外す」）、最後に「すべて外す」（`.link`）。条件がないときは出さない |
 | `.suggest` | 入力欄の下に出す候補リスト（`ul.suggest` の中の `li > button`。マウスを載せた候補は淡い地。学校の検索など） |
 
 - 入力の誤りは、その項目の直後に `<span className="error small">…</span>` で出す
@@ -286,7 +287,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
     <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
     会則とプライバシーポリシーに同意します
   </label>
-  <button className="button primary">申請する</button>
+  <button className="button primary">申請</button>
 </form>
 ```
 
@@ -387,18 +388,18 @@ React では `confirmDialog()` / `inputDialog()` を `await` し、クラスを�
 ```tsx
 import { confirmDialog, inputDialog } from '@seeds-alumni/ui';
 
-if (!(await confirmDialog('この会員を停止しますか？', { title: '会員の停止', okLabel: '停止する', danger: true }))) return;
+if (!(await confirmDialog('この会員を停止しますか？', { title: '会員の停止', okLabel: '停止', danger: true }))) return;
 
 const ended = await inputDialog({ title: 'SA 登録の解除', label: '終了日', type: 'date', initial: today() });
 if (ended === null) return; // キャンセル
 ```
 
 - 入力ダイアログは既定で必須（空欄では決定できない）。空欄を許すときは `optional: true`
-- 確認の文は「〜しますか？」で終え、決定ボタンには操作の名前（「削除する」「承認する」）を書く
+- 確認の文は「〜しますか？」で終え、決定ボタンには操作の名前（「削除」「承認」）を書く
 
 ### 3.10 公開サイトの見た目（`data-look="site"`、`site.css`）
 
-同窓会のホームページのような**公開サイトだけ**で使う見た目（2026-11-11、ユーザーの依頼）。会員ポータル・管理画面・ツールでは使わない。
+同窓会のホームページのような**公開サイトだけ**で使う見た目（2026-11-11、ユーザーの依頼）。マイポータル・管理画面・ツールでは使わない。
 
 **使い方**：`<html lang="ja" data-look="site">` にし、`<head>` で Noto Sans JP を読み込む（共通 UI は Web フォントを配らない）。
 
@@ -525,8 +526,8 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 | 設定 | `sliders-horizontal` |
 | ヘルプ | `circle-help` |
 | 通知（運営へ届くもの） | `bell` |
-| 書き出す・ダウンロード | `download` |
-| 追加・作る・招待 | `plus` |
+| ダウンロード | `download` |
+| 追加・作成・招待 | `plus` |
 | 取り込む・アップロード | `upload` |
 | 名簿 | `book-user` |
 | 会員証（QR）の読み取り・受付 | `scan-line`（受付の画面）／`scan-qr-code`（QR を読む操作のボタン） |
@@ -577,7 +578,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 ### 4.1 会員向けのページ
 
 ```tsx
-<AppShell title="SEEDS同窓会 会員ポータル" href="/" actions={<button className="link" onClick={logout}>ログアウト</button>}>
+<AppShell title="SEEDS-ID マイポータル" href="/" actions={<button className="link" onClick={logout}>ログアウト</button>}>
   <Card title="登録情報">
     <dl><dt>会員番号</dt><dd>15001</dd></dl>
     <div className="row mt-md"><button className="button secondary">登録情報を変更</button></div>
@@ -617,7 +618,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 ```tsx
 <DetailLayout back={{ href: '#/users', label: '会員一覧' }} title="15001：山田 太郎" status={<Badge kind="ok">利用中</Badge>} summary={<dl>…</dl>}>
   <Card title="所属・役割" level={3}>…</Card>
-  <Card title="例外的な操作" level={3}>…<button className="button danger inline">停止する</button></Card>
+  <Card title="例外的な操作" level={3}>…<button className="button danger inline">停止</button></Card>
 </DetailLayout>
 ```
 
@@ -632,8 +633,8 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 ```tsx
 <form className="form" onSubmit={submit}>
   <Field label="氏名"><input required value={name} onChange={(e) => setName(e.target.value)} /></Field>
-  <Field label="現在の所属" optional hint="登録後もマイページで変更できます。" error={errors.affiliation}><input … /></Field>
-  <button className="button primary">申請する</button>
+  <Field label="現在の所属" optional hint="登録後もマイポータルで変更できます。" error={errors.affiliation}><input … /></Field>
+  <button className="button primary">申請</button>
 </form>
 ```
 
@@ -641,7 +642,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 ```tsx
 <ConsoleShell
-  title="SEEDS同窓会" href="#/" envLabel={envLabel}
+  title="SEEDS-ID" label="会員管理システム" href="#/" envLabel={envLabel}
   nav={[
     { items: [{ label: 'ダッシュボード', href: '#/', icon: <DashboardIcon />, current: route === '' }] },
     { label: '会員管理', items: [
@@ -654,14 +655,14 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 >
   <PageHeader breadcrumb={[{ label: '会員管理', href: '#/members' }, { label: '会員' }]} title="会員" count={total}
     description="会員と、ログイン・利用の状態を管理します。"
-    actions={<><button className="button secondary">CSV で書き出す</button><button className="button primary inline">会員を招待</button></>} />
+    actions={<><button className="button secondary">CSV をダウンロード</button><button className="button primary inline">会員を招待</button></>} />
   <CollectionLayout
     views={[{ label: 'すべて', count: total, active: view === 'all', onSelect: () => setView('all') }, …]}
     filters={<details className="dropdown"><summary className="button ghost has-caret">期</summary><div className="dropdown-menu">…label.check…</div></details>}
     search={<span className="search-field"><input type="search" aria-label="会員を検索" value={q} onChange={…} /></span>}
     onSearch={search}
-    applied={filtering && <>…<button className="filter-tag" …>期：1期</button><button className="link" onClick={clearAll}>すべてクリア</button></>}
-    selection={{ count: sel.count, onClear: sel.clear, actions: <button className="button small-btn" onClick={suspend}>停止する</button> }}
+    applied={filtering && <>…<button className="filter-tag" …>期：1期</button><button className="link" onClick={clearAll}>すべて外す</button></>}
+    selection={{ count: sel.count, onClear: sel.clear, actions: <button className="button small-btn" onClick={suspend}>停止</button> }}
     summary={`${rows.length} 件`}
     empty={rows.length === 0 ? <div className="empty-state">…</div> : undefined}
     pager={{ total, page, pageSize, onPage: setPage }}
@@ -709,12 +710,13 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 - 定義されていないトークン（`var(--…)`）・CSS にないクラスを使わない
 - CSS はアプリの CSS のフォルダにだけ置き、アプリの CSS のクラス・トークンはアプリのカタログに載せる
 - ブラウザの `confirm()` / `prompt()` / `alert()` を使わない（§3.9）
+- 文言に避ける言い方（「〜することができます」「〜が可能です」「〜を行う」「こちら」「正常に」「下さい」「いたします」など。`docs/writing.md` §4 の★）を使わない。確かめるフォルダは `--writing-src` で変えられる（既定は `--src`）。どうしても要る行には `writing-ok` と書く
 
 **検出はしないが守ること**
 
 - 余白・角丸・文字サイズに生の値（`13px`、`0.9rem`）を書かず、トークンを使う（例外：線の太さ `1px`・`2px`、`em` 単位の入力欄の幅）
 - 状態の表示には `.badge` を使い、独自の色付きラベルを作らない
-- 画面の文言は日本語。ボタンは動詞で終える（「承認する」「変更を保存」）
+- 画面の文言は日本語で、`docs/writing.md`（UI の日本語の書き方）に従う。ボタンは短い漢語で終える（「承認」「変更を保存」）
 
 **理解の確認（AI に聞く質問）**
 
@@ -722,7 +724,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 2. 取り消せない主要操作のボタンと、却下ボタンのクラスは？ → `button primary inline` と `button danger inline`
 3. 管理画面の一覧の画面はどう組む？ → タブの枠なら `<ListLayout>` に `filters`・`summary`・`pager` を渡し、中に `table`（行は `tr.clickable`）。管理コンソールなら `<PageHeader>` ＋ `<CollectionLayout>`（§4.6）
 4. 一覧の「ロール」の列の「メンバー」と、「状態」の列の「停止中」のマークアップは？ → `<span class="tag">メンバー</span>`（分類）と `<span class="status-dot ng">停止中</span>`（状態）
-5. 検索して1件もないときは？ → 表の代わりに `.empty-state`（「条件に当てはまる会員はいません」＋「条件をすべてクリア」）。まだ1件も作っていないときとは文言を分ける（§8.4）
+5. 検索して1件もないときは？ → 表の代わりに `.empty-state`（「条件に当てはまる会員はいません」＋「条件をすべて外す」）。まだ1件も作っていないときとは文言を分ける（§8.4）
 
 ## 7. 変更の手順
 
@@ -740,7 +742,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 ものの一覧を出し、探して、1件ずつの画面（詳細）へ進む画面。上から次の3つの場所に分ける。
 
-1. **画面全体への操作**（`.headline-actions`）：新しく追加・招待・取り込み・書き出しなど、絞り込みに関係ない操作。主要な操作（`.button.primary`）は1つで、いちばん右
+1. **画面全体への操作**（`.headline-actions`）：新しく追加・招待・取り込み・ダウンロードなど、絞り込みに関係ない操作。主要な操作（`.button.primary`）は1つで、いちばん右
 2. **探す場所**（`.toolbar`）：左に表示の切り替え（`.segmented`。状態ごとの件数つき）、右に絞り込み（`.dropdown`）と検索（`.search-field`）。適用中の条件は下に `.filter-tags`
 3. **一覧**（`.table-card`）：上の帯（件数・選んでいる行への一括操作）→ 表 → ページ送り
 
@@ -760,7 +762,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 - サーバーに問い合わせる検索は **Enter で実行**する（`<form role="search">`。`<CollectionLayout onSearch>`）。手元にあるデータを絞るだけなら、打つたびに絞ってよい
 - **よく使う条件は表示の切り替え**（`.segmented`：すべて・利用中・停止中）にして、件数を添える。件数は、ほかの条件で絞ったうえでの数にする
 - それ以外の条件は**ドロップダウン**（`details.dropdown`）にまとめ、選択肢はチェックボックス（`label.check`）。選んでいる間はボタンを `.applied` にして選んだ数を出す
-- 適用中の条件は `.filter-tags` に並べ、1つずつ外せるようにし、「すべてクリア」を置く。条件はできるだけ URL（`?status=ok&cohort=1`・`#/members?…`）に残し、再読み込み・戻る・共有で同じ一覧が出るようにする
+- 適用中の条件は `.filter-tags` に並べ、1つずつ外せるようにし、「すべて外す」を置く。条件はできるだけ URL（`?status=ok&cohort=1`・`#/members?…`）に残し、再読み込み・戻る・共有で同じ一覧が出るようにする
 - 条件を変えたら1ページ目に戻す。0件のときは §8.4
 - ヘッダーの全体の検索（`.console-search`）は、画面・設定・会員を名前で探して移るためのもの。一覧の中を絞る検索は、その一覧の `.toolbar` に置く（2つを兼ねない）
 
@@ -782,8 +784,8 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 | 場合 | 題名（`.empty-state-title`） | 説明と操作 |
 |---|---|---|
-| まだ1件もない | 「お知らせはまだありません」 | 何ができるか・作るとどうなるか。操作は「お知らせを作る」（`.button.primary`。画面の見出しの主要な操作と同じ） |
-| 検索・絞り込みに当てはまらない | 「条件に当てはまる会員はいません」 | 「検索の言葉を変えるか、絞り込みの条件を外してください。」。操作は「条件をすべてクリア」（`.button.secondary`） |
+| まだ1件もない | 「お知らせはまだありません」 | 何ができるか・作るとどうなるか。操作は「お知らせを作成」（`.button.primary`。画面の見出しの主要な操作と同じ） |
+| 検索・絞り込みに当てはまらない | 「条件に当てはまる会員はいません」 | 「検索の言葉を変えるか、絞り込みの条件を外してください。」。操作は「条件をすべて外す」（`.button.secondary`） |
 | 権限がない・読み込めない | 「会員の一覧を表示できません」 | 理由と、次にすること（管理者に頼む・再読み込み）。エラーは `.message-box.ng` でもよい |
 
 飾りの絵は入れない（§3.10 と同じく、生成した画像・イラストを使わない）。
@@ -803,7 +805,9 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 ### 8.6 文言
 
-- ボタンは動詞で終える（「保存する」「変更を保存」「会員を招待」「CSV で書き出す」）。「OK」「はい」だけにしない
+言葉の決まり（文体・記号・ボタン・エラー・用語の統一）は **`docs/writing.md`** が正。ここには部品の組み方にかかわることだけを書く。
+
+- ボタンは短い語にし、漢語で終える（「保存」「変更を保存」「会員を招待」「CSV をダウンロード」）。漢語のない操作は動詞のまま（「閉じる」「申し込む」）。「OK」「はい」だけにしない
 - 件数は「63 件」「3 人」。選んでいる数は「2 件を選択中」
 - 日時は「2026/10/27 03:37」、日付は「2026/10/27」。相対的な言い方（「3日前」）は補足にとどめる
-- 同じものに同じ名前を使う（左のメニュー・画面の題名・パンくず・ボタン）
+- 同じものに同じ名前を使う（左のメニュー・画面の題名・パンくず・ボタン）。サービスをまたいだ用語は `docs/writing.md` §5・§6

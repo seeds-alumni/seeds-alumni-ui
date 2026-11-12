@@ -21,7 +21,7 @@ export type CollectionLayoutProps = {
     search?: ReactNode;
     /** 検索欄で Enter を押したとき */
     onSearch?: () => void;
-    /** 適用中の条件（.filter-tag を並べ、最後に「すべてクリア」）。条件があるときだけ渡す */
+    /** 適用中の条件（.filter-tag を並べ、最後に「すべて外す」）。条件があるときだけ渡す */
     applied?: ReactNode;
     /** 一括操作（行を選んでいるあいだ、表の上の帯が「n 件を選択中」と操作に変わる）。useSelection() と使う */
     selection?: {

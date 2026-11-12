@@ -18,7 +18,7 @@ export const 画面の見出し: Story = {
         <p className="headline-desc">SEEDS同窓会の会員と、ログイン・利用の状態を管理します。</p>
       </div>
       <div className="headline-actions">
-        <button type="button" className="button secondary">{icons.download}CSV で書き出す</button>
+        <button type="button" className="button secondary">{icons.download}CSV をダウンロード</button>
         <button type="button" className="button primary inline">{icons.plus}会員を招待</button>
       </div>
     </div>
@@ -58,7 +58,7 @@ export const 検索と絞り込み: Story = {
         <span className="muted">絞り込み：</span>
         <button type="button" className="filter-tag" aria-label="期：1期 の条件を外す">期：1期</button>
         <button type="button" className="filter-tag" aria-label="期：2期 の条件を外す">期：2期</button>
-        <button type="button" className="link">すべてクリア</button>
+        <button type="button" className="link">すべて外す</button>
       </div>
       <section>
         <h2>キーの案内つきの検索欄（.search-field ＋ .kbd）</h2>
@@ -80,7 +80,7 @@ export const メニュー: Story = {
             <a href="#">詳細を開く</a>
             <button type="button">タグを付ける</button>
             <hr />
-            <button type="button" className="danger">停止する</button>
+            <button type="button" className="danger">停止</button>
           </div>
         </details>
       </div>
@@ -177,12 +177,12 @@ export const 知らせ: Story = {
       <h2>画面の中の知らせ（.message-box）</h2>
       <div className="message-box info"><p className="message-title">名簿の取り込みについて</p><p>取り込んだあと、名簿と一致しなかった会員は「審査中」になります。</p></div>
       <div className="message-box ok"><p>名簿を取り込みました（1,276 件）。</p></div>
-      <div className="message-box warn"><p className="message-title">3 件は名簿と一致しませんでした</p><p>一覧の「審査中」から確かめてください。</p></div>
-      <div className="message-box ng" role="alert"><p className="message-title">2 件の入力の誤りがあります</p><ul><li>メールアドレスの形で入力してください</li><li>会員番号は5桁の数字です</li></ul></div>
+      <div className="message-box warn"><p className="message-title">3 件は名簿と一致しませんでした</p><p>一覧の「審査中」で確認してください。</p></div>
+      <div className="message-box ng" role="alert"><p className="message-title">入力の誤りが 2 件あります</p><ul><li>メールアドレスの形式が正しくありません。</li><li>会員番号は5桁の数字で入力してください。</li></ul></div>
       <h3>画面の下の短い知らせ（.toast。React は toast()）</h3>
       <div className="stack">
         <div className="toast"><span className="toast-text">設定を保存しました。</span><button type="button" className="toast-close" aria-label="知らせを閉じる">×</button></div>
-        <div className="toast ng"><span className="toast-text">保存できませんでした。時間をおいてもう一度お試しください。</span><button type="button" className="toast-close" aria-label="知らせを閉じる">×</button></div>
+        <div className="toast ng"><span className="toast-text">保存できませんでした。時間をおいて、もう一度お試しください。</span><button type="button" className="toast-close" aria-label="知らせを閉じる">×</button></div>
       </div>
     </section>
   ),
@@ -194,15 +194,15 @@ export const 空の状態: Story = {
       <div className="table-card">
         <div className="empty-state">
           <p className="empty-state-title">お知らせはまだありません</p>
-          <p>作ったお知らせは、公開する日時になると会員ポータルのトップに出ます。</p>
-          <div className="row"><button type="button" className="button primary inline">{icons.plus}お知らせを作る</button></div>
+          <p>作成したお知らせは、公開する日時になるとマイポータルのトップに出ます。</p>
+          <div className="row"><button type="button" className="button primary inline">{icons.plus}お知らせを作成</button></div>
         </div>
       </div>
       <div className="table-card">
         <div className="empty-state">
           <p className="empty-state-title">条件に当てはまる会員はいません</p>
           <p>検索の言葉を変えるか、絞り込みの条件を外してください。</p>
-          <div className="row"><button type="button" className="button secondary">条件をすべてクリア</button></div>
+          <div className="row"><button type="button" className="button secondary">条件をすべて外す</button></div>
         </div>
       </div>
     </div>
@@ -212,14 +212,14 @@ export const 空の状態: Story = {
 export const 横並びのフォーム: Story = {
   render: () => (
     <section>
-      <h2>基本の情報（.form.aligned）</h2>
+      <h2>基本情報（.form.aligned）</h2>
       <form className="form aligned" onSubmit={(e) => e.preventDefault()}>
         <label className="form-field"><span>同窓会の名前</span><input defaultValue="大阪大学SEEDSプログラム同窓会" /></label>
         <label className="form-field">
           <span>問い合わせ先</span>
           <input type="email" defaultValue="office@" aria-invalid="true" />
           <span className="muted small">会員に送るメールの差出人になります。</span>
-          <span className="error small">メールアドレスの形で入力してください（例：office@example.com）</span>
+          <span className="error small">メールアドレスの形式が正しくありません（例：office@example.com）。</span>
         </label>
         <label className="form-field"><span>案内の文（任意）</span><textarea /></label>
         <label className="check"><input type="checkbox" defaultChecked /> 申請が届いたら運営にメールで知らせる</label>

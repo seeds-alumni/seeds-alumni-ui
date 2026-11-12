@@ -38,7 +38,7 @@ export function SitePage() {
           <div className="quick-links mt-md">
             <a className="main" href="#">入会のご案内<span className="arrow-dot on-solid" aria-hidden="true"></span></a>
             <a href="#">同窓生のつどい<span className="arrow-dot" aria-hidden="true"></span></a>
-            <a href="#">会員ポータル<span className="arrow-dot" aria-hidden="true"></span></a>
+            <a href="#">マイポータル<span className="arrow-dot" aria-hidden="true"></span></a>
           </div>
         </div>
       </div>
@@ -66,8 +66,8 @@ export function SitePage() {
             <div className="color-band-item">
               <p className="color-band-label">MEMBERS</p>
               <h2>会員の方へ</h2>
-              <p>会員ポータルにログインすると、会員証の表示や登録情報の確認・変更ができます。</p>
-              <a className="color-band-link" href="#">会員ポータルにログイン<span className="arrow-dot sm on-solid" aria-hidden="true"></span></a>
+              <p>マイポータルにログインすると、会員証の表示や登録情報の確認・変更ができます。</p>
+              <a className="color-band-link" href="#">マイポータルにログイン<span className="arrow-dot sm on-solid" aria-hidden="true"></span></a>
             </div>
             <div className="color-band-item">
               <p className="color-band-label">CONTACT</p>
