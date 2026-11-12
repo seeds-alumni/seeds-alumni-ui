@@ -4,6 +4,7 @@
  */
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import {
+  AccountMenu,
   Card,
   CollectionLayout,
   ConsoleShell,
@@ -98,21 +99,12 @@ export function ConsoleFrame({ route, envLabel, children }: { route: string; env
         <>
           <a className="icon-button" href="#console" aria-label="ヘルプ">{icons.help}</a>
           <button type="button" className="icon-button has-dot" aria-label="お知らせ（未読あり）">{icons.bell}</button>
-          <details className="dropdown">
-            <summary className="person" aria-label="アカウントのメニュー">
-              <span className="avatar" aria-hidden="true">管</span>
-              <span className="person-text">
-                <span className="person-name">管理 太郎</span>
-                <span className="person-sub">admin@example.com</span>
-              </span>
-            </summary>
-            <div className="dropdown-menu end">
-              <a href="#member">マイポータル</a>
-              <a href="#console/settings">同窓会の設定</a>
-              <hr />
-              <button type="button" onClick={() => toast('ログアウトしました（見本）。')}>ログアウト</button>
-            </div>
-          </details>
+          <AccountMenu name="管理 太郎" memberNumber={15100} role="管理者">
+            <a href="#member">マイポータル</a>
+            <a href="#console/settings">同窓会の設定</a>
+            <hr />
+            <button type="button" onClick={() => toast('ログアウトしました（見本）。')}>ログアウト</button>
+          </AccountMenu>
         </>
       }
     >

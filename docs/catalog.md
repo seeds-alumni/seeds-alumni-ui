@@ -150,7 +150,8 @@ SEEDS同窓会のサービス（マイポータル・会員管理システム・
 | `--shadow-popup` | いちばん強い影 | ダイアログ |
 | `--z-dropdown` / `--z-header` / `--z-drawer` / `--z-toast` | 90 / 100 / 110 / 200 | 重なりの順：ドロップダウン（`.dropdown-menu`）→ ヘッダー → 狭い画面で引き出す左のメニュー → 短い知らせ（`.toast-region`） |
 | `--transition` | 0.2s ease | マウスを載せたときの色の変化 |
-| `--layout-narrow` | 640px | 会員向け画面の幅（`main`） |
+| `--layout-narrow` | 640px | 1つのことだけをするページの幅（`main.narrow`。ログイン・申請）・会員向けの画面のフォーム（`.form`）の幅 |
+| `--layout-member` | 1040px | 会員向け画面の本文とヘッダーの幅（`main`・`.app-header-inner`）。1.7.0 で 640px から広げた（PC で中央に寄りすぎないように） |
 | `--layout-wide` | 1200px | 管理画面の幅（`main.wide`）・ホームページの帯の幅（`.container.wide`） |
 | `--layout-reading` | 820px | 長い文章（`.prose`）の1行の長さ（`.container.reading`。左右の余白は別） |
 | `--layout-console` | 1600px | 管理コンソールの本文の最大幅（`main.console-main`。列の多い一覧のために広い） |
@@ -161,7 +162,7 @@ SEEDS同窓会のサービス（マイポータル・会員管理システム・
 
 ブレークポイントは **640px と 980px の2段**（media query では `var()` を使えないので値を直接書く）：
 
-- **640px**（`@media (max-width: 640px)`。スマートフォン）：カードとページの余白を詰め、ヘッダーのログイン中の名前を隠す
+- **640px**（`@media (max-width: 640px)`。スマートフォン）：カードとページの余白を詰め、ヘッダーのログイン中の人をアイコンだけにする
 - **980px**（`@media (max-width: 980px)`。タブレット）：ヘッダーのメニュー（`.header-nav`）を隠してハンバーガーメニューに切り替える。メニューを横に並べるには 640px では狭すぎるため（ホームページで確かめた）
 
 使う側で幅に応じた見た目を足すときも、この2つの値を使う。
@@ -177,18 +178,25 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | クラス | 使う場面 |
 |---|---|
 | `.app-header` / `.app-header.wide` | 上部に固定するヘッダー（半透明＋ぼかし、下に区切り線）。管理画面は `wide` |
-| `.app-header-inner` | ヘッダーの中身の幅をページ（`main`）とそろえる |
+| `.app-header-inner` | ヘッダーの中身の幅をページ（`main`）とそろえる（会員向けは 1040px、`wide` は 1200px。`main.narrow` のページでもヘッダーの幅は変えない） |
 | `.brand` / `.brand-mark` / `.brand-name` | 左上のロゴ（深緑の四角に S。`<img class="brand-mark">` にすると各アプリのロゴの画像を高さ 32px・白い地で出す。幅は縦横比に任せる）とサイト名（例：「SEEDS-ID マイポータル」。「SEEDS同窓会」の間に空白を入れない）。押すとトップへ。狭い画面ではサイト名を2行に折り返す |
-| `.header-actions` | 右側の操作（ログイン中の人、ログアウト、マイポータルへのリンク、表示の切り替え） |
-| `.header-user` | ログイン中の人の名前。狭い画面では隠す |
+| `.header-actions` | 右側の操作（ログイン中の人と表示の切り替え。ほかの画面への入口・ログアウトはログイン中の人のメニューに入れる） |
+| `.account` / `.account-who` | ログイン中の人（`details.dropdown.account > summary.person`。React は `<AccountMenu>`）。**すべてのサービスで同じ形**：アイコンの右、上の段に「氏名（会員番号）」（会員番号は5桁の数字だけ。審査中で番号のない人は氏名だけ）、下の段にロール名（「管理者」「審査担当・閲覧者」「イベント管理者」「担当」「会員」など。複数は「・」でつなぐ）。押すとメニュー（`.dropdown-menu.end`：マイポータル・管理画面への入口・ログアウト）。640px 以下ではアイコンだけにし、`.account-who`（メニューの一番上の氏名とロール名）を出す（1.7.0） |
+| `.header-user` | （1.7.0 からは使わない。`.account` にする）ログイン中の人の名前。狭い画面では隠す |
 | `.theme-toggle` | ライト・ダークの切り替えボタン（React は `<ThemeToggle>`。素の HTML は `<button class="theme-toggle"></button>` を置いて `js/theme.js` を読み込む） |
 | `.app-footer` / `.app-footer.wide` | ページの下のフッター（公開サイト。白い地、上に区切り線）。`body` の直下に置くと、短いページでも画面の下端に寄る。幅はヘッダーとそろえる（`wide`） |
 | `.app-footer-inner` | フッターの中身（左に団体名・所在地、右にメニューの `ul`。狭い画面では折り返す） |
 | `.app-footer-name` / `.app-footer-copy` | 団体名（太字）／一番下の著作権の行（中央、小さい補足の文字） |
 
 ```tsx
-<AppShell title="SEEDS-ID 会員管理システム" href="/admin" wide envLabel={envLabel}
-  actions={<><span className="header-user">管理 太郎（管理者）</span><a href="/">マイポータル</a></>}>
+<AppShell title="SEEDS-ID マイポータル" href="/" envLabel={envLabel}
+  actions={
+    <AccountMenu name="山田 太郎" memberNumber={15001} role="会員">
+      <a href="/admin">会員管理システム</a>
+      <hr />
+      <button type="button" onClick={logout}>ログアウト</button>
+    </AccountMenu>
+  }>
   …
 </AppShell>
 ```
@@ -197,7 +205,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 
 | クラス | 使う場面 |
 |---|---|
-| `main` / `main.wide` | ページの本文の枠。会員向けは `main`（640px）、管理画面は `main.wide`（1200px） |
+| `main` / `main.wide` | ページの本文の枠。会員向けは `main`（1040px）、管理画面は `main.wide`（1200px）。会員向けの画面のフォーム（`.form`。`.aligned` を除く）は 640px までにとどめる。PC で2列にしたいカードは `.grid2` で包む（狭い画面では1列） |
+| `main.narrow` | 1つのことだけをするページ（ログイン・本登録の申請）。640px（`<AppShell narrow>`）。ヘッダーの幅は変えない |
 | `main.full` | 幅も余白も決めない本文の枠（ホームページなど、帯ごとに幅を変えるサイト）。幅は中の `.container` で決める |
 | `.container` / `.container.wide` / `.container.reading` | 中身の幅を決めて中央に置く（左右に `--space-lg`）。既定は 640px、`wide` は 1200px、`reading` は長い文章の幅（`--layout-reading`＋左右の余白）。`main.full` の中や `.page-head` の中で使う |
 | `.card` | `section` と同じカードの見た目を、`article` や `div` に付ける（`.card.prose` で文章のカード） |
@@ -482,7 +491,7 @@ React は `<ConsoleShell>`（§4・§4.6）を使い、クラスを直接は書�
 
 - 左のメニューは**2段まで**（まとまりの見出し → 項目）。項目は1つのまとまりに2〜6個。下の段（3段目）は作らず、画面の中のタブ（`.tabs`）か一覧で分ける
 - 項目の名前は画面の題名（`.headline-title`）と同じにする。アイコンは Lucide から各アプリに写したものを使う（§3.12。共通 UI はアイコンを配らない）。アイコンだけのメニューにはしない
-- ヘッダーの右は、ヘルプ・お知らせ（`.icon-button`）・ログイン中の人（`details.dropdown > summary.person` ＋ `.dropdown-menu.end` にログアウトなど）・表示の切り替えの順
+- ヘッダーの右は、ヘルプ・お知らせ（`.icon-button`）・ログイン中の人（`<AccountMenu>`。§3.0 の `.account`）・表示の切り替えの順
 - 1画面の中の構成は §8.1。公開サイトの部品（§3.10）は使わない
 
 ### 3.12 アイコン
@@ -554,8 +563,9 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 | 部品 | 作るもの | 使う場面 |
 |---|---|---|
-| `<AppShell title href wide? envLabel? actions? tabs?>` | ヘッダー＋`main`＋`<DialogHost>` | 画面の一番外側。会員向けは幅 640px、`wide` で管理画面の 1200px。`tabs` で上にタブ |
-| `<ConsoleShell title href nav label? envLabel? mark? logoSrc? search? actions? navFooter?>` | `.console`（ヘッダー＋左のメニュー＋`main.console-main`）＋`<DialogHost>`・`<ToastHost>` | 管理コンソールの一番外側（§3.11）。`nav` は `{ label?, items: { label, href, icon?, current?, count? }[] }[]`（まとまりの配列）。`search` はヘッダーの中央の `.search-field`、`actions` はヘッダーの右（`.icon-button`・ログイン中の人の `.dropdown`） |
+| `<AppShell title href wide? narrow? envLabel? actions? tabs?>` | ヘッダー＋`main`＋`<DialogHost>` | 画面の一番外側。会員向けは幅 1040px（`narrow` で 640px）、`wide` で管理画面の 1200px。`tabs` で上にタブ。`actions` には `<AccountMenu>` |
+| `<AccountMenu name memberNumber? role?>` | `details.dropdown.account` | ヘッダーの右のログイン中の人（§3.0）。上の段に「氏名（会員番号）」、下の段に `role`。中身（`children`）はメニューの項目（`a`・`button`・`hr`）。`<AppShell>`・`<ConsoleShell>` のどちらでも同じ形。`accountLabel(name, memberNumber)` で「氏名（会員番号）」の文字だけを作れる |
+| `<ConsoleShell title href nav label? envLabel? mark? logoSrc? search? actions? navFooter?>` | `.console`（ヘッダー＋左のメニュー＋`main.console-main`）＋`<DialogHost>`・`<ToastHost>` | 管理コンソールの一番外側（§3.11）。`nav` は `{ label?, items: { label, href, icon?, current?, count? }[] }[]`（まとまりの配列）。`search` はヘッダーの中央の `.search-field`、`actions` はヘッダーの右（`.icon-button`・ログイン中の人の `<AccountMenu>`） |
 | `<PageHeader breadcrumb? title count? description? actions?>` | `.headline` | 管理コンソールの各画面の一番上（パンくず → 題名＋件数・説明、右に画面全体の操作） |
 | `<CollectionLayout views? filters? search? onSearch? applied? selection? summary? tools? notice? empty? pager?>` | `.toolbar`（`.segmented`・`form.toolbar-group`）＋`.filter-tags`＋`.table-card` | 管理コンソールの一覧（§4.6・§8.1）。`views` は `{ label, count?, href?, onSelect?, active? }[]`、`selection` は `{ count, actions?, onClear }`（選んでいるあいだ表の上の帯が一括操作に変わる）、`empty` を渡すと表の代わりに出す |
 | `useSelection(keys)` | — | 一覧で行を選ぶ状態。`allProps`（見出しのチェックボックス。一部だけなら「−」）・`rowProps(key, label)`・`count`・`selected`・`clear()`。表示中の行が変わったら選択を外す（§8.1） |
@@ -578,7 +588,8 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 ### 4.1 会員向けのページ
 
 ```tsx
-<AppShell title="SEEDS-ID マイポータル" href="/" actions={<button className="link" onClick={logout}>ログアウト</button>}>
+<AppShell title="SEEDS-ID マイポータル" href="/"
+  actions={<AccountMenu name={me.name} memberNumber={me.member_number} role="会員"><button type="button" onClick={logout}>ログアウト</button></AccountMenu>}>
   <Card title="登録情報">
     <dl><dt>会員番号</dt><dd>15001</dd></dl>
     <div className="row mt-md"><button className="button secondary">登録情報を変更</button></div>
@@ -587,6 +598,8 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 ```
 
 - 1つの目的ごとにカードを1枚。サイト名はヘッダーにあるので、カードの見出しは h2（`level` の既定）
+- 本文は PC で 1040px まで広がる。短いカードが並ぶページは `.grid2` で2列にする（狭い画面では1列）。ログイン・申請など1つのことだけをするページは `<AppShell narrow>`
+- ヘッダーの右は `<AccountMenu>` だけにし、ほかの画面への入口・ログアウトはその中に入れる（ヘッダーにリンクを並べない）
 - 読み込み中は `<p className="muted">読み込み中…</p>`、エラーは `<p className="error">…</p>`
 
 ### 4.2 管理画面の一覧
@@ -651,7 +664,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
     ] },
   ]}
   search={<span className="search-field"><input type="search" aria-label="設定・会員を検索" placeholder="設定・会員を検索" /><kbd className="kbd">Ctrl K</kbd></span>}
-  actions={<details className="dropdown"><summary className="person" aria-label="アカウントのメニュー">…</summary><div className="dropdown-menu end"><button type="button" onClick={logout}>ログアウト</button></div></details>}
+  actions={<AccountMenu name="管理 太郎" memberNumber={15100} role="管理者"><a href="/">マイポータル</a><hr /><button type="button" onClick={logout}>ログアウト</button></AccountMenu>}
 >
   <PageHeader breadcrumb={[{ label: '会員管理', href: '#/members' }, { label: '会員' }]} title="会員" count={total}
     description="会員と、ログイン・利用の状態を管理します。"

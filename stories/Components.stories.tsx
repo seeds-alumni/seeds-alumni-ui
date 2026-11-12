@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { AppHeader, Badge, Card, CollectionLayout, Field, PageHeader, Pager, Tabs, Tiles, confirmDialog, inputDialog, toast, useSelection } from '../src';
+import { AccountMenu, AppHeader, Badge, Card, CollectionLayout, Field, PageHeader, Pager, Tabs, Tiles, confirmDialog, inputDialog, toast, useSelection } from '../src';
 import { SITE_NAV } from './SitePage';
 
 /** React の部品（docs/catalog.md §4）。Controls で props を変えて確かめられる */
@@ -38,8 +38,30 @@ export const バッジ: StoryObj<typeof Badge> = {
 
 export const ヘッダー: StoryObj<typeof AppHeader> = {
   parameters: { layout: 'fullscreen' },
-  render: (args) => <AppHeader {...args}><span className="header-user">管理 太郎（管理者）</span><a href="#">マイポータル</a></AppHeader>,
-  args: { title: 'SEEDS-ID 会員管理システム', href: '#', wide: true, envLabel: '開発環境' },
+  render: (args) => (
+    <AppHeader {...args}>
+      <AccountMenu name="管理 太郎" memberNumber={15100} role="会員">
+        <a href="#">会員管理システム</a>
+        <hr />
+        <button type="button">ログアウト</button>
+      </AccountMenu>
+    </AppHeader>
+  ),
+  args: { title: 'SEEDS-ID マイポータル', href: '#', envLabel: '開発環境' },
+};
+
+export const ログイン中の人: StoryObj<typeof AccountMenu> = {
+  render: (args) => (
+    <div className="row between">
+      <span />
+      <AccountMenu {...args}>
+        <a href="#">マイポータル</a>
+        <hr />
+        <button type="button">ログアウト</button>
+      </AccountMenu>
+    </div>
+  ),
+  args: { name: '管理 太郎', memberNumber: 15100, role: '管理者・閲覧者' },
 };
 
 export const メニューつきのヘッダー: StoryObj<typeof AppHeader> = {

@@ -7,6 +7,7 @@
     <!-- 素の HTML での使い方の見本（React なし）。CSS と theme.js は公開先の /v1/ から読み込む（docs/usage.md） -->
     <script src="../v1/theme.js"></script>
     <script src="../v1/nav.js" defer></script>
+    <script src="../v1/console.js" defer></script>
     <link rel="stylesheet" href="../v1/seeds.css" />
     <title>素の HTML のデモ | SEEDS同窓会の共通 UI</title>
   </head>
@@ -19,8 +20,16 @@
         </a>
         <div class="env-badge" role="note" aria-label="この画面は開発環境です">開発環境</div>
         <div class="header-actions">
-          <span class="header-user">山田 太郎</span>
-          <a href="#">ログアウト</a>
+          <details class="dropdown account">
+            <summary class="person" aria-label="アカウントのメニュー（山田 太郎（15001）、共有アカウントの利用者）">
+              <span class="avatar" aria-hidden="true">山</span>
+              <span class="person-text"><span class="person-name">山田 太郎（15001）</span><span class="person-sub">共有アカウントの利用者</span></span>
+            </summary>
+            <div class="dropdown-menu end">
+              <div class="account-who" aria-hidden="true"><strong>山田 太郎（15001）</strong><span>共有アカウントの利用者</span></div>
+              <a href="#">ログアウト</a>
+            </div>
+          </details>
           <button class="theme-toggle"></button>
           <button type="button" class="nav-toggle" aria-controls="nav-screen" aria-expanded="false" aria-label="メニューを開く"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
         </div>

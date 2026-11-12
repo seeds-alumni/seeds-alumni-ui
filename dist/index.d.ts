@@ -1,5 +1,6 @@
 export { AppShell, type AppShellProps } from './AppShell';
 export { AppHeader, type AppHeaderProps, type NavItem } from './AppHeader';
+export { AccountMenu, accountLabel, type AccountMenuProps } from './AccountMenu';
 export { ConsoleShell, type ConsoleShellProps, type SideNavGroup, type SideNavItem } from './ConsoleShell';
 export { PageHeader, type PageHeaderProps, type BreadcrumbItem } from './PageHeader';
 export { Tabs, type TabItem } from './Tabs';

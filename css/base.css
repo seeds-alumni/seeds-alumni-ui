@@ -6,7 +6,7 @@ body {
   font-family: var(--font-family); line-height: var(--line-height);
   -webkit-font-smoothing: antialiased;
 }
-main { max-width: var(--layout-narrow); margin: 0 auto; padding: var(--space-2xl) var(--space-lg) var(--space-4xl); }
+main { max-width: var(--layout-member); margin: 0 auto; padding: var(--space-2xl) var(--space-lg) var(--space-4xl); }
 h1, h2, h3 { color: var(--color-text-strong); line-height: var(--line-height-tight); font-weight: var(--font-weight-bold); }
 h1 { font-size: var(--font-size-xl); margin: 0 0 var(--space-2xl); }
 h2 { font-size: var(--font-size-lg); margin: 0 0 var(--space-md); }

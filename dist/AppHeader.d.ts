@@ -32,7 +32,7 @@ export type AppHeaderProps = {
     nav?: NavItem[];
     /** ハンバーガーメニューの下に出す操作（ログインのボタンなど） */
     navFooter?: ReactNode;
-    /** 右側の操作（ログイン中の人は .header-user、ログアウトのリンクなど）。表示の切り替えは自動で右端に付く */
+    /** 右側の操作（ログイン中の人は <AccountMenu>。ログアウト・ほかの画面へのリンクはその中に入れる）。表示の切り替えは自動で右端に付く */
     children?: ReactNode;
 };
 /** 画面上部に固定するヘッダー（.app-header）。素の HTML で同じものを作るときは docs/usage.md のマークアップを使う */

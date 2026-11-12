@@ -4,6 +4,7 @@
  */
 import { useState } from 'react';
 import {
+  AccountMenu,
   AppShell,
   Badge,
   Card,
@@ -35,7 +36,19 @@ export function MemberPortalPage({ envLabel }: { envLabel?: string | null }) {
   const [editing, setEditing] = useState(false);
   const [saved, setSaved] = useState(false);
   return (
-    <AppShell title={MEMBER_TITLE} href="#" envLabel={envLabel} actions={<button type="button" className="link">ログアウト</button>}>
+    <AppShell
+      title={MEMBER_TITLE}
+      href="#"
+      envLabel={envLabel}
+      actions={
+        <AccountMenu name="管理 太郎" memberNumber={15100} role="会員">
+          <a href="#/">会員管理システム</a>
+          <hr />
+          <button type="button">ログアウト</button>
+        </AccountMenu>
+      }
+    >
+      <div className="grid2">
       <Card title="登録情報">
         <dl>
           <dt>会員番号</dt><dd>15100</dd>
@@ -66,6 +79,7 @@ export function MemberPortalPage({ envLabel }: { envLabel?: string | null }) {
           <dt>タグ</dt><dd>実行委員会</dd>
         </dl>
       </Card>
+      </div>
     </AppShell>
   );
 }
@@ -73,7 +87,7 @@ export function MemberPortalPage({ envLabel }: { envLabel?: string | null }) {
 /** ログイン前のページ（行き先を選ばせる .choice） */
 export function LoginPage() {
   return (
-    <AppShell title={MEMBER_TITLE} href="#">
+    <AppShell title={MEMBER_TITLE} href="#" narrow>
       <Card title="ログイン">
         <p>SEEDS同窓会のマイポータルです。ログイン方法を選んでください。</p>
         <div className="stack">
@@ -90,7 +104,7 @@ export function ApplicationFormPage() {
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   return (
-    <AppShell title={MEMBER_TITLE} href="#">
+    <AppShell title={MEMBER_TITLE} href="#" narrow>
       <Card title="本登録の申請">
         <p className="muted">会員として利用するには本登録の申請が必要です。運営が名簿と照合してから承認します。</p>
         <form className="form" onSubmit={(e) => { e.preventDefault(); setError(agreed ? null : 'プライバシーポリシーと会則に同意してください。'); }}>
@@ -133,7 +147,13 @@ export function AdminFrame({ route, envLabel, children }: { route: string; envLa
       href="#/"
       wide
       envLabel={envLabel}
-      actions={<><span className="header-user">管理 太郎（管理者）</span><a href="#">マイポータル</a></>}
+      actions={
+        <AccountMenu name="管理 太郎" memberNumber={15100} role="管理者">
+          <a href="#member">マイポータル</a>
+          <hr />
+          <button type="button">ログアウト</button>
+        </AccountMenu>
+      }
       tabs={ADMIN_TABS.map((t) => ({ href: `#/${t.key}`, label: t.label, active: section === t.key }))}
     >
       {children}

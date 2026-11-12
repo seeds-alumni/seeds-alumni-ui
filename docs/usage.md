@@ -7,7 +7,7 @@
 1. `package.json` の `dependencies` に追加して `npm install`（npm の公開はしていないので、GitHub のタグを指定する）
 
    ```json
-   "@seeds-alumni/ui": "github:seeds-alumni/seeds-alumni-ui#v1.6.0"
+   "@seeds-alumni/ui": "github:seeds-alumni/seeds-alumni-ui#v1.7.0"
    ```
 
 2. 入口で CSS を読み込み、部品を使う
@@ -45,6 +45,8 @@
 
 - `/v1/` は大きい版が 1 のあいだの最新です（同じ大きい版の中では、クラスを消したり意味を変えたりしない）。版を固定したいときは、`npm pack` などで取り出した `css/` をサイトに置いてもよい
 - ヘッダーは次のマークアップをそのまま使います（React の `<AppHeader>` と同じ）。表示の切り替えは `theme.js` が `button.theme-toggle` に付けます
+- ログイン中の人（`details.dropdown.account`）は、React の `<AccountMenu>` と同じ形にします（アイコンの右の上の段に「氏名（会員番号）」、下の段にロール名。押すとメニュー。1.7.0）。外を押す・Esc で閉じる動きは `console.js` が付けます（`<script src="https://ui.seeds-alumni.jp/v1/console.js" defer></script>`）
+- 1つのことだけをするページ（ログイン・申請のフォーム）は `<main class="narrow">`（640px）。会員向けのふつうのページは `<main>`（1040px）
 
 ```html
 <header class="app-header">
@@ -53,8 +55,17 @@
     <!-- ロゴの画像を出すとき：<a class="brand" href="/"><img class="brand-mark" src="/brand/seeds-logo.svg" alt="" height="32"><span class="brand-name">SEEDS-TOTP</span></a>（画像は各サイトに置く） -->
     <!-- 本番以外だけ：<div class="env-badge" role="note" aria-label="この画面は開発環境です">開発環境</div> -->
     <div class="header-actions">
-      <span class="header-user">山田 太郎</span>
-      <a href="/auth/logout">ログアウト</a>
+      <details class="dropdown account">
+        <summary class="person" aria-label="アカウントのメニュー（山田 太郎（15001）、会員）">
+          <span class="avatar" aria-hidden="true">山</span>
+          <span class="person-text"><span class="person-name">山田 太郎（15001）</span><span class="person-sub">会員</span></span>
+        </summary>
+        <div class="dropdown-menu end">
+          <!-- 狭い画面（640px 以下）ではヘッダーにアイコンだけを出すので、氏名とロール名をメニューの一番上に出す -->
+          <div class="account-who" aria-hidden="true"><strong>山田 太郎（15001）</strong><span>会員</span></div>
+          <a href="/auth/logout">ログアウト</a>
+        </div>
+      </details>
       <button class="theme-toggle"></button>
     </div>
   </div>
@@ -169,7 +180,7 @@
 </body>
 ```
 
-- ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.6.0 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる・文言も確かめる。記事の本文を除くときは `--writing-src`）
+- ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.7.0 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる・文言も確かめる。記事の本文を除くときは `--writing-src`）
 
 ### 管理コンソール（左のメニューのある管理画面）
 
