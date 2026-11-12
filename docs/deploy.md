@@ -24,7 +24,7 @@ Storybook・デモ・CDN の CSS と JS を、Cloudflare Pages の1つのプロ�
 4. **Save and Deploy**。PR ごとにプレビューの URL も自動で作られる
 5. 独自ドメイン：プロジェクト → **Custom domains** → **Set up a custom domain** → `ui.seeds-alumni.jp`（`seeds-alumni.jp` のゾーンが同じアカウントにあれば DNS も自動）
 
-`/v1/*` には `Cache-Control: public, max-age=3600` と `Access-Control-Allow-Origin: *` を、ファイル名にハッシュが入る `/assets/*`・`/demo/assets/*` には1年の `immutable` を付けている（`site/_headers`）。`site/404.html` も作る（無いと Pages は存在しないパスすべてに Storybook のトップを返す）。どちらも `scripts/build-site.mjs` が作る。
+すべてのパスに `X-Robots-Tag: noindex` を付け、検索エンジンには載せない（クローズドなコミュニティのため。2026-11-12 のユーザーの指定。`robots.txt` で Disallow にはしない。クロールされないと noindex が読まれないため）。`/v1/*` には `Cache-Control: public, max-age=3600` と `Access-Control-Allow-Origin: *` を、ファイル名にハッシュが入る `/assets/*`・`/demo/assets/*` には1年の `immutable` を付けている（`site/_headers`）。`site/404.html` も作る（無いと Pages は存在しないパスすべてに Storybook のトップを返す）。どちらも `scripts/build-site.mjs` が作る。
 
 Storybook の文書（MDX）からデモなど Storybook の外へリンクするときは、`<a href="/demo/react" target="_blank">` のように**絶対パス＋ target** にする。`./` で始まる相対リンクは Storybook が横取りし、URL 欄だけが変わって画面が移らない。
 

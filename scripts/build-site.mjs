@@ -31,13 +31,18 @@ cpSync(`${root}js/nav.js`, `${out}/nav.js`);
 cpSync(`${root}js/console.js`, `${out}/console.js`);
 writeFileSync(`${out}/version.txt`, `${pkg.version}\n`);
 
-// キャッシュ（Cloudflare Pages の _headers）
+// ヘッダー（Cloudflare Pages の _headers）
+//   - 検索エンジンには載せない（クローズドなコミュニティのため。2026-11-12 のユーザーの指定。外すときはユーザーに確かめる）。
+//     robots.txt で Disallow にはしない（クロールされないと noindex が読まれず、載ったものが消えないため）
+// キャッシュ
 //   - CDN の CSS・JS は1時間（同じ大きい版の中で直したときに、1時間で行き渡る）
 //   - ファイル名にハッシュが入るもの（/assets/・/demo/assets/）は中身が変わると名前も変わるので、1年・immutable。
 //     Pages の既定（max-age=0, must-revalidate）だと、開くたびに 20 個以上のファイルを問い合わせ直していた
 writeFileSync(
   `${root}site/_headers`,
   [
+    '/*',
+    '  X-Robots-Tag: noindex',
     `/${major}/*`,
     '  Cache-Control: public, max-age=3600',
     '  Access-Control-Allow-Origin: *',
@@ -59,6 +64,7 @@ writeFileSync(
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
+    <meta name="robots" content="noindex" />
     <script src="/${major}/theme.js"></script>
     <link rel="stylesheet" href="/${major}/seeds.css" />
     <title>ページが見つかりません | SEEDS同窓会の共通 UI</title>
