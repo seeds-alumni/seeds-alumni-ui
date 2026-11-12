@@ -19,7 +19,7 @@ type Member = { id: number; number: number; name: string; kana: string; type: st
 
 export const MEMBERS: Member[] = [
   { id: 1, number: 9001, name: '番号 不明', kana: 'バンゴウ フメイ', type: '受講生・卒業生', cohort: '—', tags: '—', status: 'ok' },
-  { id: 2, number: 10005, name: '見本 花子', kana: 'ミホン ハナコ', type: 'SA（受講生番号なし）', cohort: '—', tags: '—', status: 'ok' },
+  { id: 2, number: 10005, name: '見本 花子', kana: 'ミホン ハナコ', type: 'SEEDS アシスタント（SA）', cohort: '—', tags: '—', status: 'ok' },
   { id: 3, number: 15100, name: '管理 太郎', kana: 'カンリ タロウ', type: '受講生・卒業生', cohort: '1期（2015年度）', tags: '—', status: 'ok' },
   { id: 4, number: 16005, name: '申請 次郎', kana: 'シンセイ ジロウ', type: '受講生・卒業生', cohort: '2期（2016年度）', tags: '実行委員会', status: 'ok' },
   { id: 5, number: 18010, name: '停止 三郎', kana: 'テイシ サブロウ', type: '受講生・卒業生', cohort: '4期（2018年度）', tags: '—', status: 'ng' },
@@ -97,7 +97,7 @@ export function ApplicationFormPage() {
           <fieldset>
             <legend>登録区分</legend>
             <label className="radio"><input type="radio" name="type" defaultChecked /> 受講生・卒業生</label>
-            <label className="radio"><input type="radio" name="type" /> SA（受講生番号なし）</label>
+            <label className="radio"><input type="radio" name="type" /> SEEDS アシスタント（SA）</label>
             <label className="radio"><input type="radio" name="type" /> その他の関係者</label>
           </fieldset>
           <Field label="氏名"><input required /></Field>
