@@ -202,7 +202,7 @@ export function MemberListContent({ onOpen }: { onOpen?: (id: number) => void })
 }
 
 /** 詳細 */
-export function MemberDetailContent({ id = 4 }: { id?: number }) {
+export function MemberDetailContent({ id = 4, backHref = '#/users' }: { id?: number; backHref?: string }) {
   const m = MEMBERS.find((x) => x.id === id) ?? MEMBERS[3]!;
   const [status, setStatus] = useState(m.status);
   const [note, setNote] = useState('');
@@ -215,7 +215,7 @@ export function MemberDetailContent({ id = 4 }: { id?: number }) {
   }
   return (
     <DetailLayout
-      back={{ href: '#/users', label: '会員一覧' }}
+      back={{ href: backHref, label: '会員一覧' }}
       title={<>{m.number}：{m.name}</>}
       status={<Badge kind={status}>{STATUS_LABEL[status]}</Badge>}
       summary={

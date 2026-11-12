@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/react-vite';
 import { useEffect } from 'react';
 import '../css/index.css';
-import { DialogHost } from '../src';
+import { DialogHost, ToastHost, useDropdownDismiss } from '../src';
 
 /** ツールバーの「表示」でライト・ダークを切り替える（<html data-theme>） */
 const preview: Preview = {
@@ -30,7 +30,7 @@ const preview: Preview = {
         desktop: { name: 'パソコン（1280px）', styles: { width: '1280px', height: '860px' }, type: 'desktop' },
       },
     },
-    options: { storySort: { order: ['はじめに', 'カタログ', 'トークン', '画面の型', '部品', 'クラス'] } },
+    options: { storySort: { order: ['はじめに', 'カタログ', 'トークン', '画面の型', '部品', 'クラス', 'クラス（管理画面）'] } },
   },
   decorators: [
     (Story, context) => {
@@ -41,10 +41,16 @@ const preview: Preview = {
       return (
         <>
           <Story />
-          {!context.parameters.noDialogHost && <DialogHost />}
+          {!context.parameters.noDialogHost && <><DialogHost /><ToastHost /><DropdownDismiss /></>}
         </>
       );
     },
   ],
 };
 export default preview;
+
+/** 画面の枠（<AppShell>・<ConsoleShell>）を使わない見本でも、ドロップダウンが外を押すと閉じるように */
+function DropdownDismiss() {
+  useDropdownDismiss();
+  return null;
+}

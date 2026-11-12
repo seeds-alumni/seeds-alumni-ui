@@ -3,7 +3,8 @@
 SEEDS同窓会のサービス（会員ポータル・会員管理システム・SEEDS TOTP など）で共通に使う見た目のルール。**人と AI（Claude Code など）の両方が読む前提**で書いている。
 画面を作る・直すときは、この文書の「React の部品と画面の型」（§4）と「クラス」（§3）から選び、新しい見た目を作らない。
 
-- 実装：`css/`（`tokens.css` → `base.css` → `components.css` → `site.css` → `utilities.css` の順に `index.css` で読み込む）、`src/`（React の部品）、`js/theme.js`（素の HTML 向けの表示の切り替え）
+- 実装：`css/`（`tokens.css` → `base.css` → `components.css` → `console.css` → `site.css` → `utilities.css` の順に `index.css` で読み込む）、`src/`（React の部品）、`js/theme.js`（素の HTML 向けの表示の切り替え）、`js/nav.js`（ハンバーガーメニュー）、`js/console.js`（管理コンソールの左のメニュー・ドロップダウン）
+- 画面の組み方の決めごと（一覧・検索・フォーム・空の状態・知らせ）：§8
 - 導入のしかた：`docs/usage.md`（React のアプリ・素の HTML・CDN）
 - 見本：Storybook（部品ごと）とデモ（画面の型）。公開先は `docs/deploy.md`
 - 検査：`seeds-ui-check`（§6。このリポジトリでは `npm run check`）。カタログと CSS が食い違うと失敗する
@@ -32,6 +33,13 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 |---|---|---|
 | **アプリ**（既定） | 会員ポータル・会員管理システム・SEEDS TOTP などのツール | 上の決め方。淡い深緑の地に白いカードを影で浮かせる |
 | **公開サイト**（`<html data-look="site">`） | 同窓会のホームページ | 白い地に黒い文字と深緑の色面。カードと影は使わず、淡い灰色の帯・罫線・丸い矢印で区切る。書体は Noto Sans JP（§3.10） |
+
+**管理画面の枠は2つ**（2026-11-12。どちらも「アプリ」の見た目で、色は同じ）：
+
+| 枠 | 使うところ | 組み方 |
+|---|---|---|
+| **タブの枠**（`<AppShell wide tabs>`） | 画面の少ない管理画面（目安：6画面まで） | 上のヘッダーとタブ。一覧は `<ListLayout>`（カードの中に検索・表） |
+| **管理コンソール**（`<ConsoleShell>`、§3.11） | 画面が多い・まとまりで分けたい管理画面 | 上のヘッダー（全体の検索・ログイン中の人）＋左のメニュー。各画面は `<PageHeader>` → `<CollectionLayout>`・`<Card>`（§4.6） |
 
 トークンの名前・ブランド色・ボタン・バッジ・フォーカスの輪・ライト／ダークは2つで共通。公開サイトは地の色・書体・ヘッダーの高さだけを上書きし、公開サイト向けの部品（§3.10）を足す。**アプリの画面で公開サイトの部品（色面・大きな写真）を使わない**（操作する画面は静かに保つ）。
 
@@ -121,6 +129,12 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--check-size` | 1.125rem | チェックボックス・ラジオボタン（1行目の中央にそろえる） |
 | `--header-height` | 56px | 上部のヘッダー |
 | `--tab-height` | 44px | 管理画面のタブ（`.tabs a`） |
+| `--sidebar-width` | 248px | 管理コンソールの左のメニュー（`.console-sidebar`。狭い画面で引き出すときは画面の 85% まで） |
+| `--avatar-size` / `--avatar-size-sm` / `--avatar-size-lg` | 32px / 24px / 40px | 人の丸いアイコン（`.avatar` / `.avatar.sm` / `.avatar.lg`） |
+| `--icon-size` / `--icon-size-sm` | 1.25rem / 1rem | ボタン・メニューの中のアイコン（20px）／入力欄の中のアイコン（16px） |
+| `--dot-size` | 8px | 状態の点（`.status-dot`）・未読の点（`.icon-button.has-dot`） |
+| `--label-width` | 12em | 横並びのフォーム（`.form.aligned`）の項目名の列 |
+| `--icon-search` | 虫めがねの形（SVG） | `.search-field` の虫めがね。`mask` で形だけ使い、色はトークンで付ける |
 | `--radius-sm` | 4px | バッジ・小さいボタン・候補 |
 | `--radius-md` | 8px | 入力欄・ボタン・タブ（上だけ）・`.box`・`fieldset`・ヘッダーのロゴ |
 | `--radius-lg` | 12px | カード（`section`、`.tile`、`.choice`） |
@@ -133,12 +147,14 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--shadow-card` | 広くぼかした薄い影＋近くの影 | カード（`section`、`.tile`）・ヘッダー |
 | `--shadow-float` | カードより一段強い影 | 画面に浮かせる要素（候補リスト） |
 | `--shadow-popup` | いちばん強い影 | ダイアログ |
-| `--z-header` | 100 | 上部のヘッダー |
+| `--z-dropdown` / `--z-header` / `--z-drawer` / `--z-toast` | 90 / 100 / 110 / 200 | 重なりの順：ドロップダウン（`.dropdown-menu`）→ ヘッダー → 狭い画面で引き出す左のメニュー → 短い知らせ（`.toast-region`） |
 | `--transition` | 0.2s ease | マウスを載せたときの色の変化 |
 | `--layout-narrow` | 640px | 会員向け画面の幅（`main`） |
 | `--layout-wide` | 1200px | 管理画面の幅（`main.wide`）・ホームページの帯の幅（`.container.wide`） |
 | `--layout-reading` | 820px | 長い文章（`.prose`）の1行の長さ（`.container.reading`。左右の余白は別） |
+| `--layout-console` | 1600px | 管理コンソールの本文の最大幅（`main.console-main`。列の多い一覧のために広い） |
 | `--layout-dialog` | 440px | ダイアログの幅（狭い画面では左右に `--space-lg` を残して縮む） |
+| `--layout-toast` | 28rem | 短い知らせ（`.toast-region`）の幅 |
 | `--tile-min` | 200px | `.tiles` の1枚の最小幅 |
 | `--column-min` | 300px | `.grid2` の1列の最小幅 |
 
@@ -192,7 +208,10 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.row` | 横に並べて折り返す（ボタンの組、入力欄＋ボタン）。`.row.between` は両端に寄せる（見出し＋操作） |
 | `.grid2` | 2列（狭い画面では1列）。審査画面の「申請」と「名簿」の比較など |
 | `.box` | カードの中の白い箱。フォームの中の小さなまとまり（追加フォーム、確認コードの入力） |
-| `.warnbox` | `.box` と組み合わせて注意を促す（`.box.warnbox`、注意の色の枠と淡い黄色の地）。中の `ul` は箇条書き |
+| `.warnbox` | `.box` と組み合わせて注意を促す（`.box.warnbox`、注意の色の枠と淡い黄色の地）。中の `ul` は箇条書き。カードの外・フォームの上の知らせは `.message-box`（§3.6） |
+| `.headline` | 管理画面の画面の見出し（カードの外、地の上）。パンくず（`.breadcrumb`）→ 左に題名と説明、右に画面全体の操作。React は `<PageHeader>` |
+| `.headline-main` / `.headline-title` / `.headline-desc` / `.headline-actions` | 題名と説明のまとまり／題名（h1。右に `.count`）／1行の説明（補足の色）／右の操作（主要な操作 `.button.primary.inline` は1つ、いちばん右） |
+| `.toolbar` / `.toolbar-group` | 一覧の上の帯（地の上）。左に表示の切り替え（`.segmented`）、右に `form.toolbar-group[role=search]`（絞り込みの `.dropdown` と `.search-field`）。入らなければまとまりごと次の行へ。React は `<CollectionLayout>` |
 
 ```tsx
 <div className="row between">
@@ -214,6 +233,11 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.button.inline` | 幅を中身に合わせる（`primary` / `danger` と組み合わせる） |
 | `.button.small-btn` | 表の中・行の中の小さな操作（削除・前へ・次へ） |
 | `.link` | 見た目をリンクにした `button`（ログアウト、画面内の切り替えなど） |
+| `.button.ghost` | 枠のないボタン（一覧の上の絞り込み「期 ▾」、ヘッダーの中の操作）。`.applied` は条件を選んでいる状態（淡いブランド色の地と緑の文字。中に選んだ数の `.count`） |
+| `.has-caret` | 押すとメニューが開くボタンの右の山形（`details[open]` の中では上向き）。`<summary class="button ghost has-caret">` |
+| `.button svg` | ボタンの文字の左のアイコン（20px、小さいボタンは 16px）。アイコンは飾りなので `aria-hidden="true"`、意味は文字で伝える |
+| `.icon-button` | アイコンだけの丸いボタン（ヘルプ・お知らせ）。**必ず `aria-label`**（「ヘルプ」）。`.has-dot` は右上に未読の赤い点（`aria-label` にも「（未読あり）」と書く）。ライト・ダークの切り替え（`.theme-toggle`）と同じ大きさ |
+| `.kbd` | キーの案内（`<kbd class="kbd">Ctrl K</kbd>`）。`.search-field` の右端に置ける |
 | `.choice` | 選択肢の大きなカード（右端に緑の →。マウスを載せると淡い緑の地になり、→ が少し右へ動く）。行き先を選ばせるリンク（ログイン方法、旧ログインでの引き継ぎ）。`.stack` の中に縦に並べる |
 
 ```tsx
@@ -239,6 +263,12 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `label.check` / `label.radio` | チェックボックス・ラジオボタンと文の横並び（`input` を `label` の中に入れる） |
 | `fieldset` + `legend` | 選択肢のまとまり（ラジオボタンの組など） |
 | `.filters` | 一覧の上の検索・絞り込み（1行に並べ、高さと縦の位置をそろえる。最初の入力欄が広い。中の `label.check` は1行で中央にそろう） |
+| `.form.aligned` | 横並びのフォーム：項目名を左の列（`--label-width`）、入力欄・補足・誤りを右の列（640px 以下は縦）。管理画面の設定など、項目が多く何度も使うフォーム。会員向けの申請など一度きりのフォームは縦（`.form`）のまま |
+| `.form-actions` / `.form-actions.sticky` | 送信ボタンの行（上に区切り線。主要な操作を左に、続けて「キャンセル」「元に戻す」）。`.sticky` は長いフォームで画面の下に貼りつける（カードの中で使う） |
+| `[aria-invalid="true"]` | 誤りのある入力欄（枠が赤）。誤りの文は欄の直後の `.error.small`（`<Field error>`） |
+| `.search-field` | 虫めがねつきの検索欄（`span.search-field > input[type=search]`）。入力欄に `aria-label`（「会員を検索」）。一覧の上は `.toolbar` の中、全体の検索は `.console-search` の中 |
+| `.dropdown` / `.dropdown-menu` / `.dropdown-label` | 押すと開くメニュー（`details.dropdown > summary + div.dropdown-menu`）。中は `a`・`button`・`label.check`（絞り込みの選択肢）・`hr`・小さい見出しの `.dropdown-label`。`.dropdown-menu.end` は右端にそろえる（ヘッダーの右など）。`button.danger` は赤い文字。外を押す・Esc・項目を押すと閉じる（React は `<AppShell>`・`<ConsoleShell>`、素の HTML は `js/console.js`）。表の中では開かない（表の枠で切れる） |
+| `.filter-tags` / `.filter-tag` | 適用中の絞り込みの条件（`.toolbar` の下）。1つの条件ごとに `button.filter-tag`（「期：1期 ×」。押すとその条件を外す。`aria-label` は「期：1期 の条件を外す」）、最後に「すべてクリア」（`.link`）。条件がないときは出さない |
 | `.suggest` | 入力欄の下に出す候補リスト（`ul.suggest` の中の `li > button`。マウスを載せた候補は淡い地。学校の検索など） |
 
 - 入力の誤りは、その項目の直後に `<span className="error small">…</span>` で出す
@@ -265,6 +295,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | クラス | 使う場面 |
 |---|---|
 | `.tabs` | 管理画面の上のタブ（`nav.tabs` の中に `a`。選択中は `a.active` で緑の文字と太い下線、マウスを載せると淡い地と細い下線。狭い画面では横にスクロール） |
+| `.segmented` | 同じ一覧の表示の切り替え（「すべて 63・利用中 56・停止中 3」）。選んでいるものは白い地と枠。URL が変わるなら `nav.segmented > a[aria-current="page"]`、画面の中で切り替えるなら `div.segmented[role=group] > button[aria-pressed]`。**画面そのものの切り替えは `.tabs`** |
 | `.pager` | ページ送りの行。React は `<Pager>`（`<ListLayout pager>`）が付けるので直接は書かない |
 | `.breadcrumb` | パンくず（`nav.breadcrumb[aria-label="現在地"] > ol > li`。項目の間に ›。いまのページは `<span aria-current="page">`）。`.page-head` の中など |
 | `.header-nav` / `.header-nav-item` / `.header-nav-sub` | ヘッダーのサイトのメニュー（`.brand` と `.header-actions` の間の `nav.header-nav > ul > li.header-nav-item`）。広い画面で横に並べ、**980px 以下では隠れてハンバーガーメニューに切り替わる**（`.nav-toggle` は 981px 以上で自動で隠れ、ヘッダーの表示の切り替えは 980px 以下で隠れるので、`.nav-screen-theme` をメニューの中に置く）。React は `<AppHeader nav>` |
@@ -286,6 +317,14 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `tr.mismatch` | 照合で「不一致」・取り込みでエラーの行（赤い背景） |
 | `tr.partial` | 照合で「部分一致」・取り込みで警告の行（黄色い背景） |
 | `table.compare` | 2つの値を並べて比べる表（1列目が項目名） |
+| `.table-card` | 表を入れるカード（管理コンソールの一覧）。表を端から端まで広げ、行の中身を上下の中央にそろえる。中は `.table-card-bar` → `.table-wrap` か `.empty-state` → `.table-card-foot` |
+| `.table-card-bar` / `.table-card-bar.bulk` | 表の上の帯（左に件数、右に表示中の範囲への小さい操作）。行を選んでいるあいだは `.bulk`（淡いブランド色。「n 件を選択中」・一括操作・「選択を解除」） |
+| `.table-card-foot` | 表の下の帯（ページ送り `.pager`） |
+| `.check-cell` | 一括操作のチェックボックスの列（`th.check-cell` は「表示中の行をすべて選ぶ」）。チェックボックスには `aria-label`（「山田 太郎を選ぶ」） |
+| `button.sort` | 並べ替えられる列の見出し（`th[aria-sort="none|ascending|descending"] > button.sort`）。並べ替えている列は緑の矢印、ほかは淡い矢印。押すたびに昇順 ↔ 降順 |
+| `.num` | 数値の列（金額・件数）を右にそろえる（`th.num`・`td.num`）。会員番号などの番号は左のまま |
+| `.actions-cell` | 行の操作の列（右端、折り返さない）。操作は `.button.small-btn` を1〜2個まで。同じ操作は詳細の画面でもできるようにする |
+| `tr.selected` | 選んでいる行（淡いブランド色の地） |
 
 ### 3.6 状態の表示
 
@@ -299,6 +338,14 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.tiles` / `.tile` / `.tile-value` | ダッシュボードの数値のカード（`a.tile` に `href` を付けると一覧へのリンクになり、右上に →。マウスを載せると淡い緑の地と緑の枠）。中身は上にそろう（説明の行数が違っても位置がずれない） |
 | `.tile-title` | 数値ではなく題名＋説明のリンクのカード（入口のページの「団体概要」「設立経緯」など）。`<a class="tile" href="…"><strong class="tile-title">団体概要</strong><span class="muted small">説明</span></a>` |
 | `.env-badge` | 環境バッジ（`<AppHeader envLabel>` がサイト名の右横に置く。本番では出さない） |
+| `.status-dot` | 状態の点と文字（`<span class="status-dot ok">利用中</span>`）。点の色は `.badge` と同じ意味（`.ok` / `.warn` / `.ng` / `.none`）、文字は本文の色。**行の多い表の状態の列**は、目立ちすぎないようにこちらを使う。詳細の画面の見出しの横など、1つだけ目立たせるときは `.badge` |
+| `.tag` / `.tag.brand` | 分類の札（ロール・区分・タグなど、状態ではないもの）。灰色の丸い札。`.brand` は目立たせたい分類（役職・「管理コンソール」の表示）。**状態は `.tag` にしない**（`.badge` か `.status-dot`） |
+| `.count` | 件数（見出しの横・`.segmented`・左のメニューの中）。読み上げのために `<span class="count">63<span class="visually-hidden">件</span></span>` |
+| `.avatar` / `.avatar.sm` / `.avatar.lg` | 人の丸いアイコン（32px / 24px / 40px）。写真があれば `img.avatar`、なければ名字の1文字（`aria-hidden="true"`。名前は横に文字で書く） |
+| `.person` / `.person-text` / `.person-name` / `.person-sub` | 人：`.avatar` と、名前（太字）＋補足（メールアドレスなど）。表の氏名の列・ヘッダーのログイン中の人。`a.person` にすると詳細へのリンク（名前は黒、マウスを載せると緑の下線） |
+| `.empty-state` / `.empty-state-title` | 空の状態：一覧に1件もない・検索に当てはまるものがないとき、表の代わりに置く（題名・説明・次にできる操作の `.row`）。文言は §8.4 |
+| `.message-box` / `.message-title` | 画面の中に置く知らせ（淡い地と色の枠）。`.info`（説明。既定）・`.ok`（できた）・`.warn`（確かめて）・`.ng`（できなかった・入力の誤りのまとめ。`role="alert"`）。1行目を太字にするときは `p.message-title` |
+| `.toast-region` / `.toast-list` / `.toast` / `.toast-text` / `.toast-close` | 画面の下に一時的に出す短い知らせ（保存・送信の結果）。React は `toast()`（§8.5）。`.toast.ng` は失敗（赤い地。閉じるまで残る） |
 
 アプリの状態の名前（`approved` など）をそのままバッジの種類にしたいときは、アプリの CSS で `.badge.approved` などに ok / warn / ng と同じ色を当て、アプリのカタログに載せる（seeds-alumni-idaas の `web/src/design/app.css` が例）。
 
@@ -323,6 +370,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.mt-md` | 上に余白（`--space-md`）。`dl` の直後のボタン行など |
 | `.grow` | `.row` の中で残りの幅を使う入力欄（最小 16em） |
 | `.w-name` | `.row` の中の短い入力欄（12em。名前・ラベルの入力） |
+| `.visually-hidden` | 画面には出さず読み上げにだけ伝える（件数の「件」、アイコンだけの列の見出し「操作」など） |
 | `.nowrap` | 折り返さない。表の会員番号・氏名・期など、狭い画面で1文字ずつ折り返して縦に伸びるのを防ぐ（表は `.table-wrap` で横スクロール） |
 
 ### 3.9 ダイアログ
@@ -413,6 +461,29 @@ if (ended === null) return; // キャンセル
 
 見本はデモの `/demo/site`（素の HTML）と Storybook の「画面の型 → 公開サイトのページ」。
 
+### 3.11 管理コンソール（`console.css`）
+
+画面が多い管理画面の枠（2026-11-12）。上のヘッダー（サイト名・「管理コンソール」の札・全体の検索・ヘルプ・お知らせ・ログイン中の人）、左のメニュー（まとまりごとの小さい見出し、いまの画面は淡いブランド色の地）、本文（淡い深緑の地に白いカード）。**色は「アプリ」の見た目のまま**（ヘッダーと左のメニューは白い面）。
+
+React は `<ConsoleShell>`（§4・§4.6）を使い、クラスを直接は書かない。素の HTML は `demo/console.html` のマークアップと `js/console.js`（CDN の `/v1/console.js`）。
+
+| クラス | 使う場面 |
+|---|---|
+| `.console` | 枠の一番外側（ヘッダー・左のメニュー・本文の格子）。`body` の直下に置く |
+| `.console-header` / `.console-header-inner` | 上に固定するヘッダー（白い地、下に区切り線）。中は左から `.nav-toggle`（980px 以下だけ出る）・`.brand`・`.tag.brand`（「管理コンソール」）・`.env-badge`・`.console-search`・`.header-actions` |
+| `.console-search` | ヘッダーの中央の全体の検索（`div.console-search[role=search] > .search-field`）。⌘K / Ctrl+K で入力欄に移る（右端に `.kbd` で案内）。640px 以下では隠す |
+| `.console-sidebar` / `.console-sidebar.open` | 左のメニュー（`nav.console-sidebar[aria-label="メニュー"]`。白い地、右に区切り線、本文と別にスクロール）。980px 以下では隠し、`.nav-toggle` で `.open` を付けて引き出す |
+| `.side-nav-group` / `.side-nav-label` | メニューのまとまり（`div.side-nav-group > p.side-nav-label + ul > li > a`）。項目は `a` の中に `svg`（20px のアイコン）と文字、右に件数の `.count`。いまの画面は `aria-current="page"` |
+| `.console-scrim` | 左のメニューを引き出したときの後ろの幕（押すと閉じる）。`hidden` で隠しておく |
+| `.console-main` | 本文（`main.console-main`。最大 `--layout-console`、左のメニューに寄せる）。中は `.headline` → `.toolbar` → `.table-card` か カード |
+
+決めごと：
+
+- 左のメニューは**2段まで**（まとまりの見出し → 項目）。項目は1つのまとまりに2〜6個。下の段（3段目）は作らず、画面の中のタブ（`.tabs`）か一覧で分ける
+- 項目の名前は画面の題名（`.headline-title`）と同じにする。アイコンは各アプリが持つ（共通 UI はアイコンを配らない）。アイコンだけのメニューにはしない
+- ヘッダーの右は、ヘルプ・お知らせ（`.icon-button`）・ログイン中の人（`details.dropdown > summary.person` ＋ `.dropdown-menu.end` にログアウトなど）・表示の切り替えの順
+- 1画面の中の構成は §8.1。公開サイトの部品（§3.10）は使わない
+
 ## 4. React の部品と画面の型
 
 `import { AppShell, Card, ListLayout, … } from '@seeds-alumni/ui'`。部品は**画面の骨組み**だけで、中身（`dl`・`table`・ボタン）は §3 のクラスで組む。Storybook に部品ごとの見本、デモに画面の型の見本がある。
@@ -420,10 +491,17 @@ if (ended === null) return; // キャンセル
 | 部品 | 作るもの | 使う場面 |
 |---|---|---|
 | `<AppShell title href wide? envLabel? actions? tabs?>` | ヘッダー＋`main`＋`<DialogHost>` | 画面の一番外側。会員向けは幅 640px、`wide` で管理画面の 1200px。`tabs` で上にタブ |
+| `<ConsoleShell title href nav label? envLabel? mark? logoSrc? search? actions? navFooter?>` | `.console`（ヘッダー＋左のメニュー＋`main.console-main`）＋`<DialogHost>`・`<ToastHost>` | 管理コンソールの一番外側（§3.11）。`nav` は `{ label?, items: { label, href, icon?, current?, count? }[] }[]`（まとまりの配列）。`search` はヘッダーの中央の `.search-field`、`actions` はヘッダーの右（`.icon-button`・ログイン中の人の `.dropdown`） |
+| `<PageHeader breadcrumb? title count? description? actions?>` | `.headline` | 管理コンソールの各画面の一番上（パンくず → 題名＋件数・説明、右に画面全体の操作） |
+| `<CollectionLayout views? filters? search? onSearch? applied? selection? summary? tools? notice? empty? pager?>` | `.toolbar`（`.segmented`・`form.toolbar-group`）＋`.filter-tags`＋`.table-card` | 管理コンソールの一覧（§4.6・§8.1）。`views` は `{ label, count?, href?, onSelect?, active? }[]`、`selection` は `{ count, actions?, onClear }`（選んでいるあいだ表の上の帯が一括操作に変わる）、`empty` を渡すと表の代わりに出す |
+| `useSelection(keys)` | — | 一覧で行を選ぶ状態。`allProps`（見出しのチェックボックス。一部だけなら「−」）・`rowProps(key, label)`・`count`・`selected`・`clear()`。表示中の行が変わったら選択を外す（§8.1） |
+| `rowClick(open)` | — | 行全体を押して詳細へ（`<tr className="clickable" onClick={rowClick(() => …)}>`）。行の中のリンク・ボタン・チェックボックスを押したとき、文字を選んでいるときは進まない |
+| `toast(message, { kind? })` / `<ToastHost>` | `.toast-region` | 短い知らせ（§8.5）。`<AppShell>`・`<ConsoleShell>` が `<ToastHost>` を置く |
+| `useDropdownDismiss()` | — | ドロップダウン（`details.dropdown`）を外を押す・Esc で閉じる。`<AppShell>`・`<ConsoleShell>` が呼ぶので、どちらも使わない画面の枠でだけ呼ぶ |
 | `<AppHeader title href wide? envLabel? mark? logoSrc? nav? navFooter?>` | `.app-header`（`nav` があれば `.header-nav` とハンバーガーメニュー） | `<AppShell>` を使えないときだけ直接使う。`nav`（`{ label, href, active?, current?, children? }` の配列）を渡すと、広い画面では横に並べ、980px 以下ではハンバーガーメニューにする。`navFooter` はメニューの下の操作（ログインのボタンなど）。`<AppShell>` にも同じ props を渡せる |
 | `<Tabs items>` | `nav.tabs` | 画面の切り替え（`{ href, label, active }`） |
 | `<Card title? level? actions? tone?>` | `section` | 1つの目的ごとに1枚。見出しの右に `actions`（バッジ・リンク）。`tone="warn"` で注意のカード |
-| `<ListLayout title filters onSearch summary tools notice pager>` | カード＋`form.filters`＋`.table-wrap`＋`<Pager>` | 一覧の画面（検索 → 件数と操作 → 表 → ページ送り） |
+| `<ListLayout title filters onSearch summary tools notice pager>` | カード＋`form.filters`＋`.table-wrap`＋`<Pager>` | 一覧の画面（検索 → 件数と操作 → 表 → ページ送り）。タブの枠（`<AppShell wide tabs>`）の管理画面で使う。管理コンソールでは `<CollectionLayout>` |
 | `<DetailLayout back title status summary>` | `.back-link`＋基本情報のカード＋続くカード | 詳細の画面。続く操作は `<Card level={3}>` を並べ、取り消せない操作は最後 |
 | `<Tiles items>` | `.tiles` / `.tile` | ダッシュボードの数値（`href` があれば一覧へのリンク） |
 | `<Field label optional? hint? error? as?>` | `.form-field` | フォームの1項目（`.form` の中に並べる） |
@@ -496,6 +574,57 @@ if (ended === null) return; // キャンセル
 </form>
 ```
 
+### 4.6 管理コンソール
+
+```tsx
+<ConsoleShell
+  title="SEEDS同窓会" href="#/" envLabel={envLabel}
+  nav={[
+    { items: [{ label: 'ダッシュボード', href: '#/', icon: <DashboardIcon />, current: route === '' }] },
+    { label: '会員管理', items: [
+      { label: '会員', href: '#/members', icon: <UsersIcon />, current: route === 'members' },
+      { label: '申請審査', href: '#/applications', icon: <InboxIcon />, count: 3 },
+    ] },
+  ]}
+  search={<span className="search-field"><input type="search" aria-label="設定・会員を検索" placeholder="設定・会員を検索" /><kbd className="kbd">Ctrl K</kbd></span>}
+  actions={<details className="dropdown"><summary className="person" aria-label="アカウントのメニュー">…</summary><div className="dropdown-menu end"><button type="button" onClick={logout}>ログアウト</button></div></details>}
+>
+  <PageHeader breadcrumb={[{ label: '会員管理', href: '#/members' }, { label: '会員' }]} title="会員" count={total}
+    description="会員と、ログイン・利用の状態を管理します。"
+    actions={<><button className="button secondary">CSV で書き出す</button><button className="button primary inline">会員を招待</button></>} />
+  <CollectionLayout
+    views={[{ label: 'すべて', count: total, active: view === 'all', onSelect: () => setView('all') }, …]}
+    filters={<details className="dropdown"><summary className="button ghost has-caret">期</summary><div className="dropdown-menu">…label.check…</div></details>}
+    search={<span className="search-field"><input type="search" aria-label="会員を検索" value={q} onChange={…} /></span>}
+    onSearch={search}
+    applied={filtering && <>…<button className="filter-tag" …>期：1期</button><button className="link" onClick={clearAll}>すべてクリア</button></>}
+    selection={{ count: sel.count, onClear: sel.clear, actions: <button className="button small-btn" onClick={suspend}>停止する</button> }}
+    summary={`${rows.length} 件`}
+    empty={rows.length === 0 ? <div className="empty-state">…</div> : undefined}
+    pager={{ total, page, pageSize, onPage: setPage }}
+  >
+    <table>
+      <thead><tr>
+        <th className="check-cell"><input type="checkbox" {...sel.allProps} /></th>
+        <th aria-sort={sortOf('name')}><button type="button" className="sort" onClick={…}>氏名</button></th>
+        <th>状態</th>
+      </tr></thead>
+      <tbody>{rows.map((r) => (
+        <tr key={r.id} className={sel.isSelected(r.id) ? 'clickable selected' : 'clickable'} onClick={rowClick(() => open(r.id))}>
+          <td className="check-cell"><input type="checkbox" {...sel.rowProps(r.id, `${r.name}を選ぶ`)} /></td>
+          <td><a className="person" href={`#/members/${r.id}`}><span className="avatar" aria-hidden="true">{r.name[0]}</span><span className="person-text"><span className="person-name">{r.name}</span><span className="person-sub">{r.email}</span></span></a></td>
+          <td><span className={`status-dot ${r.status}`}>{label[r.status]}</span></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CollectionLayout>
+</ConsoleShell>
+```
+
+- 設定の画面は `<PageHeader>` の下に `<Card>` を並べ、中を `form.form.aligned` と `.form-actions` で組む（§8.3）
+- 詳細の画面は `<PageHeader breadcrumb>` か `<DetailLayout back>` のどちらかにそろえる（アプリの中で混ぜない）
+- 見本はデモの `/demo/react#console/members`（React）・`/demo/console`（素の HTML）と、Storybook の「画面の型 → 管理コンソールの一覧」など
+
 ## 5. アクセシビリティ
 
 - 文字と背景のコントラストは WCAG AA（4.5:1）以上。トークンの色を変えるときはライト・ダークの両方で確かめる
@@ -503,7 +632,10 @@ if (ended === null) return; // キャンセル
 - フォーカスは `--focus-ring`（白・緑・白の二重の輪。ボタン・リンクは `:focus-visible`、入力欄は `:focus` で枠も緑。`base.css`）。`outline` は消さず透明にする（Windows のハイコントラスト表示で見えるように）。ほかに `outline: none` を書かない
 - 入力欄は `label` の中に入れるか、`aria-label` を付ける
 - 状態は色だけで伝えない（バッジ・メッセージには必ず文字を入れる）
-- 押せる要素は `button` か `a` にする（`div` に `onClick` を付けない。表の行 `tr.clickable` は例外）
+- 押せる要素は `button` か `a` にする（`div` に `onClick` を付けない。表の行 `tr.clickable` は例外。その行の中にも同じ行き先のリンクを置く）
+- アイコンだけのボタン（`.icon-button`）・チェックボックスの列・検索欄には `aria-label` を付ける（「ヘルプ」「山田 太郎を選ぶ」「会員を検索」）。アイコンの `svg` は `aria-hidden="true"`
+- 並べ替えられる列は `th[aria-sort]`、選んでいる表示の切り替えは `aria-current="page"` か `aria-pressed="true"`。どれも見た目は CSS が属性から付けるので、クラスで真似しない
+- 誤りのある入力欄は `aria-invalid="true"`。送信の結果は `toast()`（読み上げの領域に入る）、入力の誤りのまとめは `.message-box.ng[role=alert]`
 
 ## 6. ルール（`seeds-ui-check` が確かめる）
 
@@ -525,7 +657,9 @@ if (ended === null) return; // キャンセル
 
 1. 申請の状態「審査中」を表示するときのマークアップは？ → `<Badge kind="warn">審査中</Badge>`（アプリが `.badge.pending` を足していれば `kind="pending"`）
 2. 取り消せない主要操作のボタンと、却下ボタンのクラスは？ → `button primary inline` と `button danger inline`
-3. 管理画面の一覧の画面はどう組む？ → `<ListLayout>` に `filters`・`summary`・`pager` を渡し、中に `table`（行は `tr.clickable`）
+3. 管理画面の一覧の画面はどう組む？ → タブの枠なら `<ListLayout>` に `filters`・`summary`・`pager` を渡し、中に `table`（行は `tr.clickable`）。管理コンソールなら `<PageHeader>` ＋ `<CollectionLayout>`（§4.6）
+4. 一覧の「ロール」の列の「メンバー」と、「状態」の列の「停止中」のマークアップは？ → `<span class="tag">メンバー</span>`（分類）と `<span class="status-dot ng">停止中</span>`（状態）
+5. 検索して1件もないときは？ → 表の代わりに `.empty-state`（「条件に当てはまる会員はいません」＋「条件をすべてクリア」）。まだ1件も作っていないときとは文言を分ける（§8.4）
 
 ## 7. 変更の手順
 
@@ -534,3 +668,79 @@ if (ended === null) return; // キャンセル
 - **React の部品を足す**：`src/` → `src/index.ts` で書き出す → §4 の表 → `stories/` に見本。骨組みの部品だけを足し、細かい見た目の部品は作らない
 - 最後に `npm run check`・`npm run typecheck`・`npm run build`（`dist/` も Git に入れる）。見た目は Storybook とデモで、ライト・ダーク・スマートフォンの幅を確かめる
 - **版**：変更を main に入れたら `package.json` の `version` を上げ、`v1.2.3` のタグを付ける（`docs/deploy.md`）。使う側は版を指定して取り込むので、勝手には変わらない。表示が変わる変更（クラスの削除・トークンの意味の変更）は大きい版（v2）にする
+
+## 8. 画面の組み方の決めごと
+
+画面を新しく作るときは、まずここに当てはめる。部品の名前は §3・§4。
+
+### 8.1 一覧（コレクション）の画面
+
+ものの一覧を出し、探して、1件ずつの画面（詳細）へ進む画面。上から次の3つの場所に分ける。
+
+1. **画面全体への操作**（`.headline-actions`）：新しく追加・招待・取り込み・書き出しなど、絞り込みに関係ない操作。主要な操作（`.button.primary`）は1つで、いちばん右
+2. **探す場所**（`.toolbar`）：左に表示の切り替え（`.segmented`。状態ごとの件数つき）、右に絞り込み（`.dropdown`）と検索（`.search-field`）。適用中の条件は下に `.filter-tags`
+3. **一覧**（`.table-card`）：上の帯（件数・選んでいる行への一括操作）→ 表 → ページ送り
+
+表の決めごと：
+
+- 1行目の列は、そのものを見分ける名前（氏名・題名）。`a.person` か `a` にして詳細へのリンクにする。行全体を押しても進めてよい（`tr.clickable` ＋ `rowClick()`）
+- 並べ替えは、比べる意味のある列（名前・番号・日時・数値）に付ける。どの列で並べているかを必ず見せる（`aria-sort`）。既定の並びは、運営がいちばん使う順（新しい順など）
+- 一括操作があるときだけ、左端にチェックボックスの列を置く。見出しのチェックボックスは**表示中の行だけ**を選ぶ。絞り込み・並べ替え・ページ送りをしたら選択を外す（`useSelection()` がする）。取り消せない一括操作（停止・削除）は `confirmDialog({ danger: true })` で件数を書いて確かめる
+- 行の中の操作（`.actions-cell`）は1〜2個まで。同じことは詳細の画面でもできるようにする
+- 状態は `.status-dot`、分類（ロール・区分）は `.tag`。数値は右にそろえ（`.num`）、日時は「2026/10/27 03:37」の形でそろえる。値がないところは「—」（`.muted`）
+- 件数が多いときはページ送り（`<Pager>`。既定は20件）。下へ送ると読み込み続ける形（無限スクロール）にはしない（どこまで見たか分からなくなり、フッターにたどり着けない）
+- 列が多くて入らないときは表を横にスクロールさせる（`.table-wrap`）。列を勝手に隠さない
+
+### 8.2 検索と絞り込み
+
+- **検索は1つの欄**（`.search-field`）で、何で探せるかを `placeholder` に書く（「氏名・会員番号・メールアドレス」）。欄の名前は `aria-label`（「会員を検索」）
+- サーバーに問い合わせる検索は **Enter で実行**する（`<form role="search">`。`<CollectionLayout onSearch>`）。手元にあるデータを絞るだけなら、打つたびに絞ってよい
+- **よく使う条件は表示の切り替え**（`.segmented`：すべて・利用中・停止中）にして、件数を添える。件数は、ほかの条件で絞ったうえでの数にする
+- それ以外の条件は**ドロップダウン**（`details.dropdown`）にまとめ、選択肢はチェックボックス（`label.check`）。選んでいる間はボタンを `.applied` にして選んだ数を出す
+- 適用中の条件は `.filter-tags` に並べ、1つずつ外せるようにし、「すべてクリア」を置く。条件はできるだけ URL（`?status=ok&cohort=1`・`#/members?…`）に残し、再読み込み・戻る・共有で同じ一覧が出るようにする
+- 条件を変えたら1ページ目に戻す。0件のときは §8.4
+- ヘッダーの全体の検索（`.console-search`）は、画面・設定・会員を名前で探して移るためのもの。一覧の中を絞る検索は、その一覧の `.toolbar` に置く（2つを兼ねない）
+
+### 8.3 フォーム
+
+- **組み方は2つ**：縦（`.form`。会員向け・一度きりの申請、項目の説明を丁寧に書く）と横並び（`.form.aligned`。管理画面の設定など、何度も使い項目が多いもの）。1つのアプリの中で同じ種類の画面は同じ組み方にそろえる
+- ラベルと入力欄は必ず結び付ける（`label` で包む・`<Field>`）。入力欄が複数あるときは `fieldset` ＋ `legend`、表の中で行ごとに入力するときは `aria-label`（「2行目の終了日」）
+- 必須の項目を先に、任意の項目を後に並べる。任意の項目はラベルに「（任意）」
+- **書き方は入力の前に分かるように**：ラベル・補足（`hint`）に形を書く（「ハイフンなしの7桁」）。`placeholder` は入力例・検索の対象だけに使い、必要な説明を `placeholder` に書かない（入力すると消え、文字も淡い）。全角・半角やハイフンの有無は、受け取る側で直す
+- **自分の情報を入れるフォーム**（会員の申請・登録情報）は `autocomplete`（`name`・`email`・`tel` など）を付ける。**ほかの人の情報を入れるフォーム**（管理画面での会員の編集）は `autocomplete="off"`
+- **送信中**は送信ボタンと、ほかの操作のボタンを `disabled` にし、ボタンの文字を「保存しています…」にする（二重に送らない）
+- **送信の結果**：できたら `toast('設定を保存しました。')`（または詳細の画面へ移る）。できなかったら `toast('保存できませんでした。…', { kind: 'ng' })` で気付かせ、**誤りの内容は項目の直後**（`<Field error>`・`aria-invalid`）に書く。項目が多いフォームは、上に `.message-box.ng[role=alert]` で誤りの一覧も出す
+- 入力の確かめは**送信したとき（または欄を離れたとき）**に出す。打っている途中に赤くしない。確かめはサーバーでも必ず行い、画面での確かめは入力の手助けと考える。送信ボタンを「誤りがあるあいだ押せない」にはしない（何が足りないか分からなくなる。するならボタンの近くに理由を書く）
+- 長いフォームは `.form-actions.sticky` で送信ボタンを画面の下に貼りつける
+
+### 8.4 空の状態
+
+一覧に出すものがないときは、表を空のまま出さず、表の代わりに `.empty-state` を置く。理由で文言を分ける。
+
+| 場合 | 題名（`.empty-state-title`） | 説明と操作 |
+|---|---|---|
+| まだ1件もない | 「お知らせはまだありません」 | 何ができるか・作るとどうなるか。操作は「お知らせを作る」（`.button.primary`。画面の見出しの主要な操作と同じ） |
+| 検索・絞り込みに当てはまらない | 「条件に当てはまる会員はいません」 | 「検索の言葉を変えるか、絞り込みの条件を外してください。」。操作は「条件をすべてクリア」（`.button.secondary`） |
+| 権限がない・読み込めない | 「会員の一覧を表示できません」 | 理由と、次にすること（管理者に頼む・再読み込み）。エラーは `.message-box.ng` でもよい |
+
+飾りの絵は入れない（§3.10 と同じく、生成した画像・イラストを使わない）。
+
+### 8.5 知らせの使い分け
+
+| 伝えること | 使うもの | 消え方 |
+|---|---|---|
+| 操作の結果（保存した・送った・失敗した） | `toast()`（`.toast`。失敗は `kind: 'ng'`） | 成功は5秒で消える。失敗は × で閉じるまで残る |
+| 画面を見ている間ずっと知っておくこと（説明・注意・取り込みの結果・入力の誤りのまとめ） | `.message-box`（`.info` / `.ok` / `.warn` / `.ng`） | 消えない（状況が変わったら消す） |
+| 1つの欄の誤り | 欄の直後の `.error.small`（`<Field error>`）＋ `aria-invalid` | 直したら消す |
+| 続ける前に確かめること（取り消せない操作） | `confirmDialog()`（§3.9） | 答えるまで閉じない |
+| 状態（ものがいまどうなっているか） | `.badge` / `.status-dot` | — |
+
+- `toast()` に大事なこと・あとで読み返すことを書かない（消えてしまう）。リンクやボタンも入れない
+- 文は「〜しました。」「〜できませんでした。〜してください。」。失敗の文には、次に何をすればよいかを書く
+
+### 8.6 文言
+
+- ボタンは動詞で終える（「保存する」「変更を保存」「会員を招待」「CSV で書き出す」）。「OK」「はい」だけにしない
+- 件数は「63 件」「3 人」。選んでいる数は「2 件を選択中」
+- 日時は「2026/10/27 03:37」、日付は「2026/10/27」。相対的な言い方（「3日前」）は補足にとどめる
+- 同じものに同じ名前を使う（左のメニュー・画面の題名・パンくず・ボタン）

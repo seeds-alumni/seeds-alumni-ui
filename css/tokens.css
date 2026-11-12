@@ -102,6 +102,17 @@
   --check-size: 1.125rem;       /* チェックボックス・ラジオボタン */
   --header-height: 56px;
   --tab-height: 44px;           /* 管理画面のタブ */
+  --sidebar-width: 248px;       /* 管理コンソールの左のメニュー */
+  --avatar-size: 32px;          /* 人の丸いアイコン（.avatar） */
+  --avatar-size-sm: 24px;
+  --avatar-size-lg: 40px;
+  --icon-size: 1.25rem;         /* ボタン・メニューの中のアイコン（20px） */
+  --icon-size-sm: 1rem;         /* 入力欄の中のアイコン（16px） */
+  --dot-size: 8px;              /* 状態の点（.status-dot）・お知らせの点（.icon-button.has-dot） */
+  --label-width: 12em;          /* 横並びのフォーム（.form.aligned）の項目名の幅 */
+
+  /* ── アイコン（mask-image で使う形だけの画像。色は background の currentColor・トークンで付ける） ── */
+  --icon-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
 
   /* ── 角丸（小さい部品 4、ボタン・入力欄 8、カード 12、ダイアログ 24） ── */
   --radius-sm: 4px;             /* バッジ・小さいボタン・ロゴ・候補 */
@@ -120,14 +131,19 @@
   --shadow-card: 0 0 1rem light-dark(#0000000f, #00000059), 0 0.0625rem 0.1875rem light-dark(#0000001f, #00000080); /* カード */
   --shadow-float: 0 0 1.5rem light-dark(#0000001a, #00000066), 0 0.25rem 0.5rem light-dark(#00000033, #00000099); /* 浮かせる要素（候補リスト・会員証） */
   --shadow-popup: 0 0 2rem light-dark(#0000001a, #00000073), 0 0.375rem 0.75rem light-dark(#00000033, #000000a6); /* ダイアログ */
+  --z-dropdown: 90;             /* ドロップダウンのメニュー（ヘッダーの下に潜る） */
   --z-header: 100;
+  --z-drawer: 110;              /* 狭い画面で引き出す管理コンソールのメニュー */
+  --z-toast: 200;               /* 画面の下に出す短い知らせ（.toast） */
   --transition: 0.2s ease;
 
   /* ── レイアウト ── */
   --layout-narrow: 640px;       /* 会員向け画面 */
   --layout-wide: 1200px;        /* 管理画面・ホームページの帯 */
   --layout-reading: 820px;      /* 長い文章（.prose）の本文の幅。読みやすい1行の長さ（.container.reading） */
+  --layout-console: 1600px;     /* 管理コンソールの本文の最大幅（一覧の列が多いので広く） */
   --layout-dialog: 440px;
+  --layout-toast: 28rem;
   --tile-min: 200px;
   --column-min: 300px;
 }
