@@ -1,6 +1,7 @@
 // @seeds-alumni/ui の React の部品。CSS は別に読み込む（import '@seeds-alumni/ui/css'）。使い方は docs/usage.md
 export { AppShell } from './AppShell';
 export { AppHeader } from './AppHeader';
+export { AccountMenu, accountLabel } from './AccountMenu';
 export { ConsoleShell } from './ConsoleShell';
 export { PageHeader } from './PageHeader';
 export { Tabs } from './Tabs';

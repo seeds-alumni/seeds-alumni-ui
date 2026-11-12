@@ -1,5 +1,5 @@
 /*
- * 管理コンソールの枠とドロップダウンの動き（素の HTML 向け）。@seeds-alumni/ui。React では <ConsoleShell>・<AppShell> が同じことをする
+ * 管理コンソールの枠とドロップダウン（ヘッダーのログイン中の人 .account を含む）の動き（素の HTML 向け）。@seeds-alumni/ui。React では <ConsoleShell>・<AppShell> が同じことをする
  *
  * 使い方：<script src="https://ui.seeds-alumni.jp/v1/console.js" defer></script>（マークアップは demo/console.html）
  *   - 左のメニュー：.console-header の <button class="nav-toggle" aria-controls="（.console-sidebar の id）"> を押すと、

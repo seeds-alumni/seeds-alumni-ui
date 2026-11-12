@@ -29,7 +29,7 @@ export type ConsoleShellProps = {
     logoSrc?: string;
     /** ヘッダーの中央の全体の検索（<span className="search-field"><input type="search" aria-label=… /></span>）。⌘K / Ctrl+K で移る */
     search?: ReactNode;
-    /** ヘッダーの右の操作（.icon-button のヘルプ・お知らせ、ログイン中の人の .dropdown）。表示の切り替えは自動で右端に付く */
+    /** ヘッダーの右の操作（.icon-button のヘルプ・お知らせ、ログイン中の人の <AccountMenu>）。表示の切り替えは自動で右端に付く */
     actions?: ReactNode;
     /** 左のメニュー */
     nav: SideNavGroup[];

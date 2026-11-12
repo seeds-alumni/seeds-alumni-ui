@@ -138,7 +138,8 @@
   --transition: 0.2s ease;
 
   /* ── レイアウト ── */
-  --layout-narrow: 640px;       /* 会員向け画面 */
+  --layout-narrow: 640px;       /* 1つのことだけをするページ（ログイン・申請。main.narrow）・フォームの幅 */
+  --layout-member: 1040px;      /* 会員向け画面の本文とヘッダーの幅（main。1.7.0 で 640px から広げた） */
   --layout-wide: 1200px;        /* 管理画面・ホームページの帯 */
   --layout-reading: 820px;      /* 長い文章（.prose）の本文の幅。読みやすい1行の長さ（.container.reading） */
   --layout-console: 1600px;     /* 管理コンソールの本文の最大幅（一覧の列が多いので広く） */

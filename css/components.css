@@ -10,7 +10,7 @@
   border-bottom: var(--divider); box-shadow: var(--shadow-card);
 }
 .app-header-inner {
-  max-width: var(--layout-narrow); margin: 0 auto; padding: 0 var(--space-lg);
+  max-width: var(--layout-member); margin: 0 auto; padding: 0 var(--space-lg);
   min-height: var(--header-height); display: flex; align-items: center; gap: var(--space-md);
 }
 .app-header.wide .app-header-inner { max-width: var(--layout-wide); }
@@ -40,10 +40,30 @@ img.brand-mark { width: auto; height: 32px; padding: 3px 4px; background: var(--
   .brand { font-size: var(--font-size-sm); }
   .brand-name { white-space: normal; word-break: keep-all; }  /* 狭い画面では「SEEDS-ID」と「会員管理システム」の間で折り返す */
   .header-user { display: none; }
+  .app-header .account .person-text { display: none; }  /* 狭い画面ではアイコンだけ（名前はメニューの一番上に出す） */
+}
+
+/* ── ログイン中の人（ヘッダーの右。React は <AccountMenu>） ──
+ *   details.dropdown.account > summary.person（.avatar ＋ .person-text：上の段に「氏名（会員番号）」、下の段にロール名）
+ *     + div.dropdown-menu.end（.account-who（狭い画面だけ）・リンク・ボタン）
+ * 会員向けの画面（<AppShell>）と管理コンソール（<ConsoleShell>）・素の HTML で同じ形にする */
+.account > summary.person { padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-md); cursor: pointer; transition: background var(--transition); }
+.account > summary.person:hover { background: var(--color-hover); }
+.account .person-text { max-width: 16rem; }
+.account .person-name { font-size: var(--font-size-sm); }
+.account-who { display: none; }
+@media (max-width: 640px) {
+  .account-who { display: grid; gap: var(--space-2xs); padding: var(--space-xs) var(--space-md) var(--space-sm); border-bottom: var(--divider); margin-bottom: var(--space-2xs); white-space: normal; }
+  .account-who > strong { font-size: var(--font-size-sm); }
+  .account-who > span { color: var(--color-text-muted); font-size: var(--font-size-xs); }
 }
 
 /* ── レイアウト ── */
 main.wide { max-width: var(--layout-wide); }
+/* 1つのことだけをするページ（ログイン・申請のフォーム）。広い画面でも 640px にとどめる（ヘッダーの幅は変えない） */
+main.narrow { max-width: var(--layout-narrow); }
+/* 会員向けの画面（main）は広い画面で 1040px まで広がるので、フォームは読みやすい幅（640px）にとどめる。2列にするときは .grid2 */
+main:not(.wide):not(.full) .form:not(.aligned) { max-width: var(--layout-narrow); }
 /* 幅を決めない main（ホームページなど、ページの帯ごとに幅を変えるサイト）。幅は中の .container で決める */
 main.full { max-width: none; padding: 0 0 var(--space-4xl); }
 .container { width: 100%; max-width: var(--layout-narrow); margin: 0 auto; padding: 0 var(--space-lg); }
@@ -69,6 +89,9 @@ body:has(> .app-footer) > main { flex: 1 0 auto; width: 100%; }
 .row + p { margin-top: var(--space-md); }
 .row.between:has(> h2) { margin-bottom: var(--space-md); }
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column-min)), 1fr)); gap: var(--space-lg); }
+/* カードを2列に並べるとき（会員向けの画面の PC 表示）：列の間は .grid2 の gap だけにし、次のカードとの間はカードの間と同じにする */
+.grid2 > :is(section, .card) { margin-bottom: 0; }
+main > .grid2 { margin-bottom: var(--space-lg); }
 .box { background: var(--color-field); border: var(--divider); border-radius: var(--radius-md); padding: var(--space-lg); display: grid; gap: var(--space-sm); }
 /* 注意の箱（notice）：注意の色の枠と淡い地 */
 .warnbox { background: var(--color-warning-soft); border: var(--border-width) solid var(--color-warning-line); }
