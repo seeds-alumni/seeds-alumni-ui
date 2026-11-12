@@ -11,17 +11,18 @@ export const ボタン: Story = {
   render: () => (
     <section>
       <h2>ボタン</h2>
+      <p className="muted small">上から、標準（幅いっぱい）・主要な操作（.primary。1画面に1つ）。下の行は横に並べるボタン。</p>
       <div className="stack">
-        <button type="button" className="button">標準（幅いっぱい）</button>
-        <button type="button" className="button primary">主要な操作（1画面に1つ）</button>
+        <button type="button" className="button">会員証を表示</button>
+        <button type="button" className="button primary">申請</button>
       </div>
       <div className="row mt-md">
-        <button type="button" className="button primary inline">承認する</button>
-        <button type="button" className="button danger inline">却下する</button>
+        <button type="button" className="button primary inline">承認</button>
+        <button type="button" className="button danger inline">却下</button>
         <button type="button" className="button secondary">キャンセル</button>
-        <button type="button" className="button small-btn">小さい操作</button>
-        <button type="button" className="button secondary" disabled>押せない</button>
-        <button type="button" className="link">リンクの見た目のボタン</button>
+        <button type="button" className="button small-btn">編集</button>
+        <button type="button" className="button secondary" disabled>保存</button>
+        <button type="button" className="link">選択を解除</button>
       </div>
     </section>
   ),
@@ -53,9 +54,9 @@ export const フォーム: Story = {
           <label className="radio"><input type="radio" name="n" defaultChecked /> メールで受け取る</label>
           <label className="radio"><input type="radio" name="n" /> 受け取らない</label>
         </fieldset>
-        <label>補足（任意）<textarea /><span className="muted small">本人確認の参考になる情報があれば書いてください</span></label>
+        <label>補足（任意）<textarea /><span className="muted small">本人確認の参考になる情報があれば書いてください。</span></label>
         <label className="check"><input type="checkbox" /> 規約に同意します</label>
-        <button className="button primary">送信する</button>
+        <button className="button primary">申請</button>
       </form>
     </section>
   ),
@@ -95,7 +96,7 @@ export const 箱とお知らせ: Story = {
       <h2>箱とお知らせ</h2>
       <div className="grid2">
         <div className="box"><strong>箱（.box）</strong><span className="muted small">カードの中の小さなまとまり</span></div>
-        <div className="box warnbox"><strong>注意（.box.warnbox）</strong><ul><li>名簿と番号が一致しません</li></ul></div>
+        <div className="box warnbox"><strong>注意（.box.warnbox）</strong><ul><li>名簿と会員番号が一致しません。</li></ul></div>
       </div>
       <h3>お知らせの本文（.notice）</h3>
       <div className="notice">プライバシーポリシーを改訂しました。{'\n'}主な変更点：Wallet に追加したときの取り扱い</div>
@@ -103,9 +104,9 @@ export const 箱とお知らせ: Story = {
       <ul className="doc-links"><li><a href="#">会則</a></li><li><a href="#">プライバシーポリシー</a></li></ul>
       <h3>文字の補助クラス</h3>
       <p className="muted">補足（.muted）</p>
-      <p className="ok">保存しました（.ok）</p>
-      <p className="warn">確認してください（.warn）</p>
-      <p className="error">入力に誤りがあります（.error）</p>
+      <p className="ok">保存しました。 <code>.ok</code></p>
+      <p className="warn">会員番号を確認してください。 <code>.warn</code></p>
+      <p className="error">メールアドレスの形式が正しくありません。 <code>.error</code></p>
       <p className="small">小さい文字（.small）</p>
     </section>
   ),

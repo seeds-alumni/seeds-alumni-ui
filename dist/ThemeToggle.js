@@ -17,6 +17,6 @@ export function ThemeToggle() {
         setTheme(next);
         set(next);
     }
-    const label = theme === 'dark' ? 'ライトモードに切り替え' : 'ダークモードに切り替え';
+    const label = theme === 'dark' ? 'ライトモードに切り替える' : 'ダークモードに切り替える';
     return (_jsx("button", { type: "button", className: "theme-toggle", onClick: toggle, "aria-label": label, title: label, children: _jsx(ThemeIcon, { theme: theme }) }));
 }

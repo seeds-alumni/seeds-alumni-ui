@@ -16,7 +16,7 @@ export const カード: StoryObj<typeof Card> = {
       </dl>
     </Card>
   ),
-  args: { title: '登録情報', level: 2, tone: undefined },
+  args: { title: '基本情報', level: 2, tone: undefined },
   argTypes: { level: { control: 'inline-radio', options: [2, 3] }, tone: { control: 'inline-radio', options: [undefined, 'warn'] } },
 };
 
@@ -38,7 +38,7 @@ export const バッジ: StoryObj<typeof Badge> = {
 
 export const ヘッダー: StoryObj<typeof AppHeader> = {
   parameters: { layout: 'fullscreen' },
-  render: (args) => <AppHeader {...args}><span className="header-user">管理 太郎（admin）</span><a href="#">会員ページ</a></AppHeader>,
+  render: (args) => <AppHeader {...args}><span className="header-user">管理 太郎（管理者）</span><a href="#">会員ポータル</a></AppHeader>,
   args: { title: 'SEEDS同窓会 会員管理システム', href: '#', wide: true, envLabel: '開発環境' },
 };
 
@@ -75,13 +75,13 @@ export const フォームの項目: StoryObj<typeof Field> = {
   render: (args) => (
     <Card title="フォーム">
       <form className="form" onSubmit={(e) => e.preventDefault()}>
-        <Field {...args}><input placeholder="勤務先・在籍校など" /></Field>
+        <Field {...args}><input placeholder="例：大阪大学 工学部" /></Field>
         <Field label="氏名"><input required /></Field>
-        <button className="button primary">保存する</button>
+        <button className="button primary">保存</button>
       </form>
     </Card>
   ),
-  args: { label: '現在の所属', optional: true, hint: '登録後もマイページで変更できます。', error: '' },
+  args: { label: '現在の所属', optional: true, hint: '本登録の後も、マイページで変更できます。', error: '' },
 };
 
 function PagerDemo() {
@@ -95,9 +95,9 @@ function DialogDemo() {
   return (
     <Card title="ダイアログ">
       <div className="row">
-        <button type="button" className="button secondary" onClick={async () => setResult(String(await confirmDialog('この申請を承認しますか？', { title: '承認', okLabel: '承認する' })))}>確認</button>
-        <button type="button" className="button danger inline" onClick={async () => setResult(String(await confirmDialog('この会員を停止しますか？', { title: '会員の停止', okLabel: '停止する', danger: true })))}>取り消せない操作の確認</button>
-        <button type="button" className="button secondary" onClick={async () => setResult(String(await inputDialog({ title: 'SA 登録の解除', label: '終了日', type: 'date' })))}>入力</button>
+        <button type="button" className="button secondary" onClick={async () => setResult(String(await confirmDialog('この申請を承認しますか？', { title: '申請の承認', okLabel: '承認' })))}>承認</button>
+        <button type="button" className="button danger inline" onClick={async () => setResult(String(await confirmDialog('この会員を停止しますか？', { title: '会員の停止', okLabel: '停止', danger: true })))}>停止</button>
+        <button type="button" className="button secondary" onClick={async () => setResult(String(await inputDialog({ title: 'SA 登録の解除', label: '終了日', type: 'date', okLabel: '登録を解除' })))}>SA 登録を解除</button>
       </div>
       <p className="muted small mt-md">結果：{result}</p>
     </Card>
@@ -112,7 +112,7 @@ export const 画面の見出し: StoryObj<typeof PageHeader> = {
     title: '会員',
     count: 63,
     description: 'SEEDS同窓会の会員と、ログイン・利用の状態を管理します。',
-    actions: <><button type="button" className="button secondary">CSV で書き出す</button><button type="button" className="button primary inline">会員を招待</button></>,
+    actions: <><button type="button" className="button secondary">CSV をダウンロード</button><button type="button" className="button primary inline">会員を招待</button></>,
   },
 };
 
@@ -159,8 +159,8 @@ export const 短い知らせ: StoryObj = {
   render: () => (
     <Card title="短い知らせ（toast）">
       <div className="row">
-        <button type="button" className="button secondary" onClick={() => toast('設定を保存しました。')}>成功</button>
-        <button type="button" className="button danger inline" onClick={() => toast('保存できませんでした。時間をおいてもう一度お試しください。', { kind: 'ng' })}>失敗（閉じるまで残る）</button>
+        <button type="button" className="button secondary" onClick={() => toast('設定を保存しました。')}>保存（成功）</button>
+        <button type="button" className="button danger inline" onClick={() => toast('保存できませんでした。時間をおいて、もう一度お試しください。', { kind: 'ng' })}>保存（失敗。閉じるまで残る）</button>
       </div>
     </Card>
   ),

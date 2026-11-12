@@ -29,7 +29,7 @@ export function ThemeToggle() {
     set(next);
   }
 
-  const label = theme === 'dark' ? 'ライトモードに切り替え' : 'ダークモードに切り替え';
+  const label = theme === 'dark' ? 'ライトモードに切り替える' : 'ダークモードに切り替える';
   return (
     <button type="button" className="theme-toggle" onClick={toggle} aria-label={label} title={label}>
       <ThemeIcon theme={theme} />

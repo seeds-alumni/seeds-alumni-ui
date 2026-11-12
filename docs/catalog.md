@@ -179,7 +179,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.app-header` / `.app-header.wide` | 上部に固定するヘッダー（半透明＋ぼかし、下に区切り線）。管理画面は `wide` |
 | `.app-header-inner` | ヘッダーの中身の幅をページ（`main`）とそろえる |
 | `.brand` / `.brand-mark` / `.brand-name` | 左上のロゴ（深緑の四角に S。`<img class="brand-mark">` にすると各アプリのロゴの画像を高さ 32px・白い地で出す。幅は縦横比に任せる）とサイト名（例：「SEEDS同窓会 会員ポータル」。「SEEDS同窓会」の間に空白を入れない）。押すとトップへ。狭い画面ではサイト名を2行に折り返す |
-| `.header-actions` | 右側の操作（ログイン中の人、ログアウト、会員ページへ、表示の切り替え） |
+| `.header-actions` | 右側の操作（ログイン中の人、ログアウト、会員ポータルへのリンク、表示の切り替え） |
 | `.header-user` | ログイン中の人の名前。狭い画面では隠す |
 | `.theme-toggle` | ライト・ダークの切り替えボタン（React は `<ThemeToggle>`。素の HTML は `<button class="theme-toggle"></button>` を置いて `js/theme.js` を読み込む） |
 | `.app-footer` / `.app-footer.wide` | ページの下のフッター（公開サイト。白い地、上に区切り線）。`body` の直下に置くと、短いページでも画面の下端に寄る。幅はヘッダーとそろえる（`wide`） |
@@ -188,7 +188,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 
 ```tsx
 <AppShell title="SEEDS同窓会 会員管理システム" href="/admin" wide envLabel={envLabel}
-  actions={<><span className="header-user">管理 者（admin）</span><a href="/">会員ページ</a></>}>
+  actions={<><span className="header-user">管理 太郎（管理者）</span><a href="/">会員ポータル</a></>}>
   …
 </AppShell>
 ```
@@ -250,8 +250,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 
 ```tsx
 <div className="row">
-  <button className="button primary inline" onClick={approve}>承認する</button>
-  <button className="button danger inline" onClick={reject}>却下する</button>
+  <button className="button primary inline" onClick={approve}>承認</button>
+  <button className="button danger inline" onClick={reject}>却下</button>
 </div>
 ```
 
@@ -269,7 +269,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `[aria-invalid="true"]` | 誤りのある入力欄（枠が赤）。誤りの文は欄の直後の `.error.small`（`<Field error>`） |
 | `.search-field` | 虫めがねつきの検索欄（`span.search-field > input[type=search]`）。入力欄に `aria-label`（「会員を検索」）。一覧の上は `.toolbar` の中、全体の検索は `.console-search` の中 |
 | `.dropdown` / `.dropdown-menu` / `.dropdown-label` | 押すと開くメニュー（`details.dropdown > summary + div.dropdown-menu`）。中は `a`・`button`・`label.check`（絞り込みの選択肢）・`hr`・小さい見出しの `.dropdown-label`。`.dropdown-menu.end` は右端にそろえる（ヘッダーの右など）。`button.danger` は赤い文字。外を押す・Esc・項目を押すと閉じる（React は `<AppShell>`・`<ConsoleShell>`、素の HTML は `js/console.js`）。表の中では開かない（表の枠で切れる） |
-| `.filter-tags` / `.filter-tag` | 適用中の絞り込みの条件（`.toolbar` の下）。1つの条件ごとに `button.filter-tag`（「期：1期 ×」。押すとその条件を外す。`aria-label` は「期：1期 の条件を外す」）、最後に「すべてクリア」（`.link`）。条件がないときは出さない |
+| `.filter-tags` / `.filter-tag` | 適用中の絞り込みの条件（`.toolbar` の下）。1つの条件ごとに `button.filter-tag`（「期：1期 ×」。押すとその条件を外す。`aria-label` は「期：1期 の条件を外す」）、最後に「すべて外す」（`.link`）。条件がないときは出さない |
 | `.suggest` | 入力欄の下に出す候補リスト（`ul.suggest` の中の `li > button`。マウスを載せた候補は淡い地。学校の検索など） |
 
 - 入力の誤りは、その項目の直後に `<span className="error small">…</span>` で出す
@@ -287,7 +287,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
     <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
     会則とプライバシーポリシーに同意します
   </label>
-  <button className="button primary">申請する</button>
+  <button className="button primary">申請</button>
 </form>
 ```
 
@@ -526,8 +526,8 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 | 設定 | `sliders-horizontal` |
 | ヘルプ | `circle-help` |
 | 通知（運営へ届くもの） | `bell` |
-| 書き出す・ダウンロード | `download` |
-| 追加・作る・招待 | `plus` |
+| ダウンロード | `download` |
+| 追加・作成・招待 | `plus` |
 | 取り込む・アップロード | `upload` |
 | 名簿 | `book-user` |
 | 会員証（QR）の読み取り・受付 | `scan-line`（受付の画面）／`scan-qr-code`（QR を読む操作のボタン） |
@@ -618,7 +618,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 ```tsx
 <DetailLayout back={{ href: '#/users', label: '会員一覧' }} title="15001：山田 太郎" status={<Badge kind="ok">利用中</Badge>} summary={<dl>…</dl>}>
   <Card title="所属・役割" level={3}>…</Card>
-  <Card title="例外的な操作" level={3}>…<button className="button danger inline">停止する</button></Card>
+  <Card title="例外的な操作" level={3}>…<button className="button danger inline">停止</button></Card>
 </DetailLayout>
 ```
 
@@ -634,7 +634,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 <form className="form" onSubmit={submit}>
   <Field label="氏名"><input required value={name} onChange={(e) => setName(e.target.value)} /></Field>
   <Field label="現在の所属" optional hint="登録後もマイページで変更できます。" error={errors.affiliation}><input … /></Field>
-  <button className="button primary">申請する</button>
+  <button className="button primary">申請</button>
 </form>
 ```
 
@@ -655,14 +655,14 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 >
   <PageHeader breadcrumb={[{ label: '会員管理', href: '#/members' }, { label: '会員' }]} title="会員" count={total}
     description="会員と、ログイン・利用の状態を管理します。"
-    actions={<><button className="button secondary">CSV で書き出す</button><button className="button primary inline">会員を招待</button></>} />
+    actions={<><button className="button secondary">CSV をダウンロード</button><button className="button primary inline">会員を招待</button></>} />
   <CollectionLayout
     views={[{ label: 'すべて', count: total, active: view === 'all', onSelect: () => setView('all') }, …]}
     filters={<details className="dropdown"><summary className="button ghost has-caret">期</summary><div className="dropdown-menu">…label.check…</div></details>}
     search={<span className="search-field"><input type="search" aria-label="会員を検索" value={q} onChange={…} /></span>}
     onSearch={search}
-    applied={filtering && <>…<button className="filter-tag" …>期：1期</button><button className="link" onClick={clearAll}>すべてクリア</button></>}
-    selection={{ count: sel.count, onClear: sel.clear, actions: <button className="button small-btn" onClick={suspend}>停止する</button> }}
+    applied={filtering && <>…<button className="filter-tag" …>期：1期</button><button className="link" onClick={clearAll}>すべて外す</button></>}
+    selection={{ count: sel.count, onClear: sel.clear, actions: <button className="button small-btn" onClick={suspend}>停止</button> }}
     summary={`${rows.length} 件`}
     empty={rows.length === 0 ? <div className="empty-state">…</div> : undefined}
     pager={{ total, page, pageSize, onPage: setPage }}
@@ -742,7 +742,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 ものの一覧を出し、探して、1件ずつの画面（詳細）へ進む画面。上から次の3つの場所に分ける。
 
-1. **画面全体への操作**（`.headline-actions`）：新しく追加・招待・取り込み・書き出しなど、絞り込みに関係ない操作。主要な操作（`.button.primary`）は1つで、いちばん右
+1. **画面全体への操作**（`.headline-actions`）：新しく追加・招待・取り込み・ダウンロードなど、絞り込みに関係ない操作。主要な操作（`.button.primary`）は1つで、いちばん右
 2. **探す場所**（`.toolbar`）：左に表示の切り替え（`.segmented`。状態ごとの件数つき）、右に絞り込み（`.dropdown`）と検索（`.search-field`）。適用中の条件は下に `.filter-tags`
 3. **一覧**（`.table-card`）：上の帯（件数・選んでいる行への一括操作）→ 表 → ページ送り
 
@@ -762,7 +762,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 - サーバーに問い合わせる検索は **Enter で実行**する（`<form role="search">`。`<CollectionLayout onSearch>`）。手元にあるデータを絞るだけなら、打つたびに絞ってよい
 - **よく使う条件は表示の切り替え**（`.segmented`：すべて・利用中・停止中）にして、件数を添える。件数は、ほかの条件で絞ったうえでの数にする
 - それ以外の条件は**ドロップダウン**（`details.dropdown`）にまとめ、選択肢はチェックボックス（`label.check`）。選んでいる間はボタンを `.applied` にして選んだ数を出す
-- 適用中の条件は `.filter-tags` に並べ、1つずつ外せるようにし、「すべてクリア」を置く。条件はできるだけ URL（`?status=ok&cohort=1`・`#/members?…`）に残し、再読み込み・戻る・共有で同じ一覧が出るようにする
+- 適用中の条件は `.filter-tags` に並べ、1つずつ外せるようにし、「すべて外す」を置く。条件はできるだけ URL（`?status=ok&cohort=1`・`#/members?…`）に残し、再読み込み・戻る・共有で同じ一覧が出るようにする
 - 条件を変えたら1ページ目に戻す。0件のときは §8.4
 - ヘッダーの全体の検索（`.console-search`）は、画面・設定・会員を名前で探して移るためのもの。一覧の中を絞る検索は、その一覧の `.toolbar` に置く（2つを兼ねない）
 
@@ -784,8 +784,8 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 | 場合 | 題名（`.empty-state-title`） | 説明と操作 |
 |---|---|---|
-| まだ1件もない | 「お知らせはまだありません」 | 何ができるか・作るとどうなるか。操作は「お知らせを作る」（`.button.primary`。画面の見出しの主要な操作と同じ） |
-| 検索・絞り込みに当てはまらない | 「条件に当てはまる会員はいません」 | 「検索の言葉を変えるか、絞り込みの条件を外してください。」。操作は「条件をすべてクリア」（`.button.secondary`） |
+| まだ1件もない | 「お知らせはまだありません」 | 何ができるか・作るとどうなるか。操作は「お知らせを作成」（`.button.primary`。画面の見出しの主要な操作と同じ） |
+| 検索・絞り込みに当てはまらない | 「条件に当てはまる会員はいません」 | 「検索の言葉を変えるか、絞り込みの条件を外してください。」。操作は「条件をすべて外す」（`.button.secondary`） |
 | 権限がない・読み込めない | 「会員の一覧を表示できません」 | 理由と、次にすること（管理者に頼む・再読み込み）。エラーは `.message-box.ng` でもよい |
 
 飾りの絵は入れない（§3.10 と同じく、生成した画像・イラストを使わない）。
