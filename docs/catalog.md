@@ -527,6 +527,18 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 | 通知（運営へ届くもの） | `bell` |
 | 書き出す・ダウンロード | `download` |
 | 追加・作る・招待 | `plus` |
+| 取り込む・アップロード | `upload` |
+| 名簿 | `book-user` |
+| 会員証（QR）の読み取り・受付 | `scan-line`（受付の画面）／`scan-qr-code`（QR を読む操作のボタン） |
+| 連携アプリ | `plug` |
+| Discord（SEEDS-CIRCLE）などのチャット | `messages-square`（Lucide にブランドのアイコンはない） |
+| イベント | `calendar-days` |
+| 編集 | `pencil` |
+| 質問・アンケート | `list-checks` |
+| 集計 | `chart-column` |
+| 履歴 | `history` |
+| 印刷 | `printer` |
+| 複製 | `copy` |
 
 ここにない意味のアイコンを新しく使ったら、この表に足す。
 

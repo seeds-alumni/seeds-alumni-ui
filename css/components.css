@@ -327,7 +327,8 @@ html.nav-open, html.nav-open body { overflow: hidden; }
 }
 
 /* ── 表 ── */
-.table-wrap { overflow-x: auto; margin: 0 calc(var(--space-md) * -1); padding: 0 var(--space-md); }
+/* position: relative：中の .visually-hidden（position: absolute）が表の外に出て、ページが横にはみ出さないように */
+.table-wrap { position: relative; overflow-x: auto; margin: 0 calc(var(--space-md) * -1); padding: 0 var(--space-md); }
 tr.clickable { cursor: pointer; transition: background var(--transition); }
 tr.clickable:hover { background: var(--color-hover); }
 tr.mismatch { background: var(--color-danger-soft); }

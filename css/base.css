@@ -28,8 +28,10 @@ strong { color: var(--color-text-strong); }
 
 dl { display: grid; grid-template-columns: max-content 1fr; gap: var(--space-sm) var(--space-xl); margin: 0; }
 dt { color: var(--color-text-muted); font-size: var(--font-size-sm); line-height: var(--line-height); }
-dd { margin: 0; overflow-wrap: anywhere; }
+dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 dl + * { margin-top: var(--space-lg); }
+/* 長い項目名（環境変数の名前など）でページが横にはみ出さないように、狭い画面では項目名を幅の4割までにして折り返す */
+@media (max-width: 640px) { dl { grid-template-columns: fit-content(40%) minmax(0, 1fr); } dt { overflow-wrap: anywhere; } }
 
 fieldset { border: var(--divider); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg); margin: 0; display: grid; gap: var(--space-xs); }
 legend { font-weight: var(--font-weight-bold); padding: 0 var(--space-2xs); color: var(--color-text-strong); }
