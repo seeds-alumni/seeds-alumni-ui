@@ -7,7 +7,7 @@
 1. `package.json` の `dependencies` に追加して `npm install`（npm の公開はしていないので、GitHub のタグを指定する）
 
    ```json
-   "@seeds-alumni/ui": "github:seeds-alumni/seeds-alumni-ui#v1.4.0"
+   "@seeds-alumni/ui": "github:seeds-alumni/seeds-alumni-ui#v1.5.0"
    ```
 
 2. 入口で CSS を読み込み、部品を使う
@@ -169,4 +169,42 @@
 </body>
 ```
 
-- ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.4.0 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる）
+- ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.5.0 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる）
+
+### 管理コンソール（左のメニューのある管理画面）
+
+React では `<ConsoleShell>` が枠を作ります（`docs/catalog.md` §3.11・§4.6）。素の HTML では `demo/console.html` のマークアップをもとにし、`<head>` に `console.js` を足します（`defer` を付ける）。`console.js` は、狭い画面での左のメニューの開け閉め、⌘K / Ctrl+K での全体の検索への移動、ドロップダウン（`details.dropdown`）を外を押す・Esc で閉じる動きをします。ドロップダウンだけを使うページでも読み込みます。
+
+```html
+<script src="https://ui.seeds-alumni.jp/v1/console.js" defer></script>
+```
+
+```html
+<div class="console">
+  <header class="console-header">
+    <div class="console-header-inner">
+      <button type="button" class="nav-toggle" aria-controls="console-sidebar" aria-expanded="false" aria-label="メニューを開く"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <a class="brand" href="/admin"><span class="brand-mark" aria-hidden="true">S</span><span class="brand-name">SEEDS同窓会</span></a>
+      <span class="tag brand">管理コンソール</span>
+      <div class="console-search" role="search"><span class="search-field"><input type="search" aria-label="設定・会員を検索" placeholder="設定・会員を検索" /><kbd class="kbd">Ctrl K</kbd></span></div>
+      <div class="header-actions">
+        <a class="icon-button" href="/help" aria-label="ヘルプ"><svg …></svg></a>
+        <button class="theme-toggle"></button>
+      </div>
+    </div>
+  </header>
+  <div class="console-scrim" hidden></div>
+  <nav class="console-sidebar" id="console-sidebar" aria-label="メニュー">
+    <div class="side-nav-group">
+      <p class="side-nav-label">会員管理</p>
+      <ul><li><a href="/admin/members" aria-current="page"><svg …></svg><span>会員</span></a></li></ul>
+    </div>
+  </nav>
+  <main class="console-main">
+    <div class="headline">…</div>
+    <div class="toolbar">…</div>
+    <div class="table-card">…</div>
+  </main>
+</div>
+```
+

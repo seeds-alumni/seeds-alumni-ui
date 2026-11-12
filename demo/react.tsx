@@ -1,10 +1,11 @@
 import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../css/index.css';
+import { ConsoleDemo } from './console';
 import { AdminDemo, ApplicationFormPage, LoginPage, MemberPortalPage } from './samples';
 
 /**
- * 画面の型のデモ。#/ で管理画面（#/users、#/users/4 など）、#member で会員向けのページ。
+ * 画面の型のデモ。#/ で管理画面（#/users、#/users/4 など）、#console で管理コンソール（#console/members など）、#member で会員向けのページ。
  * 見本のデータは架空のもの
  */
 function useHash() {
@@ -22,6 +23,7 @@ function Demo() {
   if (hash === '#member') return <MemberPortalPage envLabel="デモ" />;
   if (hash === '#login') return <LoginPage />;
   if (hash === '#apply') return <ApplicationFormPage />;
+  if (hash.startsWith('#console')) return <ConsoleDemo route={hash.replace(/^#console\/?/, '')} envLabel="デモ" />;
   return <AdminDemo route={hash.replace(/^#\/?/, '')} envLabel="デモ" />;
 }
 

@@ -9,7 +9,7 @@ export type AppShellProps = Omit<AppHeaderProps, 'children'> & {
     children: ReactNode;
 };
 /**
- * 画面の枠（画面の型の一番外側）：ヘッダー＋本文（main）＋ダイアログ。
+ * 画面の枠（画面の型の一番外側）：ヘッダー＋本文（main）＋ダイアログ・短い知らせ（toast）。
  * 会員向けは幅 640px、wide を付けると管理画面向けの 1200px。各画面は children に Card などを並べるだけにする。
  */
 export declare function AppShell({ actions, tabs, children, ...header }: AppShellProps): import("react").JSX.Element;

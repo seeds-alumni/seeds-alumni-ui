@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { AppHeader, type AppHeaderProps } from './AppHeader';
 import { DialogHost } from './Dialog';
+import { useDropdownDismiss } from './dropdown';
 import { Tabs, type TabItem } from './Tabs';
+import { ToastHost } from './Toast';
 
 export type AppShellProps = Omit<AppHeaderProps, 'children'> & {
   /** ヘッダーの右側の操作 */
@@ -12,10 +14,11 @@ export type AppShellProps = Omit<AppHeaderProps, 'children'> & {
 };
 
 /**
- * 画面の枠（画面の型の一番外側）：ヘッダー＋本文（main）＋ダイアログ。
+ * 画面の枠（画面の型の一番外側）：ヘッダー＋本文（main）＋ダイアログ・短い知らせ（toast）。
  * 会員向けは幅 640px、wide を付けると管理画面向けの 1200px。各画面は children に Card などを並べるだけにする。
  */
 export function AppShell({ actions, tabs, children, ...header }: AppShellProps) {
+  useDropdownDismiss();
   return (
     <>
       <AppHeader {...header}>{actions}</AppHeader>
@@ -24,6 +27,7 @@ export function AppShell({ actions, tabs, children, ...header }: AppShellProps) 
         {children}
       </main>
       <DialogHost />
+      <ToastHost />
     </>
   );
 }

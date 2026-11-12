@@ -1,0 +1,5 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+/** 画面の見出し（.headline）：パンくず → 題名＋件数・説明（左）と画面全体の操作（右）。管理コンソールの各画面の一番上 */
+export function PageHeader({ breadcrumb, title, count, description, actions }) {
+    return (_jsxs("div", { className: "headline", children: [!!breadcrumb?.length && (_jsx("nav", { className: "breadcrumb", "aria-label": "\u73FE\u5728\u5730", children: _jsx("ol", { children: breadcrumb.map((b, i) => (_jsx("li", { children: b.href && i < breadcrumb.length - 1 ? _jsx("a", { href: b.href, children: b.label }) : _jsx("span", { "aria-current": i === breadcrumb.length - 1 ? 'page' : undefined, children: b.label }) }, i))) }) })), _jsxs("div", { className: "headline-main", children: [_jsxs("h1", { className: "headline-title", children: [title, count != null && _jsxs("span", { className: "count", children: [count, _jsx("span", { className: "visually-hidden", children: "\u4EF6" })] })] }), description && _jsx("p", { className: "headline-desc", children: description })] }), actions && _jsx("div", { className: "headline-actions", children: actions })] }));
+}

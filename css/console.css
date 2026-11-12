@@ -1,0 +1,72 @@
+/*
+ * 管理コンソールの枠（docs/catalog.md §3.11）。React は <ConsoleShell>、素の HTML は demo/console.html のマークアップと js/console.js。
+ * 見た目は「アプリ」のまま（色は変えない）：上のヘッダーと左のメニューは白い面、本文は淡い深緑の地に白いカード。
+ * 画面が多い管理画面（目安：6画面より多い・まとまりで分けたい）に使う。画面が少なければ <AppShell wide tabs> のままでよい
+ *
+ *   div.console
+ *     header.console-header > div.console-header-inner（.nav-toggle・.brand・.tag.brand・.console-search・.header-actions）
+ *     div.console-scrim（狭い画面でメニューを開いたときの後ろの幕）
+ *     nav.console-sidebar > div.side-nav-group > p.side-nav-label + ul > li > a
+ *     main.console-main
+ */
+.console {
+  display: grid; grid-template-columns: var(--sidebar-width) minmax(0, 1fr); grid-template-rows: auto 1fr;
+  grid-template-areas: 'header header' 'side main'; min-height: 100vh; min-height: 100dvh;
+}
+.console-header { grid-area: header; position: sticky; top: 0; z-index: var(--z-header); background: var(--color-surface); border-bottom: var(--divider); }
+.console-header-inner { display: flex; align-items: center; gap: var(--space-md); min-height: var(--header-height); padding: 0 var(--space-lg) 0 var(--space-xl); }
+.console-header .brand { flex: none; }
+/* 全体の検索（設定・会員を探す）。ヘッダーの中央。⌘K / Ctrl+K で入力欄へ移る */
+.console-search { flex: 1 1 auto; max-width: 36rem; margin: 0 auto; }
+.console-search .search-field { width: 100%; }
+.console-header .header-actions { gap: var(--space-2xs); }
+.console-header .dropdown > summary.person { padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-md); cursor: pointer; transition: background var(--transition); }
+.console-header .dropdown > summary.person:hover { background: var(--color-hover); }
+.console-header .person-text { max-width: 14rem; }
+
+/* 左のメニュー：まとまりごとに小さい見出し。いまの画面は淡いブランド色の地と緑の太字 */
+.console-sidebar {
+  grid-area: side; align-self: start; position: sticky; top: calc(var(--header-height) + var(--border-width));
+  height: calc(100dvh - var(--header-height) - var(--border-width)); overflow-y: auto; overscroll-behavior: contain;
+  display: grid; align-content: start; gap: var(--space-xl); padding: var(--space-lg) var(--space-md) var(--space-3xl);
+  background: var(--color-surface); border-right: var(--divider);
+}
+.side-nav-label { margin: 0 0 var(--space-2xs); padding: 0 var(--space-md); color: var(--color-text-muted); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); }
+.side-nav-group ul { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.side-nav-group a {
+  display: flex; align-items: center; gap: var(--space-md); min-height: var(--control-height); padding: 0 var(--space-md);
+  border-radius: var(--radius-md); color: var(--color-text); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight); text-decoration: none; transition: background var(--transition), color var(--transition);
+}
+.side-nav-group a svg { width: var(--icon-size); height: var(--icon-size); flex: none; color: var(--color-text-muted); }
+.side-nav-group a .count { margin-left: auto; }
+.side-nav-group a:hover { background: var(--color-hover); color: var(--color-text-strong); }
+.side-nav-group a[aria-current='page'] { background: var(--color-brand-tint); color: var(--color-brand); font-weight: var(--font-weight-bold); }
+.side-nav-group a[aria-current='page'] svg { color: var(--color-brand); }
+.console-scrim { display: none; }
+
+/* 本文（淡い深緑の地）。列の多い一覧のために広く（最大 --layout-console）、左のメニューに寄せる */
+main.console-main { grid-area: main; width: 100%; max-width: var(--layout-console); margin: 0; padding: var(--space-2xl) var(--space-3xl) var(--space-4xl); }
+
+/* 980px 以下：左のメニューは隠し、ヘッダーの左の3本線（.nav-toggle）で引き出す（.console-sidebar.open） */
+@media (min-width: 981px) {
+  .console-header .nav-toggle { display: none; }
+}
+@media (max-width: 980px) {
+  .console { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'header' 'main'; }
+  .console-header-inner { padding: 0 var(--space-md) 0 var(--space-sm); gap: var(--space-sm); }
+  .console-sidebar {
+    position: fixed; top: calc(var(--header-height) + var(--border-width)); bottom: 0; left: 0; z-index: var(--z-drawer);
+    width: min(var(--sidebar-width), 85vw); height: auto; box-shadow: var(--shadow-popup);
+    transform: translateX(-100%); visibility: hidden; transition: transform var(--transition), visibility var(--transition);
+  }
+  .console-sidebar.open { transform: none; visibility: visible; }
+  .console-scrim:not([hidden]) { display: block; position: fixed; inset: calc(var(--header-height) + var(--border-width)) 0 0; z-index: calc(var(--z-drawer) - 1); background: var(--color-backdrop); }
+  main.console-main { padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
+}
+@media (max-width: 640px) {
+  /* 狭い画面のヘッダー：サイト名・札・検索・ログイン中の人の名前を隠し、ロゴと操作だけにする（いまの画面は本文の題名で分かる） */
+  .console-search, .console-header :is(.brand-name, .person-text, .tag) { display: none; }
+  main.console-main { padding: var(--space-lg) var(--space-md) var(--space-3xl); }
+}
+@media (prefers-reduced-motion: reduce) { .console-sidebar { transition: none; } }

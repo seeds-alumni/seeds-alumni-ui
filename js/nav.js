@@ -11,6 +11,7 @@
 (() => {
   const setup = () => {
     for (const button of document.querySelectorAll('button.nav-toggle[aria-controls]')) {
+      if (button.closest('.console-header')) continue; // 管理コンソールの左のメニューは js/console.js が開け閉めする
       const screen = document.getElementById(button.getAttribute('aria-controls'));
       if (!screen) continue;
       const header = button.closest('header');

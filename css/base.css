@@ -49,6 +49,8 @@ input[type='checkbox'], input[type='radio'] {
 input[type='checkbox']:focus, input[type='radio']:focus { box-shadow: none; }
 input[type='checkbox']:focus-visible, input[type='radio']:focus-visible { box-shadow: var(--focus-ring); }
 input:disabled, select:disabled, textarea:disabled { opacity: 0.5; cursor: not-allowed; }
+/* 入力の誤りがある欄（aria-invalid="true"）は枠を赤に。誤りの文は欄の直後に .error.small で書く */
+:is(input, select, textarea)[aria-invalid='true'] { border-color: var(--color-danger-line); }
 
 /* 表（見出しは小さい文字、行は区切り線、マウスを載せた行は淡いブランド色） */
 table { border-collapse: collapse; width: 100%; font-size: var(--font-size-sm); line-height: var(--line-height-tight); font-variant-numeric: tabular-nums; }

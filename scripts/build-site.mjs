@@ -16,17 +16,19 @@ run('npx', ['storybook', 'build', '-o', 'site', '--quiet']);
 run('npx', ['vite', 'build', '--config', 'demo/vite.config.ts', '--logLevel', 'warn']);
 cpSync(`${root}demo/index.html`, `${root}site/demo/index.html`);
 cpSync(`${root}demo/site.html`, `${root}site/demo/site.html`);
+cpSync(`${root}demo/console.html`, `${root}site/demo/console.html`);
 
 // CDN の CSS と JS
 const out = `${root}site/${major}`;
 mkdirSync(`${out}/css`, { recursive: true });
-const parts = ['tokens', 'base', 'components', 'site', 'utilities'];
+const parts = ['tokens', 'base', 'components', 'console', 'site', 'utilities'];
 const banner = `/* @seeds-alumni/ui ${pkg.version} — https://github.com/seeds-alumni/seeds-alumni-ui */\n`;
 for (const p of parts) cpSync(`${root}css/${p}.css`, `${out}/css/${p}.css`);
 cpSync(`${root}css/index.css`, `${out}/css/index.css`);
 writeFileSync(`${out}/seeds.css`, banner + parts.map((p) => readFileSync(`${root}css/${p}.css`, 'utf8')).join('\n'));
 cpSync(`${root}js/theme.js`, `${out}/theme.js`);
 cpSync(`${root}js/nav.js`, `${out}/nav.js`);
+cpSync(`${root}js/console.js`, `${out}/console.js`);
 writeFileSync(`${out}/version.txt`, `${pkg.version}\n`);
 
 // キャッシュ（Cloudflare Pages の _headers）
@@ -77,4 +79,4 @@ writeFileSync(
 </html>
 `,
 );
-console.log(`site/ を作りました（CDN：/${major}/seeds.css・/${major}/theme.js・/${major}/nav.js、版 ${pkg.version}）`);
+console.log(`site/ を作りました（CDN：/${major}/seeds.css・/${major}/theme.js・/${major}/nav.js・/${major}/console.js、版 ${pkg.version}）`);

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { AppHeader, Badge, Card, Field, Pager, Tabs, Tiles, confirmDialog, inputDialog } from '../src';
+import { AppHeader, Badge, Card, CollectionLayout, Field, PageHeader, Pager, Tabs, Tiles, confirmDialog, inputDialog, toast, useSelection } from '../src';
 import { SITE_NAV } from './SitePage';
 
 /** React の部品（docs/catalog.md §4）。Controls で props を変えて確かめられる */
@@ -104,3 +104,64 @@ function DialogDemo() {
   );
 }
 export const ダイアログ: StoryObj = { render: () => <DialogDemo /> };
+
+export const 画面の見出し: StoryObj<typeof PageHeader> = {
+  render: (args) => <PageHeader {...args} />,
+  args: {
+    breadcrumb: [{ label: '会員管理', href: '#' }, { label: '会員' }],
+    title: '会員',
+    count: 63,
+    description: 'SEEDS同窓会の会員と、ログイン・利用の状態を管理します。',
+    actions: <><button type="button" className="button secondary">CSV で書き出す</button><button type="button" className="button primary inline">会員を招待</button></>,
+  },
+};
+
+const ITEMS = [
+  { id: 1, name: '山田 太郎', status: 'ok' },
+  { id: 2, name: '佐藤 花子', status: 'warn' },
+  { id: 3, name: '鈴木 次郎', status: 'ng' },
+] as const;
+const LABEL = { ok: '利用中', warn: '審査中', ng: '停止中' };
+
+function CollectionDemo() {
+  const [view, setView] = useState<'all' | 'ok'>('all');
+  const rows = ITEMS.filter((r) => view === 'all' || r.status === 'ok');
+  const sel = useSelection(rows.map((r) => r.id));
+  return (
+    <CollectionLayout
+      views={[
+        { label: 'すべて', count: ITEMS.length, active: view === 'all', onSelect: () => setView('all') },
+        { label: '利用中', count: 1, active: view === 'ok', onSelect: () => setView('ok') },
+      ]}
+      search={<span className="search-field"><input type="search" aria-label="会員を検索" /></span>}
+      selection={{ count: sel.count, onClear: sel.clear, actions: <button type="button" className="button small-btn" onClick={() => toast(`${sel.count} 件にタグを付けました。`)}>タグを付ける</button> }}
+      summary={`${rows.length} 件`}
+    >
+      <table>
+        <thead><tr><th className="check-cell"><input type="checkbox" {...sel.allProps} /></th><th>氏名</th><th>状態</th></tr></thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.id} className={sel.isSelected(r.id) ? 'selected' : undefined}>
+              <td className="check-cell"><input type="checkbox" {...sel.rowProps(r.id, `${r.name}を選ぶ`)} /></td>
+              <td>{r.name}</td>
+              <td><span className={`status-dot ${r.status}`}>{LABEL[r.status]}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </CollectionLayout>
+  );
+}
+/** 一覧（コレクション）の型。行を選ぶと、表の上の帯が一括操作に変わる */
+export const 一覧の型: StoryObj = { render: () => <CollectionDemo /> };
+
+export const 短い知らせ: StoryObj = {
+  render: () => (
+    <Card title="短い知らせ（toast）">
+      <div className="row">
+        <button type="button" className="button secondary" onClick={() => toast('設定を保存しました。')}>成功</button>
+        <button type="button" className="button danger inline" onClick={() => toast('保存できませんでした。時間をおいてもう一度お試しください。', { kind: 'ng' })}>失敗（閉じるまで残る）</button>
+      </div>
+    </Card>
+  ),
+};
