@@ -7,7 +7,7 @@
 1. `package.json` の `dependencies` に追加して `npm install`（npm の公開はしていないので、GitHub のタグを指定する）
 
    ```json
-   "@seeds-alumni/ui": "github:seeds-alumni/seeds-alumni-ui#v1.5.1"
+   "@seeds-alumni/ui": "github:seeds-alumni/seeds-alumni-ui#v1.5.0"
    ```
 
 2. 入口で CSS を読み込み、部品を使う
@@ -169,7 +169,7 @@
 </body>
 ```
 
-- ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.5.1 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる）
+- ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.5.0 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる）
 
 ### 管理コンソール（左のメニューのある管理画面）
 
