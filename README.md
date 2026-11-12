@@ -41,3 +41,4 @@ npm run build:site  # 公開するサイトを site/ に作る
 [MIT License](LICENSE)（© 2026 大阪大学SEEDSプログラム同窓会）。
 
 - ロゴなど同窓会の商標・ブランドの素材は、このライセンスの対象外です（このリポジトリにも入れていません）
+- デモ（`demo/`）のアイコンは [Lucide](https://lucide.dev/) を写したもので、ISC（一部は Feather 由来で MIT）です。全文は [demo/LICENSE-lucide.txt](demo/LICENSE-lucide.txt)。共通 UI の CSS・JS・React の部品はアイコンを含みません

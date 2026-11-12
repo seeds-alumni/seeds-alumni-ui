@@ -11,6 +11,7 @@ SEEDS同窓会の共通 UI（トークン・CSS・React の骨組みの部品・
 - ブランド色は深緑（seeds-alumni-idaas の CLAUDE.md の経緯を参照）
 - **見た目は2つ**（2026-11-11、ユーザーの決定。1.4.0）：アプリ（既定。会員ポータル・管理画面・ツール。淡い深緑の地に白いカード。**今のまま変えない**）と、公開サイト（`<html data-look="site">`。ホームページ。白い地・Noto Sans JP・深緑の色面・丸い矢印）。公開サイトの値の上書きは `css/tokens.css` の末尾、部品は `css/site.css`、決めごとは `docs/catalog.md` §3.10。アプリの画面に公開サイトの部品を持ち込まない
 - **管理画面の枠は2つ**（2026-11-12、ユーザーの依頼。1.5.0）：タブの枠（`<AppShell wide tabs>`）と、管理コンソール（`<ConsoleShell>`。上のヘッダー＋左のメニュー。部品は `css/console.css`、決めごとは `docs/catalog.md` §3.11）。どちらも「アプリ」の見た目で**色は変えない**（ユーザーの指定）。一覧・検索・フォーム・空の状態・知らせの組み方は `docs/catalog.md` §8
+- **アイコンは Lucide**（2026-11-12、ユーザーの決定）：依存に入れず、版を固定した `lucide-static` から使う SVG だけを各アプリに写す。形は変えず、ライセンス（ISC と Feather 由来の MIT）の全文を写したリポジトリに置く。共通 UI はアイコンを配らない（例外は CSS の検索の虫めがね）。決めごとは `docs/catalog.md` §3.12
 - 色の値は `css/tokens.css` にだけ書く。インライン style は書かない（Storybook の見本も同じ）。`npm run check` が確かめる
 - クラス・トークン・部品を足したら `docs/catalog.md` に書き、`stories/` に見本を足す
 - `dist/` は Git に入れる（Git の依存として、ビルドせずに使えるように）。`src/` を変えたら `npm run build` して一緒にコミットする。CI が食い違いを検出する

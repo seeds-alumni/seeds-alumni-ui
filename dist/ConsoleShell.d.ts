@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 export type SideNavItem = {
     label: ReactNode;
     href: string;
-    /** 左のアイコン（20px の SVG。stroke="currentColor"）。アイコンは各アプリが持つ */
+    /** 左のアイコン（Lucide から写した SVG。stroke="currentColor"。docs/catalog.md §3.12）。アイコンは各アプリが持つ */
     icon?: ReactNode;
     /** いまの画面（淡いブランド色の地と緑の太字。aria-current="page"） */
     current?: boolean;

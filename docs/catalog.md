@@ -134,7 +134,7 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 | `--icon-size` / `--icon-size-sm` | 1.25rem / 1rem | ボタン・メニューの中のアイコン（20px）／入力欄の中のアイコン（16px） |
 | `--dot-size` | 8px | 状態の点（`.status-dot`）・未読の点（`.icon-button.has-dot`） |
 | `--label-width` | 12em | 横並びのフォーム（`.form.aligned`）の項目名の列 |
-| `--icon-search` | 虫めがねの形（SVG） | `.search-field` の虫めがね。`mask` で形だけ使い、色はトークンで付ける |
+| `--icon-search` | 虫めがねの形（SVG） | `.search-field` の虫めがね。`mask` で形だけ使い、色はトークンで付ける。共通 UI が持つただ1つのアイコン（独自に描いたもの。§3.12） |
 | `--radius-sm` | 4px | バッジ・小さいボタン・候補 |
 | `--radius-md` | 8px | 入力欄・ボタン・タブ（上だけ）・`.box`・`fieldset`・ヘッダーのロゴ |
 | `--radius-lg` | 12px | カード（`section`、`.tile`、`.choice`） |
@@ -235,7 +235,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.link` | 見た目をリンクにした `button`（ログアウト、画面内の切り替えなど） |
 | `.button.ghost` | 枠のないボタン（一覧の上の絞り込み「期 ▾」、ヘッダーの中の操作）。`.applied` は条件を選んでいる状態（淡いブランド色の地と緑の文字。中に選んだ数の `.count`） |
 | `.has-caret` | 押すとメニューが開くボタンの右の山形（`details[open]` の中では上向き）。`<summary class="button ghost has-caret">` |
-| `.button svg` | ボタンの文字の左のアイコン（20px、小さいボタンは 16px）。アイコンは飾りなので `aria-hidden="true"`、意味は文字で伝える |
+| `.button svg` | ボタンの文字の左のアイコン（20px、小さいボタンは 16px）。アイコンは飾りなので `aria-hidden="true"`、意味は文字で伝える。アイコンの出どころと写し方は §3.12 |
 | `.icon-button` | アイコンだけの丸いボタン（ヘルプ・お知らせ）。**必ず `aria-label`**（「ヘルプ」）。`.has-dot` は右上に未読の赤い点（`aria-label` にも「（未読あり）」と書く）。ライト・ダークの切り替え（`.theme-toggle`）と同じ大きさ |
 | `.kbd` | キーの案内（`<kbd class="kbd">Ctrl K</kbd>`）。`.search-field` の右端に置ける |
 | `.choice` | 選択肢の大きなカード（右端に緑の →。マウスを載せると淡い緑の地になり、→ が少し右へ動く）。行き先を選ばせるリンク（ログイン方法、旧ログインでの引き継ぎ）。`.stack` の中に縦に並べる |
@@ -480,9 +480,60 @@ React は `<ConsoleShell>`（§4・§4.6）を使い、クラスを直接は書�
 決めごと：
 
 - 左のメニューは**2段まで**（まとまりの見出し → 項目）。項目は1つのまとまりに2〜6個。下の段（3段目）は作らず、画面の中のタブ（`.tabs`）か一覧で分ける
-- 項目の名前は画面の題名（`.headline-title`）と同じにする。アイコンは各アプリが持つ（共通 UI はアイコンを配らない）。アイコンだけのメニューにはしない
+- 項目の名前は画面の題名（`.headline-title`）と同じにする。アイコンは Lucide から各アプリに写したものを使う（§3.12。共通 UI はアイコンを配らない）。アイコンだけのメニューにはしない
 - ヘッダーの右は、ヘルプ・お知らせ（`.icon-button`）・ログイン中の人（`details.dropdown > summary.person` ＋ `.dropdown-menu.end` にログアウトなど）・表示の切り替えの順
 - 1画面の中の構成は §8.1。公開サイトの部品（§3.10）は使わない
+
+### 3.12 アイコン
+
+アイコンは **Lucide**（https://lucide.dev/ ）にそろえる（2026-11-12、ユーザーの決定）。線で描いた 24px の枠のアイコンで、色は文字の色（`currentColor`）に従うので、§3.2・§3.11 の CSS とそのまま合う。
+
+**取り込み方：依存に入れず、使う SVG だけを各アプリに写す**
+
+- 共通 UI（このリポジトリ）はアイコンを配らない。アプリも `lucide-react` などのパッケージを依存に入れない（依存を小さく保つ。§1）
+- SVG は版を固定した `lucide-static` から取る（例：`https://unpkg.com/lucide-static@1.61.0/icons/users.svg`。サイトの一覧で名前を探す）。どの版から写したかを、アイコンのファイルの先頭に書く
+- アプリの中では1か所にまとめる。React は1つのファイル（例：`web/src/design/icons.tsx`）に、名前を付けて並べる（見本は `demo/icons.tsx`）。素の HTML はマークアップの中に `<svg>` を直接書く（見本は `demo/console.html`）
+- **ほかのアイコンのセットと混ぜない**。Lucide に合うものがないときは、似た意味の Lucide のアイコンで代える。どうしても要るときだけ、同じ線の太さ・角の丸めで描き、そのファイルに「独自に描いたもの」と書く
+
+**写すときに変えるもの・変えないもの**
+
+| | 中身 |
+|---|---|
+| 変えない | 形（`path`・`circle`・`rect` などの中身）、`viewBox="0 0 24 24"`、`fill="none"`、`stroke="currentColor"`、`stroke-width="2"`、`stroke-linecap="round"`、`stroke-linejoin="round"` |
+| 外す | `width`・`height`（大きさは CSS の `--icon-size` / `--icon-size-sm` が決める）、`class="lucide …"`、先頭の `<!-- @license … -->`（ライセンスはファイルの先頭とライセンスの文書に書く） |
+| 足す | `aria-hidden="true"`・`focusable="false"`（飾りとして扱い、意味は文字か `aria-label` で伝える） |
+
+React（JSX）では属性を `strokeWidth={2}` のように書き換える。色を付けたいときも SVG に色を書かず、置いた場所の文字の色（CSS）で決める。
+
+**ライセンス**：Lucide は ISC（© Lucide Icons and Contributors）。一部（`download`・`plus`・`search`・`x`・`chevron-down` など）は Feather 由来で MIT（© Cole Bemis）。どちらも MIT のこのリポジトリ・各アプリと両立する。写したリポジトリには次の2つを置く。
+
+1. Lucide の `LICENSE` の全文（ISC と、Feather 由来のアイコンの MIT の両方）を `LICENSE-lucide.txt` などとして置く（見本は `demo/LICENSE-lucide.txt`）
+2. アイコンのファイルの先頭に、出どころ（Lucide・`lucide-static` の版）・ライセンス・1 の文書の場所を書く
+
+**使い分け**（同じ意味には同じアイコン。アプリをまたいでそろえる）
+
+| 意味 | Lucide の名前 |
+|---|---|
+| ダッシュボード | `layout-grid` |
+| 会員・人の一覧 | `users` |
+| 申請・審査待ち | `inbox` |
+| 役職・タグ | `tag` |
+| お知らせ（会員へ出すもの） | `megaphone` |
+| メール | `mail` |
+| ログイン方法・鍵 | `key-round` |
+| 記録・文書 | `file-text` |
+| 設定 | `sliders-horizontal` |
+| ヘルプ | `circle-help` |
+| 通知（運営へ届くもの） | `bell` |
+| 書き出す・ダウンロード | `download` |
+| 追加・作る・招待 | `plus` |
+
+ここにない意味のアイコンを新しく使ったら、この表に足す。
+
+- アイコンだけで意味を伝えない（左のメニュー・ボタンには文字を添える。`.icon-button` は `aria-label`）
+- 1つのボタンにアイコンは1つまで、文字の左に置く。主要な操作のボタン以外には付けすぎない
+- 検索欄の虫めがね（`--icon-search`）だけは共通 UI の CSS が持つ（マークアップにアイコンを書かずに済むように。Lucide を写したものではなく、独自に描いたもの）
+- ライト・ダークの切り替え（`.theme-toggle`）・ハンバーガーメニュー（`.nav-toggle`）・公開サイトの丸い矢印（`.arrow-dot`）など、共通 UI が CSS や `theme.js` で描くものはそのまま使い、Lucide に置き換えない
 
 ## 4. React の部品と画面の型
 
