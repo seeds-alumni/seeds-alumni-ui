@@ -1,6 +1,6 @@
 # @seeds-alumni/ui
 
-SEEDS同窓会のサービスで共通に使う UI です。会員ポータル・会員管理システム（[seeds-alumni-idaas](https://github.com/seeds-alumni/seeds-alumni-idaas)）・SEEDS TOTP などで、同じ見た目と同じ画面の型を使えるようにします。
+SEEDS同窓会のサービスで共通に使う UI です。マイポータル・会員管理システム（[seeds-alumni-idaas](https://github.com/seeds-alumni/seeds-alumni-idaas)）・SEEDS-TOTP などで、同じ見た目と同じ画面の型を使えるようにします。
 
 - **トークンと CSS**（`css/`）：色・余白・角丸などの値と、素の HTML でも使えるクラス
 - **React の骨組みの部品**（`src/` → `dist/`）：画面の枠（会員向け・管理コンソール）・カード・一覧・詳細・ダッシュボード・フォームの1項目・ダイアログ・短い知らせ

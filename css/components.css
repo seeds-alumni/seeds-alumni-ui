@@ -38,7 +38,7 @@ img.brand-mark { width: auto; height: 32px; padding: 3px 4px; background: var(--
 @media (max-width: 640px) {
   .app-header-inner { padding: 0 var(--space-md); gap: var(--space-sm); }
   .brand { font-size: var(--font-size-sm); }
-  .brand-name { white-space: normal; word-break: keep-all; }  /* 狭い画面では「SEEDS同窓会」と「会員管理システム」の間で折り返す */
+  .brand-name { white-space: normal; word-break: keep-all; }  /* 狭い画面では「SEEDS-ID」と「会員管理システム」の間で折り返す */
   .header-user { display: none; }
 }
 

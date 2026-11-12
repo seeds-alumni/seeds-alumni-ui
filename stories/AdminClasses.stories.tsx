@@ -194,7 +194,7 @@ export const 空の状態: Story = {
       <div className="table-card">
         <div className="empty-state">
           <p className="empty-state-title">お知らせはまだありません</p>
-          <p>作成したお知らせは、公開する日時になると会員ポータルのトップに出ます。</p>
+          <p>作成したお知らせは、公開する日時になるとマイポータルのトップに出ます。</p>
           <div className="row"><button type="button" className="button primary inline">{icons.plus}お知らせを作成</button></div>
         </div>
       </div>

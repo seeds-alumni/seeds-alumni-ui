@@ -14,7 +14,7 @@ export type NavItem = {
 };
 
 export type AppHeaderProps = {
-  /** サイト名（例：「SEEDS同窓会 会員ポータル」。「SEEDS同窓会」の間に空白を入れない） */
+  /** サイト名（例：「SEEDS-ID マイポータル」。サービスの名前は docs/writing.md §6.1） */
   title: string;
   /** サイト名を押したときの行き先（トップ） */
   href: string;

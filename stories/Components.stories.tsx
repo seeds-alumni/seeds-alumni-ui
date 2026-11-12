@@ -38,8 +38,8 @@ export const バッジ: StoryObj<typeof Badge> = {
 
 export const ヘッダー: StoryObj<typeof AppHeader> = {
   parameters: { layout: 'fullscreen' },
-  render: (args) => <AppHeader {...args}><span className="header-user">管理 太郎（管理者）</span><a href="#">会員ポータル</a></AppHeader>,
-  args: { title: 'SEEDS同窓会 会員管理システム', href: '#', wide: true, envLabel: '開発環境' },
+  render: (args) => <AppHeader {...args}><span className="header-user">管理 太郎（管理者）</span><a href="#">マイポータル</a></AppHeader>,
+  args: { title: 'SEEDS-ID 会員管理システム', href: '#', wide: true, envLabel: '開発環境' },
 };
 
 export const メニューつきのヘッダー: StoryObj<typeof AppHeader> = {

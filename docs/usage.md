@@ -7,7 +7,7 @@
 1. `package.json` の `dependencies` に追加して `npm install`（npm の公開はしていないので、GitHub のタグを指定する）
 
    ```json
-   "@seeds-alumni/ui": "github:seeds-alumni/seeds-alumni-ui#v1.5.1"
+   "@seeds-alumni/ui": "github:seeds-alumni/seeds-alumni-ui#v1.6.0"
    ```
 
 2. 入口で CSS を読み込み、部品を使う
@@ -33,7 +33,7 @@
    "check:design": "seeds-ui-check --src web/src --css web/src/design --tokens web/src/design/tokens.css --doc docs/design-system.md"
    ```
 
-### 素の HTML のサイト（SEEDS TOTP・同窓会のホームページなど）
+### 素の HTML のサイト（SEEDS-TOTP・同窓会のホームページなど）
 
 公開先（CDN）から読み込みます。`<head>` に、CSS より前に `theme.js` を置きます（`defer` を付けない）。
 
@@ -49,8 +49,8 @@
 ```html
 <header class="app-header">
   <div class="app-header-inner">
-    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">S</span><span class="brand-name">SEEDS TOTP</span></a>
-    <!-- ロゴの画像を出すとき：<a class="brand" href="/"><img class="brand-mark" src="/brand/seeds-logo.svg" alt="" height="32"><span class="brand-name">SEEDS TOTP</span></a>（画像は各サイトに置く） -->
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">S</span><span class="brand-name">SEEDS-TOTP</span></a>
+    <!-- ロゴの画像を出すとき：<a class="brand" href="/"><img class="brand-mark" src="/brand/seeds-logo.svg" alt="" height="32"><span class="brand-name">SEEDS-TOTP</span></a>（画像は各サイトに置く） -->
     <!-- 本番以外だけ：<div class="env-badge" role="note" aria-label="この画面は開発環境です">開発環境</div> -->
     <div class="header-actions">
       <span class="header-user">山田 太郎</span>
@@ -169,7 +169,7 @@
 </body>
 ```
 
-- ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.5.1 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる）
+- ルールの確認は、Node が使えるなら `npx -p github:seeds-alumni/seeds-alumni-ui#v1.6.0 seeds-ui-check --src . --css design --doc README.md` のように実行できます（`class="…"` と `style="…"` を確かめる・文言も確かめる。記事の本文を除くときは `--writing-src`）
 
 ### 管理コンソール（左のメニューのある管理画面）
 

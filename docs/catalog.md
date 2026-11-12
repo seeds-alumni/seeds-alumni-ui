@@ -1,6 +1,6 @@
 # カタログ（@seeds-alumni/ui）
 
-SEEDS同窓会のサービス（会員ポータル・会員管理システム・SEEDS TOTP など）で共通に使う見た目のルール。**人と AI（Claude Code など）の両方が読む前提**で書いている。
+SEEDS同窓会のサービス（マイポータル・会員管理システム・SEEDS-TOTP など）で共通に使う見た目のルール。**人と AI（Claude Code など）の両方が読む前提**で書いている。
 画面を作る・直すときは、この文書の「React の部品と画面の型」（§4）と「クラス」（§3）から選び、新しい見た目を作らない。
 
 - 実装：`css/`（`tokens.css` → `base.css` → `components.css` → `console.css` → `site.css` → `utilities.css` の順に `index.css` で読み込む）、`src/`（React の部品）、`js/theme.js`（素の HTML 向けの表示の切り替え）、`js/nav.js`（ハンバーガーメニュー）、`js/console.js`（管理コンソールの左のメニュー・ドロップダウン）
@@ -32,7 +32,7 @@ SEEDS同窓会のサービス（会員ポータル・会員管理システム・
 
 | 見た目 | 使うところ | 決め方 |
 |---|---|---|
-| **アプリ**（既定） | 会員ポータル・会員管理システム・SEEDS TOTP などのツール | 上の決め方。淡い深緑の地に白いカードを影で浮かせる |
+| **アプリ**（既定） | マイポータル・会員管理システム・SEEDS-TOTP などのツール | 上の決め方。淡い深緑の地に白いカードを影で浮かせる |
 | **公開サイト**（`<html data-look="site">`） | 同窓会のホームページ | 白い地に黒い文字と深緑の色面。カードと影は使わず、淡い灰色の帯・罫線・丸い矢印で区切る。書体は Noto Sans JP（§3.10） |
 
 **管理画面の枠は2つ**（2026-11-12。どちらも「アプリ」の見た目で、色は同じ）：
@@ -178,8 +178,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 |---|---|
 | `.app-header` / `.app-header.wide` | 上部に固定するヘッダー（半透明＋ぼかし、下に区切り線）。管理画面は `wide` |
 | `.app-header-inner` | ヘッダーの中身の幅をページ（`main`）とそろえる |
-| `.brand` / `.brand-mark` / `.brand-name` | 左上のロゴ（深緑の四角に S。`<img class="brand-mark">` にすると各アプリのロゴの画像を高さ 32px・白い地で出す。幅は縦横比に任せる）とサイト名（例：「SEEDS同窓会 会員ポータル」。「SEEDS同窓会」の間に空白を入れない）。押すとトップへ。狭い画面ではサイト名を2行に折り返す |
-| `.header-actions` | 右側の操作（ログイン中の人、ログアウト、会員ポータルへのリンク、表示の切り替え） |
+| `.brand` / `.brand-mark` / `.brand-name` | 左上のロゴ（深緑の四角に S。`<img class="brand-mark">` にすると各アプリのロゴの画像を高さ 32px・白い地で出す。幅は縦横比に任せる）とサイト名（例：「SEEDS-ID マイポータル」。「SEEDS同窓会」の間に空白を入れない）。押すとトップへ。狭い画面ではサイト名を2行に折り返す |
+| `.header-actions` | 右側の操作（ログイン中の人、ログアウト、マイポータルへのリンク、表示の切り替え） |
 | `.header-user` | ログイン中の人の名前。狭い画面では隠す |
 | `.theme-toggle` | ライト・ダークの切り替えボタン（React は `<ThemeToggle>`。素の HTML は `<button class="theme-toggle"></button>` を置いて `js/theme.js` を読み込む） |
 | `.app-footer` / `.app-footer.wide` | ページの下のフッター（公開サイト。白い地、上に区切り線）。`body` の直下に置くと、短いページでも画面の下端に寄る。幅はヘッダーとそろえる（`wide`） |
@@ -187,8 +187,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.app-footer-name` / `.app-footer-copy` | 団体名（太字）／一番下の著作権の行（中央、小さい補足の文字） |
 
 ```tsx
-<AppShell title="SEEDS同窓会 会員管理システム" href="/admin" wide envLabel={envLabel}
-  actions={<><span className="header-user">管理 太郎（管理者）</span><a href="/">会員ポータル</a></>}>
+<AppShell title="SEEDS-ID 会員管理システム" href="/admin" wide envLabel={envLabel}
+  actions={<><span className="header-user">管理 太郎（管理者）</span><a href="/">マイポータル</a></>}>
   …
 </AppShell>
 ```
@@ -388,7 +388,7 @@ React では `confirmDialog()` / `inputDialog()` を `await` し、クラスを�
 ```tsx
 import { confirmDialog, inputDialog } from '@seeds-alumni/ui';
 
-if (!(await confirmDialog('この会員を停止しますか？', { title: '会員の停止', okLabel: '停止する', danger: true }))) return;
+if (!(await confirmDialog('この会員を停止しますか？', { title: '会員の停止', okLabel: '停止', danger: true }))) return;
 
 const ended = await inputDialog({ title: 'SA 登録の解除', label: '終了日', type: 'date', initial: today() });
 if (ended === null) return; // キャンセル
@@ -399,7 +399,7 @@ if (ended === null) return; // キャンセル
 
 ### 3.10 公開サイトの見た目（`data-look="site"`、`site.css`）
 
-同窓会のホームページのような**公開サイトだけ**で使う見た目（2026-11-11、ユーザーの依頼）。会員ポータル・管理画面・ツールでは使わない。
+同窓会のホームページのような**公開サイトだけ**で使う見た目（2026-11-11、ユーザーの依頼）。マイポータル・管理画面・ツールでは使わない。
 
 **使い方**：`<html lang="ja" data-look="site">` にし、`<head>` で Noto Sans JP を読み込む（共通 UI は Web フォントを配らない）。
 
@@ -578,7 +578,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 ### 4.1 会員向けのページ
 
 ```tsx
-<AppShell title="SEEDS同窓会 会員ポータル" href="/" actions={<button className="link" onClick={logout}>ログアウト</button>}>
+<AppShell title="SEEDS-ID マイポータル" href="/" actions={<button className="link" onClick={logout}>ログアウト</button>}>
   <Card title="登録情報">
     <dl><dt>会員番号</dt><dd>15001</dd></dl>
     <div className="row mt-md"><button className="button secondary">登録情報を変更</button></div>
@@ -642,7 +642,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 ```tsx
 <ConsoleShell
-  title="SEEDS同窓会" href="#/" envLabel={envLabel}
+  title="SEEDS-ID" label="会員管理システム" href="#/" envLabel={envLabel}
   nav={[
     { items: [{ label: 'ダッシュボード', href: '#/', icon: <DashboardIcon />, current: route === '' }] },
     { label: '会員管理', items: [
@@ -724,7 +724,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 2. 取り消せない主要操作のボタンと、却下ボタンのクラスは？ → `button primary inline` と `button danger inline`
 3. 管理画面の一覧の画面はどう組む？ → タブの枠なら `<ListLayout>` に `filters`・`summary`・`pager` を渡し、中に `table`（行は `tr.clickable`）。管理コンソールなら `<PageHeader>` ＋ `<CollectionLayout>`（§4.6）
 4. 一覧の「ロール」の列の「メンバー」と、「状態」の列の「停止中」のマークアップは？ → `<span class="tag">メンバー</span>`（分類）と `<span class="status-dot ng">停止中</span>`（状態）
-5. 検索して1件もないときは？ → 表の代わりに `.empty-state`（「条件に当てはまる会員はいません」＋「条件をすべてクリア」）。まだ1件も作っていないときとは文言を分ける（§8.4）
+5. 検索して1件もないときは？ → 表の代わりに `.empty-state`（「条件に当てはまる会員はいません」＋「条件をすべて外す」）。まだ1件も作っていないときとは文言を分ける（§8.4）
 
 ## 7. 変更の手順
 

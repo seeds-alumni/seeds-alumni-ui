@@ -83,7 +83,8 @@ const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigat
 export function ConsoleFrame({ route, envLabel, children }: { route: string; envLabel?: string | null; children: ReactNode }) {
   return (
     <ConsoleShell
-      title="SEEDS同窓会"
+      title="SEEDS-ID"
+      label="会員管理システム"
       href="#console"
       envLabel={envLabel}
       nav={navFor(route)}
@@ -106,7 +107,7 @@ export function ConsoleFrame({ route, envLabel, children }: { route: string; env
               </span>
             </summary>
             <div className="dropdown-menu end">
-              <a href="#member">会員ポータル</a>
+              <a href="#member">マイポータル</a>
               <a href="#console/settings">同窓会の設定</a>
               <hr />
               <button type="button" onClick={() => toast('ログアウトしました（見本）。')}>ログアウト</button>
@@ -306,13 +307,13 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
 export function ConsoleEmptyPage() {
   return (
     <>
-      <PageHeader breadcrumb={[{ label: '運営', href: '#console/notices' }, { label: 'お知らせ' }]} title="お知らせ" count={0} description="会員ポータルに出すお知らせを作成します。"
+      <PageHeader breadcrumb={[{ label: '運営', href: '#console/notices' }, { label: 'お知らせ' }]} title="お知らせ" count={0} description="マイポータルに出すお知らせを作成します。"
         actions={<button type="button" className="button primary inline">{icons.plus}お知らせを作成</button>} />
       <CollectionLayout
         empty={
           <div className="empty-state">
             <p className="empty-state-title">お知らせはまだありません</p>
-            <p>作成したお知らせは、公開する日時になると会員ポータルのトップに出ます。</p>
+            <p>作成したお知らせは、公開する日時になるとマイポータルのトップに出ます。</p>
             <div className="row"><button type="button" className="button primary inline">{icons.plus}お知らせを作成</button></div>
           </div>
         }
@@ -344,7 +345,7 @@ export function ConsoleSettingsPage() {
   const errorList = Object.values(errors);
   return (
     <>
-      <PageHeader breadcrumb={[{ label: '設定' }, { label: '同窓会の設定' }]} title="同窓会の設定" description="会員ポータルと、送るメールに使う情報です。" />
+      <PageHeader breadcrumb={[{ label: '設定' }, { label: '同窓会の設定' }]} title="同窓会の設定" description="マイポータルと、送るメールに使う情報です。" />
       <Card title="基本情報">
         <form className="form aligned" onSubmit={submit} noValidate>
           {errorList.length > 0 && (

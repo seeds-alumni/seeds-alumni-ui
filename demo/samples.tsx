@@ -27,8 +27,8 @@ export const MEMBERS: Member[] = [
 ];
 const STATUS_LABEL = { ok: '利用中', warn: '審査中', ng: '停止中' } as const;
 
-const MEMBER_TITLE = 'SEEDS同窓会 会員ポータル';
-const ADMIN_TITLE = 'SEEDS同窓会 会員管理システム';
+const MEMBER_TITLE = 'SEEDS-ID マイポータル';
+const ADMIN_TITLE = 'SEEDS-ID 会員管理システム';
 
 /** 会員向けのページ（マイページ） */
 export function MemberPortalPage({ envLabel }: { envLabel?: string | null }) {
@@ -75,7 +75,7 @@ export function LoginPage() {
   return (
     <AppShell title={MEMBER_TITLE} href="#">
       <Card title="ログイン">
-        <p>SEEDS同窓会の会員ポータルです。ログイン方法を選んでください。</p>
+        <p>SEEDS同窓会のマイポータルです。ログイン方法を選んでください。</p>
         <div className="stack">
           <a className="choice" href="#">Google でログイン</a>
           <a className="choice" href="#">メールアドレスでログイン（確認コード）</a>
@@ -133,7 +133,7 @@ export function AdminFrame({ route, envLabel, children }: { route: string; envLa
       href="#/"
       wide
       envLabel={envLabel}
-      actions={<><span className="header-user">管理 太郎（管理者）</span><a href="#">会員ポータル</a></>}
+      actions={<><span className="header-user">管理 太郎（管理者）</span><a href="#">マイポータル</a></>}
       tabs={ADMIN_TABS.map((t) => ({ href: `#/${t.key}`, label: t.label, active: section === t.key }))}
     >
       {children}
