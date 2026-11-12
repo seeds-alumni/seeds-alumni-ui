@@ -7,6 +7,7 @@
 //   --css <dir>     アプリ固有の CSS を置くフォルダ（CSS はここにだけ置ける）。省略するとアプリ固有の CSS なし
 //   --tokens <file> アプリ固有のトークンのファイル（色の値を書けるのは、ライブラリの tokens.css とこのファイルだけ）
 //   --doc <file>    アプリ固有のクラス・トークンの一覧（カタログ）。アプリの CSS のクラスとトークンはすべてここに載せる
+//   --writing-src <dir>  文言（8.）を確かめるフォルダ。複数指定できる。省略すると --src と同じ
 //
 // 確かめること
 //   1. インライン style（style={{…}} / style="…"）を書いていない
@@ -16,6 +17,7 @@
 //   5. アプリの CSS のクラスとトークンは、すべてカタログ（--doc）に載っている
 //   6. ブラウザの confirm() / prompt() / alert() を使っていない（<DialogHost> の confirmDialog / inputDialog を使う）
 //   7. CSS は --css のフォルダにだけ置いている
+//   8. 文言に、避ける言い方（docs/writing.md §4 の★）がない。その行に「writing-ok」と書くと除外できる
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -23,7 +25,7 @@ import { fileURLToPath } from 'node:url';
 const LIB_CSS = resolve(fileURLToPath(new URL('../css', import.meta.url)));
 const CWD = process.cwd();
 
-const args = { src: [], css: null, tokens: null, doc: null };
+const args = { src: [], css: null, tokens: null, doc: null, writingSrc: [] };
 const argv = process.argv.slice(2);
 for (let i = 0; i < argv.length; i++) {
   const [k, v] = [argv[i], argv[i + 1]];
@@ -31,8 +33,9 @@ for (let i = 0; i < argv.length; i++) {
   else if (k === '--css') args.css = v;
   else if (k === '--tokens') args.tokens = v;
   else if (k === '--doc') args.doc = v;
+  else if (k === '--writing-src') args.writingSrc.push(v);
   else if (k === '--help' || k === '-h') {
-    console.log(readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\n').slice(1, 20).map((l) => l.replace(/^\/\/ ?/, '')).join('\n'));
+    console.log(readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\n').slice(1, 23).map((l) => l.replace(/^\/\/ ?/, '')).join('\n'));
     process.exit(0);
   } else {
     console.error(`不明な引数：${k}（--help で使い方）`);
@@ -143,6 +146,36 @@ for (const f of codeFiles) {
       if (!classes.has(c)) errors.push(`${rel(f)}:${lineOf(src, index)}：クラス「${c}」は CSS にありません`);
     }
   }
+}
+
+// 文言：避ける言い方（docs/writing.md §4 の★）。コメントは除く
+const WRITING_RULES = [
+  [/することができ|を行うことができ/, '「〜することができます」は「〜できます」にしてください'],
+  [/(?:することが|が)可能(?:です|でした|となり|になり)/, '「〜が可能です」は「〜できます」にしてください'],
+  [/を実行(?:する|します|しました|して)/, '「〜を実行する」は具体的な動詞にしてください'],
+  [/を行(?:う|います|いました|って)/, '「〜を行う」は「〜する」にしてください'],
+  [/こちらから|>\s*こちら\s*</, '「こちら」ではなく、行き先を書いてください'],
+  [/正常に/, '「正常に」は要りません（「保存しました。」）'],
+  [/下さい/, '「下さい」は「ください」にしてください'],
+  [/いたし(?:ます|ました)|でございます/, '過剰な丁寧語（「いたします」「でございます」）は使わないでください'],
+];
+const writingFiles = args.writingSrc.length
+  ? [...new Set(args.writingSrc.flatMap((d) => walk(resolve(d))))].filter((f) => /\.(tsx?|jsx?|mjs|html)$/.test(f) && !/\.d\.ts$/.test(f))
+  : codeFiles;
+for (const f of writingFiles) {
+  const src = readFileSync(f, 'utf8');
+  const code = src
+    .replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, ' '))
+    .replace(/<!--[\s\S]*?-->/g, (c) => c.replace(/[^\n]/g, ' '))
+    .replace(/(^|[^:'"`])\/\/[^\n]*/g, (c) => c.replace(/[^\n]/g, ' '));
+  const srcLines = src.split('\n');
+  code.split('\n').forEach((line, i) => {
+    if (srcLines[i]?.includes('writing-ok')) return;
+    for (const [re, msg] of WRITING_RULES) {
+      const m = line.match(re);
+      if (m) errors.push(`${rel(f)}:${i + 1}：文言「${m[0]}」— ${msg}（docs/writing.md §4）`);
+    }
+  });
 }
 
 // カタログとの対応（アプリの CSS が共通のクラスを組み合わせて使う分は、アプリのカタログに載せなくてよい）
