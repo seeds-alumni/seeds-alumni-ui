@@ -437,7 +437,7 @@ th[aria-sort='descending'] button.sort::after { opacity: 1; color: var(--color-b
 .dropdown-menu > button.danger { color: var(--color-danger); }
 .dropdown-menu > hr { width: 100%; margin: var(--space-2xs) 0; border: none; border-top: var(--divider); }
 .dropdown-label { padding: var(--space-xs) var(--space-md) var(--space-2xs); color: var(--color-text-muted); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); }
-/* 適用中の絞り込みの条件（押すとその条件を外す ×）。条件が1つ以上あるときだけ出し、最後に「すべてクリア」 */
+/* 適用中の絞り込みの条件（押すとその条件を外す ×）。条件が1つ以上あるときだけ出し、最後に「すべて外す」 */
 .filter-tags { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); margin: calc(-1 * var(--space-sm)) 0 var(--space-lg); font-size: var(--font-size-sm); }
 .filter-tag {
   display: inline-flex; align-items: center; gap: var(--space-xs); min-height: var(--control-height-sm); padding: 0 var(--space-sm) 0 var(--space-md);

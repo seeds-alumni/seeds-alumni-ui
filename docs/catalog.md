@@ -633,7 +633,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 ```tsx
 <form className="form" onSubmit={submit}>
   <Field label="氏名"><input required value={name} onChange={(e) => setName(e.target.value)} /></Field>
-  <Field label="現在の所属" optional hint="登録後もマイページで変更できます。" error={errors.affiliation}><input … /></Field>
+  <Field label="現在の所属" optional hint="登録後もマイポータルで変更できます。" error={errors.affiliation}><input … /></Field>
   <button className="button primary">申請</button>
 </form>
 ```

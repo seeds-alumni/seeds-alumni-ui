@@ -30,13 +30,13 @@ const STATUS_LABEL = { ok: '利用中', warn: '審査中', ng: '停止中' } as 
 const MEMBER_TITLE = 'SEEDS-ID マイポータル';
 const ADMIN_TITLE = 'SEEDS-ID 会員管理システム';
 
-/** 会員向けのページ（マイページ） */
+/** 会員向けのページ（マイポータル） */
 export function MemberPortalPage({ envLabel }: { envLabel?: string | null }) {
   const [editing, setEditing] = useState(false);
   const [saved, setSaved] = useState(false);
   return (
     <AppShell title={MEMBER_TITLE} href="#" envLabel={envLabel} actions={<button type="button" className="link">ログアウト</button>}>
-      <Card title="マイページ">
+      <Card title="登録情報">
         <dl>
           <dt>会員番号</dt><dd>15100</dd>
           <dt>期</dt><dd>1期（2015年度）</dd>

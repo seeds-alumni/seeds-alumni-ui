@@ -81,7 +81,7 @@ export const フォームの項目: StoryObj<typeof Field> = {
       </form>
     </Card>
   ),
-  args: { label: '現在の所属', optional: true, hint: '本登録の後も、マイページで変更できます。', error: '' },
+  args: { label: '現在の所属', optional: true, hint: '本登録の後も、マイポータルで変更できます。', error: '' },
 };
 
 function PagerDemo() {
