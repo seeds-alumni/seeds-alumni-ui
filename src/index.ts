@@ -20,3 +20,4 @@ export { useDropdownDismiss } from './dropdown';
 export { ThemeToggle, ThemeIcon } from './ThemeToggle';
 export { EnvBadge, useEnvTitle } from './EnvBadge';
 export { currentTheme, setTheme, onSystemThemeChange, THEME_RESTORE_SCRIPT, THEME_STORAGE_KEY, type Theme } from './theme';
+export { FileDrop, useFileDrop, usePreventFileNavigation, splitFiles, type FileDropProps, type FileDropIcons, type FileCheck } from './FileDrop';

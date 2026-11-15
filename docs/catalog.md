@@ -135,6 +135,7 @@ SEEDS同窓会のサービス（マイポータル・会員管理システム・
 | `--icon-size` / `--icon-size-sm` | 1.25rem / 1rem | ボタン・メニューの中のアイコン（20px）／入力欄の中のアイコン（16px） |
 | `--dot-size` | 8px | 状態の点（`.status-dot`）・未読の点（`.icon-button.has-dot`） |
 | `--label-width` | 12em | 横並びのフォーム（`.form.aligned`）の項目名の列 |
+| `--file-drop-icon-size` / `--file-drop-min-height` | 3rem / 8.5rem | ファイルのドロップ領域（`.file-drop`）の丸いアイコン・高さの最小（ファイルを重ねても高さが変わらないように）（1.8.0） |
 | `--icon-search` | 虫めがねの形（SVG） | `.search-field` の虫めがね。`mask` で形だけ使い、色はトークンで付ける。共通 UI が持つただ1つのアイコン（独自に描いたもの。§3.12） |
 | `--radius-sm` | 4px | バッジ・小さいボタン・候補 |
 | `--radius-md` | 8px | 入力欄・ボタン・タブ（上だけ）・`.box`・`fieldset`・ヘッダーのロゴ |
@@ -279,6 +280,8 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.search-field` | 虫めがねつきの検索欄（`span.search-field > input[type=search]`）。入力欄に `aria-label`（「会員を検索」）。一覧の上は `.toolbar` の中、全体の検索は `.console-search` の中 |
 | `.dropdown` / `.dropdown-menu` / `.dropdown-label` | 押すと開くメニュー（`details.dropdown > summary + div.dropdown-menu`）。中は `a`・`button`・`label.check`（絞り込みの選択肢）・`hr`・小さい見出しの `.dropdown-label`。`.dropdown-menu.end` は右端にそろえる（ヘッダーの右など）。`button.danger` は赤い文字。外を押す・Esc・項目を押すと閉じる（React は `<AppShell>`・`<ConsoleShell>`、素の HTML は `js/console.js`）。表の中では開かない（表の枠で切れる） |
 | `.filter-tags` / `.filter-tag` | 適用中の絞り込みの条件（`.toolbar` の下）。1つの条件ごとに `button.filter-tag`（「期：1期 ×」。押すとその条件を外す。`aria-label` は「期：1期 の条件を外す」）、最後に「すべて外す」（`.link`）。条件がないときは出さない |
+| `.file-button` | ファイルを選ぶボタン（`label.button.secondary.file-button` の中に `.visually-hidden` の `input type=file`。キーボードで選んだときは枠を出し、`input` が `disabled` なら薄くする）（1.8.0） |
+| `.file-drop-wrap` / `.file-drop` / `.file-drop-icon` / `.file-drop-body` / `.file-drop-title` / `.file-drop-actions` / `.file-drop-hint` / `.file-drop-error` | ファイルのドロップ領域（React は `<FileDrop>`。§4・§8.7）。点線の枠・コラムの地・丸いアイコン・「〇〇をここにドラッグ＆ドロップ」と「または」「ファイルを選ぶ」。状態：`.is-over`（受け付けるファイルを重ねている。ブランド色の枠と淡い地）・`.is-invalid`（種類が合わない・いまは受け付けない。注意の色）・`.is-selected`（1つ選んだあと。実線の枠と淡い緑）・`.is-disabled`。`.compact` はフォームの中の低い形。指で操作する端末では点線とアイコンをやめる（1.8.0） |
 | `.suggest` | 入力欄の下に出す候補リスト（`ul.suggest` の中の `li > button`。マウスを載せた候補は淡い地。学校の検索など） |
 
 - 入力の誤りは、その項目の直後に `<span className="error small">…</span>` で出す
@@ -380,6 +383,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.mt-md` | 上に余白（`--space-md`）。`dl` の直後のボタン行など |
 | `.grow` | `.row` の中で残りの幅を使う入力欄（最小 16em） |
 | `.w-name` | `.row` の中の短い入力欄（12em。名前・ラベルの入力） |
+| `.only-touch` / `.no-touch` | 指で操作する端末（`pointer: coarse`）だけに出す（「写真を撮影」）／マウスの端末だけに出す（ドラッグ＆ドロップの案内）（1.8.0） |
 | `.visually-hidden` | 画面には出さず読み上げにだけ伝える（件数の「件」、アイコンだけの列の見出し「操作」など） |
 | `.nowrap` | 折り返さない。表の会員番号・氏名・期など、狭い画面で1文字ずつ折り返して縦に伸びるのを防ぐ（表は `.table-wrap` で横スクロール） |
 
@@ -579,6 +583,9 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 | `<DetailLayout back title status summary>` | `.back-link`＋基本情報のカード＋続くカード | 詳細の画面。続く操作は `<Card level={3}>` を並べ、取り消せない操作は最後 |
 | `<Tiles items>` | `.tiles` / `.tile` | ダッシュボードの数値（`href` があれば一覧へのリンク） |
 | `<Field label optional? hint? error? as?>` | `.form-field` | フォームの1項目（`.form` の中に並べる） |
+| `<FileDrop label dropLabel accept inputAccept multiple? camera? disabled? disabledMessage? busy? selected? hint? rejectHint compact? icons? onFiles>` | `.file-drop-wrap`（`.file-drop`） | ファイルのドロップ領域（§8.7）。ドラッグ＆ドロップか「ファイルを選ぶ」で `onFiles` に受け付けるファイルだけを渡す（受け付けないものは枠の下に理由）。`selected` にファイル名を渡すと「選んだあと」の形。`icons` は `{ drop, invalid, selected, choose, camera }`（共通 UI はアイコンを配らないので、各アプリの Lucide を渡す。§3.12）（1.8.0） |
+| `useFileDrop({ accept, onFiles, disabled? })` | — | 表の行など、ほかの要素でドロップを受けるとき。`{ over, invalid, props }` を返し、`props` を要素に付ける（`over` で行の色を変える） |
+| `usePreventFileNavigation()` | — | ドロップを受け付ける画面で1回呼ぶ。領域の外にファイルを落としたとき、ブラウザがファイルを開いて入力中の内容が消えないようにする |
 | `<Badge kind>` | `.badge` | 状態（`ok` / `warn` / `ng` / `none`）。必ず文字を入れる |
 | `<Pager total page pageSize onPage>` | `.pager` | ページ送り（`<ListLayout pager>` が置く） |
 | `confirmDialog()` / `inputDialog()` / `<DialogHost>` | `.dialog` | 確認と1項目の入力（§3.9） |
@@ -824,3 +831,14 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 - 件数は「63 件」「3 人」。選んでいる数は「2 件を選択中」
 - 日時は「2026/10/27 03:37」、日付は「2026/10/27」。相対的な言い方（「3日前」）は補足にとどめる
 - 同じものに同じ名前を使う（左のメニュー・画面の題名・パンくず・ボタン）。サービスをまたいだ用語は `docs/writing.md` §5・§6
+
+### 8.7 ファイルのアップロード・取り込み（1.8.0）
+
+ファイルを受け取る画面は、`input type=file` をそのまま置かず `<FileDrop>` にする（freee のデザインシステム vibes の FileUploader・FileDropArea を参考にした。コードは写していない）。
+
+- ドラッグ＆ドロップと「ファイルを選ぶ」の両方で受け付ける。指で操作する端末ではドラッグの案内を出さず、写真なら「写真を撮影」（`camera`）も出す
+- 受け付ける種類は `accept` で確かめ、合わないファイルを重ねたら注意の色、落としたら枠の下に理由（`rejectHint`）を出して送らない。最後はサーバーが中身で確かめる
+- 1つだけ選ぶもの（CSV の取り込み）は、選んだあと `selected` にファイル名（と件数）を渡し、「別のファイルを選ぶ」で選び直せるようにする
+- 受け付ける種類・大きさは `hint` に書く（「JPEG・PNG・WebP の画像か PDF（1つ 10MB まで）」）
+- ドロップを受け付ける画面では `usePreventFileNavigation()` を呼ぶ
+- 文言：「〇〇をここにドラッグ＆ドロップ」「ドロップして〇〇」（アップロード・読み込む・追加）「このファイルの種類は受け付けられません」
