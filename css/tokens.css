@@ -110,6 +110,8 @@
   --icon-size-sm: 1rem;         /* 入力欄の中のアイコン（16px） */
   --dot-size: 8px;              /* 状態の点（.status-dot）・お知らせの点（.icon-button.has-dot） */
   --label-width: 12em;          /* 横並びのフォーム（.form.aligned）の項目名の幅 */
+  --file-drop-icon-size: 3rem;  /* ファイルのドロップ領域（.file-drop）の丸いアイコン */
+  --file-drop-min-height: 8.5rem; /* ファイルのドロップ領域の高さの最小（ファイルを重ねても高さが変わらないように） */
 
   /* ── アイコン（mask-image で使う形だけの画像。色は background の currentColor・トークンで付ける） ── */
   --icon-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");

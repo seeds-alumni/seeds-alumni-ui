@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
-import { AccountMenu, AppHeader, Badge, Card, CollectionLayout, Field, PageHeader, Pager, Tabs, Tiles, confirmDialog, inputDialog, toast, useSelection } from '../src';
+import { useState, type ReactNode } from 'react';
+import { AccountMenu, AppHeader, Badge, Card, CollectionLayout, Field, FileDrop, PageHeader, Pager, Tabs, Tiles, confirmDialog, inputDialog, toast, useSelection } from '../src';
 import { SITE_NAV } from './SitePage';
 
 /** React の部品（docs/catalog.md §4）。Controls で props を変えて確かめられる */
@@ -105,6 +105,64 @@ export const フォームの項目: StoryObj<typeof Field> = {
   ),
   args: { label: '現在の所属', optional: true, hint: '本登録の後も、マイポータルで変更できます。', error: '' },
 };
+
+// 見本のアイコン：Lucide（ISC。https://lucide.dev/）の cloud-upload・ban・file-check。共通 UI はアイコンを配らないので、アプリが渡す（§3.12）
+const svg = (paths: ReactNode) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths}</svg>;
+const DROP_ICONS = {
+  drop: svg(<><path d="M12 13v8" /><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" /><path d="m8 17 4-4 4 4" /></>),
+  invalid: svg(<><circle cx="12" cy="12" r="10" /><path d="M4.929 4.929 19.07 19.071" /></>),
+  selected: svg(<><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="m9 15 2 2 4-4" /></>),
+};
+const isCsv = (f: { name: string; type: string }) => (f.name ? /\.csv$/i.test(f.name) : ['text/csv', 'application/vnd.ms-excel', 'text/plain'].includes(f.type));
+const isImageOrPdf = (f: { name: string; type: string }) => f.type.startsWith('image/') || f.type === 'application/pdf';
+
+function FileDropDemo() {
+  const [csv, setCsv] = useState('');
+  const [files, setFiles] = useState<string[]>([]);
+  return (
+    <>
+      <Card title="CSV の取り込み（1つ）">
+        <form className="form aligned" onSubmit={(e) => e.preventDefault()}>
+          <Field as="div" label="ファイル">
+            <FileDrop
+              label="CSV ファイル"
+              dropLabel="読み込む"
+              accept={isCsv}
+              inputAccept=".csv,text/csv"
+              selected={csv || undefined}
+              rejectHint="拡張子が .csv のファイルを選んでください。"
+              hint="名簿の CSV（UTF-8 か Shift_JIS）。"
+              icons={DROP_ICONS}
+              onFiles={(f) => setCsv(`${f[0]!.name}（${f[0]!.size} バイト）`)}
+            />
+          </Field>
+        </form>
+      </Card>
+      <Card title="証憑（複数・写真）">
+        <FileDrop
+          label="証憑のファイル"
+          dropLabel="アップロード"
+          accept={isImageOrPdf}
+          inputAccept="image/*,application/pdf"
+          multiple
+          camera
+          rejectHint="JPEG・PNG・WebP の画像か PDF だけです。"
+          hint="JPEG・PNG・WebP の画像か PDF（1つ 10MB まで）。"
+          icons={DROP_ICONS}
+          onFiles={(f) => setFiles((x) => [...x, ...f.map((y) => y.name)])}
+        />
+        <p className="muted small mt-md">受け取ったファイル：{files.join('・') || '（まだありません）'}</p>
+      </Card>
+      <Card title="低い形・アイコンなし・使えないとき">
+        <FileDrop label="領収書などのファイル" dropLabel="追加" accept={isImageOrPdf} inputAccept="image/*,application/pdf" compact rejectHint="画像か PDF だけです。" onFiles={() => {}} />
+        <div className="mt-md">
+          <FileDrop label="証憑のファイル" dropLabel="アップロード" accept={isImageOrPdf} inputAccept="image/*" disabled disabledMessage="1つの取引に付けられる証憑は 10 個までです。" rejectHint="" icons={DROP_ICONS} onFiles={() => {}} />
+        </div>
+      </Card>
+    </>
+  );
+}
+export const ファイルのドロップ領域: StoryObj = { render: () => <FileDropDemo /> };
 
 function PagerDemo() {
   const [page, setPage] = useState(2);

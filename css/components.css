@@ -189,6 +189,47 @@ label.check > input, label.radio > input { margin-top: calc((var(--line-height) 
   .form.aligned > :is(label:not(.check):not(.radio), .form-field) > :not(:first-child) { grid-column: 2; }
   .form.aligned > :is(label.check, label.radio, .form-actions, .message-box) { margin-left: calc(var(--label-width) + var(--space-2xl)); }
 }
+
+/* ファイルを選ぶボタン（label.button の中に .visually-hidden の input type=file。キーボードで選んだときは枠を出す）。1.8.0 */
+.file-button { cursor: pointer; }
+.file-button:focus-within { box-shadow: var(--focus-ring); }
+.file-button:has(input:disabled) { cursor: not-allowed; opacity: 0.6; }
+
+/* ファイルのドロップ領域（React は <FileDrop>。1.8.0）：点線の枠・コラムの地・丸いアイコン・「〇〇をここにドラッグ＆ドロップ」と「ファイルを選ぶ」。
+   .is-over：受け付けるファイルを重ねている（ブランド色の枠と淡い地）、.is-invalid：種類が合わない・いまは受け付けない（注意の色）、
+   .is-selected：1つ選んだあと（実線の枠と淡い緑）、.compact：低い形。指で操作する端末では点線とアイコンをやめる */
+.file-drop-wrap { font-weight: normal; color: var(--color-text); }
+.file-drop {
+  display: flex; gap: var(--space-md); align-items: center; min-height: var(--file-drop-min-height);
+  padding: var(--space-lg); border: calc(var(--border-width) * 2) dashed var(--color-border); border-radius: var(--radius-lg);
+  background: var(--color-column); transition: border-color var(--transition), background var(--transition);
+}
+.file-drop.compact { min-height: 0; padding: var(--space-md); }
+.file-drop.is-selected { border-style: solid; border-color: var(--color-success-line); background: var(--color-success-soft); }
+.file-drop.is-over { border-color: var(--color-brand); background: var(--color-brand-tint); }
+.file-drop.is-invalid { border-color: var(--color-danger-line); background: var(--color-danger-soft); cursor: not-allowed; }
+.file-drop-icon {
+  flex: none; display: grid; place-items: center; width: var(--file-drop-icon-size); height: var(--file-drop-icon-size);
+  border-radius: var(--radius-full); background: var(--color-surface); color: var(--color-text-muted); transition: color var(--transition);
+}
+.file-drop-icon svg { width: var(--icon-size); height: var(--icon-size); }
+.file-drop.compact .file-drop-icon { width: calc(var(--file-drop-icon-size) * 0.75); height: calc(var(--file-drop-icon-size) * 0.75); }
+.file-drop.is-over .file-drop-icon { color: var(--color-brand); }
+.file-drop.is-selected .file-drop-icon { color: var(--color-success); }
+.file-drop.is-invalid .file-drop-icon { color: var(--color-danger); }
+.file-drop-body { display: grid; gap: var(--space-xs); min-width: 0; }
+.file-drop-body p { margin: 0; }
+.file-drop-title { font-weight: var(--font-weight-bold); color: var(--color-text-strong); overflow-wrap: anywhere; }
+.file-drop.is-invalid .file-drop-title { color: var(--color-danger); }
+/* ファイルを重ねているあいだは、ボタンを薄くしてドロップを枠で受ける */
+.file-drop.is-over .file-drop-actions, .file-drop.is-invalid .file-drop-actions { pointer-events: none; opacity: 0.4; }
+.file-drop-hint { margin: var(--space-xs) 0 0; }
+.file-drop-error { margin: var(--space-xs) 0 0; color: var(--color-danger); }
+@media (pointer: coarse) {
+  .file-drop { min-height: 0; padding: var(--space-md); border-width: var(--border-width); border-style: solid; }
+  .file-drop-icon { display: none; }
+}
+
 /* 送信ボタンの行（主要な操作を左に、キャンセルを続けて）。.sticky は長いフォームで画面の下に貼りつける */
 .form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); padding-top: var(--space-lg); border-top: var(--divider); }
 .form-actions.sticky {
