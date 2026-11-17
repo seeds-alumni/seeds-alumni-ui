@@ -61,7 +61,9 @@ export function useFileDrop({ accept, onFiles, disabled = false }: { accept: Fil
 export function usePreventFileNavigation() {
   useEffect(() => {
     const stop = (e: globalThis.DragEvent) => {
-      if (!isFileDrag(e)) return;
+      // ドロップ領域（useFileDrop）が受け付けたものは触らない。window には領域の後に届くので、
+      // ここで dropEffect を 'none' にすると領域の 'copy' を上書きし、ドロップできなくなる（1.8.0 の不具合）
+      if (!isFileDrag(e) || e.defaultPrevented) return;
       e.preventDefault();
       if (e.type === 'dragover' && e.dataTransfer) e.dataTransfer.dropEffect = 'none';
     };
