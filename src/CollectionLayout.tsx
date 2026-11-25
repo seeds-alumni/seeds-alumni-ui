@@ -46,7 +46,7 @@ export type CollectionLayoutProps = {
  * 表示の切り替えと絞り込み・検索 → 適用中の条件 → カードの中に「件数・一括操作の帯 → 表（または空の状態） → ページ送り」。
  * 見出しと画面全体の操作は、上に <PageHeader> を置く。会員向けの画面・タブの管理画面の一覧は <ListLayout>
  */
-export function CollectionLayout({ views, viewsLabel = '状態で分ける', filters, search, onSearch, applied, selection, summary, tools, notice, empty, pager, children }: CollectionLayoutProps) {
+export function CollectionLayout({ views, viewsLabel = '状態の切り替え', filters, search, onSearch, applied, selection, summary, tools, notice, empty, pager, children }: CollectionLayoutProps) {
   const submit = (e: FormEvent) => {
     e.preventDefault();
     onSearch?.();
@@ -87,7 +87,7 @@ export function CollectionLayout({ views, viewsLabel = '状態で分ける', fil
       {notice}
       <div className="table-card">
         {showBar && (selecting ? (
-          <div className="table-card-bar bulk" role="region" aria-label="選んだ行の操作">
+          <div className="table-card-bar bulk" role="region" aria-label="選択した行の操作">
             <span>{selection.count} 件を選択中</span>
             {selection.actions}
             <button type="button" className="link small" onClick={selection.onClear}>選択を解除</button>

@@ -112,8 +112,8 @@
         </div>
         <div class="filter-tags">
           <span class="muted">絞り込み：</span>
-          <a class="filter-tag" href="?" aria-label="期：1期 の条件を外す">期：1期</a>
-          <a class="link" href="?">すべて外す</a>
+          <a class="filter-tag" href="?" aria-label="期：1期 の条件を解除">期：1期</a>
+          <a class="link" href="?">すべて解除</a>
         </div>
 
         <div class="table-card">
@@ -122,7 +122,7 @@
             <table>
               <thead>
                 <tr>
-                  <th class="check-cell"><input type="checkbox" aria-label="表示中の行をすべて選ぶ" /></th>
+                  <th class="check-cell"><input type="checkbox" aria-label="表示中の行をすべて選択" /></th>
                   <th aria-sort="none"><button type="button" class="sort">氏名</button></th>
                   <th aria-sort="ascending"><button type="button" class="sort">会員番号</button></th>
                   <th>期</th>
@@ -133,7 +133,7 @@
               </thead>
               <tbody>
             <tr>
-              <td class="check-cell"><input type="checkbox" aria-label="山田 太郎を選ぶ" /></td>
+              <td class="check-cell"><input type="checkbox" aria-label="山田 太郎を選択" /></td>
               <td><a class="person" href="#"><span class="avatar" aria-hidden="true">山</span><span class="person-text"><span class="person-name">山田 太郎</span><span class="person-sub">member01@example.com</span></span></a></td>
               <td class="nowrap">15001</td>
               <td class="nowrap">1期</td>
@@ -142,7 +142,7 @@
               <td class="nowrap">2026/10/27 03:37</td>
             </tr>
             <tr>
-              <td class="check-cell"><input type="checkbox" aria-label="佐藤 花子を選ぶ" /></td>
+              <td class="check-cell"><input type="checkbox" aria-label="佐藤 花子を選択" /></td>
               <td><a class="person" href="#"><span class="avatar" aria-hidden="true">佐</span><span class="person-text"><span class="person-name">佐藤 花子</span><span class="person-sub">member02@example.com</span></span></a></td>
               <td class="nowrap">15002</td>
               <td class="nowrap">1期</td>
@@ -151,7 +151,7 @@
               <td class="nowrap">2026/10/26 08:08</td>
             </tr>
             <tr>
-              <td class="check-cell"><input type="checkbox" aria-label="鈴木 次郎を選ぶ" /></td>
+              <td class="check-cell"><input type="checkbox" aria-label="鈴木 次郎を選択" /></td>
               <td><a class="person" href="#"><span class="avatar" aria-hidden="true">鈴</span><span class="person-text"><span class="person-name">鈴木 次郎</span><span class="person-sub">member03@example.com</span></span></a></td>
               <td class="nowrap">16010</td>
               <td class="nowrap">2期</td>
@@ -160,7 +160,7 @@
               <td class="nowrap"><span class="muted">—</span></td>
             </tr>
             <tr>
-              <td class="check-cell"><input type="checkbox" aria-label="高橋 陽菜を選ぶ" /></td>
+              <td class="check-cell"><input type="checkbox" aria-label="高橋 陽菜を選択" /></td>
               <td><a class="person" href="#"><span class="avatar" aria-hidden="true">高</span><span class="person-text"><span class="person-name">高橋 陽菜</span><span class="person-sub">member04@example.com</span></span></a></td>
               <td class="nowrap">17004</td>
               <td class="nowrap">3期</td>
@@ -169,7 +169,7 @@
               <td class="nowrap">2026/09/06 08:11</td>
             </tr>
             <tr>
-              <td class="check-cell"><input type="checkbox" aria-label="田中 蓮を選ぶ" /></td>
+              <td class="check-cell"><input type="checkbox" aria-label="田中 蓮を選択" /></td>
               <td><a class="person" href="#"><span class="avatar" aria-hidden="true">田</span><span class="person-text"><span class="person-name">田中 蓮</span><span class="person-sub">member05@example.com</span></span></a></td>
               <td class="nowrap">18021</td>
               <td class="nowrap">4期</td>
@@ -190,16 +190,16 @@
         </div>
 
         <div class="table-card">
-          <div class="table-card-bar bulk" role="region" aria-label="選んだ行の操作">
+          <div class="table-card-bar bulk" role="region" aria-label="選択した行の操作">
             <span>2 件を選択中</span>
-            <button type="button" class="button small-btn">タグを付ける</button>
+            <button type="button" class="button small-btn">タグを付与</button>
             <button type="button" class="button small-btn">停止</button>
             <button type="button" class="link small">選択を解除</button>
           </div>
           <div class="empty-state">
-            <p class="empty-state-title">（見本）行を選んでいるあいだは、表の上の帯が一括操作に変わります</p>
-            <p>1 件もないとき・検索に当てはまるものがないときは、表の代わりにこの「空の状態」を置き、次にできる操作を添えます。</p>
-            <div class="row"><a class="button secondary" href="?">条件をすべて外す</a></div>
+            <p class="empty-state-title">（見本）行の選択中は、表の上の帯が一括操作に切り替わります</p>
+            <p>データがない場合・検索に該当しない場合は、表の代わりに「空の状態」を置き、次の操作を示します。</p>
+            <div class="row"><a class="button secondary" href="?">条件をすべて解除</a></div>
           </div>
         </div>
       </main>

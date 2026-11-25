@@ -164,7 +164,7 @@ export function FileDrop({
     const { ok, ng } = splitFiles(list, accept);
     const notes: string[] = [];
     if (ng.length) notes.push(`${ng.map((f) => f.name).join('・')} は受け付けられません。${rejectHint}`);
-    if (!multiple && files.length > 1) notes.push('ファイルは1つだけ選んでください。');
+    if (!multiple && files.length > 1) notes.push('ファイルは1つのみ選択してください。');
     setRejected(notes.join(''));
     if (ok.length) onFiles(ok);
   }
@@ -180,7 +180,7 @@ export function FileDrop({
   const cls = ['file-drop', compact && 'compact', over && !off && !invalid && 'is-over', over && (invalid || off) && 'is-invalid', selected && 'is-selected', off && 'is-disabled'].filter(Boolean).join(' ');
   const title = over
     ? off
-      ? (busy ?? disabledMessage ?? 'いまはドロップできません')
+      ? (busy ?? disabledMessage ?? '現在ドロップできません')
       : invalid
         ? 'このファイルの種類は受け付けられません'
         : `ドロップして${dropLabel}`
@@ -197,7 +197,7 @@ export function FileDrop({
             {title ?? (
               <>
                 <span className="no-touch">{label}をここにドラッグ＆ドロップ</span>
-                <span className="only-touch">{camera ? `${label}を選ぶか、写真を撮影してください` : `${label}を選んでください`}</span>
+                <span className="only-touch">{camera ? `${label}を選択するか、写真を撮影してください` : `${label}を選択してください`}</span>
               </>
             )}
           </p>
@@ -210,7 +210,7 @@ export function FileDrop({
               </label>
             )}
             <label className={`button ${selected ? 'small-btn' : 'secondary'} file-button`}>
-              {selected ? '別のファイルを選ぶ' : <>{icons.choose}ファイルを選ぶ</>}
+              {selected ? '別のファイルを選択' : <>{icons.choose}ファイルを選択</>}
               <input type="file" className="visually-hidden" accept={inputAccept} multiple={multiple} disabled={off} onChange={onInput} />
             </label>
           </div>

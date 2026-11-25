@@ -17,7 +17,7 @@
 //   5. アプリの CSS のクラスとトークンは、すべてカタログ（--doc）に載っている
 //   6. ブラウザの confirm() / prompt() / alert() を使っていない（<DialogHost> の confirmDialog / inputDialog を使う）
 //   7. CSS は --css のフォルダにだけ置いている
-//   8. 文言に、避ける言い方（docs/writing.md §4 の★）がない。その行に「writing-ok」と書くと除外できる
+//   8. 文言に、避ける言い方（docs/writing.md §2.2・§4 の★）がない。その行に「writing-ok」と書くと除外できる
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -158,6 +158,15 @@ const WRITING_RULES = [
   [/正常に/, '「正常に」は要りません（「保存しました。」）'],
   [/下さい/, '「下さい」は「ください」にしてください'],
   [/いたし(?:ます|ました)|でございます/, '過剰な丁寧語（「いたします」「でございます」）は使わないでください'],
+  // 話し言葉の動詞（docs/writing.md §2.2 の★。1.9.0）
+  [/(?<![不満補発充])足(?:す|し|せ|さ)/, '「足す」は「追加」にしてください'],
+  [/(?<![以海除案意号郊野])外(?:す|し|せ|さ|れ)/, '「外す」は「解除」「除外」にしてください'],
+  [/作(?:る|っ|れ|ら|り)/, '「作る」は「作成」にしてください'],
+  [/変え(?:る|て|ま|ら|た|ず)/, '「変える」は「変更」にしてください'],
+  [/(?<![見正率素])直(?:す|し|せ|さ)/, '「直す」は「修正」にしてください'],
+  [/(?<!取り|取|解|抹)消(?:す|し|せ|さ)/, '「消す」は「削除」にしてください'],
+  [/選(?:ぶ|ん|べ|ば|び)/, '「選ぶ」は「選択」にしてください'],
+  [/確かめ/, '「確かめる」は「確認」にしてください'],
 ];
 const writingFiles = args.writingSrc.length
   ? [...new Set(args.writingSrc.flatMap((d) => walk(resolve(d))))].filter((f) => /\.(tsx?|jsx?|mjs|html)$/.test(f) && !/\.d\.ts$/.test(f))
@@ -173,7 +182,7 @@ for (const f of writingFiles) {
     if (srcLines[i]?.includes('writing-ok')) return;
     for (const [re, msg] of WRITING_RULES) {
       const m = line.match(re);
-      if (m) errors.push(`${rel(f)}:${i + 1}：文言「${m[0]}」— ${msg}（docs/writing.md §4）`);
+      if (m) errors.push(`${rel(f)}:${i + 1}：文言「${m[0]}」— ${msg}（docs/writing.md §2.2・§4）`);
     }
   });
 }

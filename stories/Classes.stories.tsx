@@ -54,7 +54,7 @@ export const フォーム: Story = {
           <label className="radio"><input type="radio" name="n" defaultChecked /> メールで受け取る</label>
           <label className="radio"><input type="radio" name="n" /> 受け取らない</label>
         </fieldset>
-        <label>補足（任意）<textarea /><span className="muted small">本人確認の参考になる情報があれば書いてください。</span></label>
+        <label>補足（任意）<textarea /><span className="muted small">本人確認の参考になる情報があれば入力してください。</span></label>
         <label className="check"><input type="checkbox" /> 規約に同意します</label>
         <button className="button primary">申請</button>
       </form>

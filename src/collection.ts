@@ -41,7 +41,7 @@ export function useSelection<K extends string | number>(keys: K[]) {
       checked: all,
       ref: (el: HTMLInputElement | null) => { if (el) el.indeterminate = some; },
       onChange: (e: ChangeEvent<HTMLInputElement>) => toggleAll(e.target.checked),
-      'aria-label': '表示中の行をすべて選ぶ',
+      'aria-label': '表示中の行をすべて選択',
     },
     /** 各行のチェックボックス。label は「山田 太郎を選ぶ」のように、どの行かが分かる文 */
     rowProps: (k: K, label: string) => ({

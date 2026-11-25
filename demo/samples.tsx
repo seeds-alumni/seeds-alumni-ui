@@ -89,7 +89,7 @@ export function LoginPage() {
   return (
     <AppShell title={MEMBER_TITLE} href="#" narrow>
       <Card title="ログイン">
-        <p>SEEDS同窓会のマイポータルです。ログイン方法を選んでください。</p>
+        <p>SEEDS同窓会のマイポータルです。ログイン方法を選択してください。</p>
         <div className="stack">
           <a className="choice" href="#">Google でログイン</a>
           <a className="choice" href="#">メールアドレスでログイン（確認コード）</a>
@@ -106,7 +106,7 @@ export function ApplicationFormPage() {
   return (
     <AppShell title={MEMBER_TITLE} href="#" narrow>
       <Card title="本登録の申請">
-        <p className="muted">会員として利用するには本登録の申請が必要です。運営が名簿と照合してから承認します。</p>
+        <p className="muted">会員として利用するには本登録の申請が必要です。運営が名簿と照合した後に承認します。</p>
         <form className="form" onSubmit={(e) => { e.preventDefault(); setError(agreed ? null : 'プライバシーポリシーと会則に同意してください。'); }}>
           <fieldset>
             <legend>登録区分</legend>
@@ -116,8 +116,8 @@ export function ApplicationFormPage() {
           </fieldset>
           <Field label="氏名"><input required /></Field>
           <Field label="氏名（カナ）"><input placeholder="例：ヤマダ タロウ" required /></Field>
-          <Field label="会員番号（受講生番号・5桁）" hint="分からなければ空欄のままで構いません。"><input inputMode="numeric" placeholder="例：15001" /></Field>
-          <Field label="補足" optional hint="本人確認の参考になる情報があれば書いてください。"><textarea /></Field>
+          <Field label="会員番号（受講生番号・5桁）" hint="不明な場合は空欄"><input inputMode="numeric" placeholder="例：15001" /></Field>
+          <Field label="補足" optional hint="本人確認の参考になる情報があれば入力してください。"><textarea /></Field>
           <ul className="doc-links">
             <li><a href="#">プライバシーポリシー</a></li>
             <li><a href="#">会則</a></li>
@@ -226,7 +226,7 @@ export function MemberDetailContent({ id = 4, backHref = '#/users' }: { id?: num
   const [status, setStatus] = useState(m.status);
   const [note, setNote] = useState('');
   async function suspend() {
-    const reason = await inputDialog({ title: '会員の停止', label: '理由', hint: '本人には知らせません。', okLabel: '次へ' });
+    const reason = await inputDialog({ title: '会員の停止', label: '理由', hint: '本人には通知しません。', okLabel: '次へ' });
     if (reason === null) return;
     if (!(await confirmDialog('この会員を停止しますか？すぐにログアウトされ、ログインしても利用できなくなります。', { title: '会員の停止', okLabel: '停止', danger: true }))) return;
     setStatus('ng');
@@ -287,7 +287,7 @@ export function AdminDemo({ route, envLabel }: { route: string; envLabel?: strin
       {section === 'users' && (id ? <MemberDetailContent id={Number(id)} /> : <MemberListContent />)}
       {section === 'applications' && (
         <Card title="申請審査">
-          <p className="muted">見本では省略しています。一覧の型は「会員」タブを見てください。</p>
+          <p className="muted">見本では省略しています。一覧の型は「会員」タブを参照してください。</p>
         </Card>
       )}
       {section === 'settings' && (
