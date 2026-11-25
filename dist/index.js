@@ -14,7 +14,7 @@ export { Tiles } from './Tiles';
 export { Field } from './Field';
 export { Badge } from './Badge';
 export { Pager } from './Pager';
-export { DialogHost, confirmDialog, inputDialog } from './Dialog';
+export { DialogHost, confirmDialog, inputDialog, formDialog } from './Dialog';
 export { ToastHost, toast } from './Toast';
 export { useDropdownDismiss } from './dropdown';
 export { ThemeToggle, ThemeIcon } from './ThemeToggle';

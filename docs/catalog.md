@@ -391,7 +391,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 
 **ブラウザの `confirm()` / `prompt()` / `alert()` は使わない**（見た目がブラウザごとに違い、デザインシステムから外れるため）。確認や1項目の入力は、アプリ内のダイアログで聞く。
 
-React では `confirmDialog()` / `inputDialog()` を `await` し、クラスを直接は書かない。`<DialogHost />` は `<AppShell>` が1つ置いている（`<AppShell>` を使わないときは、画面の枠に自分で1つ置く）。
+React では `confirmDialog()` / `inputDialog()` / `formDialog()`（1.9.0）を `await` し、クラスを直接は書かない。`<DialogHost />` は `<AppShell>` が1つ置いている（`<AppShell>` を使わないときは、画面の枠に自分で1つ置く）。
 
 | クラス | 使う場面 |
 |---|---|
@@ -407,7 +407,22 @@ const ended = await inputDialog({ title: 'SA 登録の解除', label: '終了日
 if (ended === null) return; // キャンセル
 ```
 
-- 入力ダイアログは既定で必須（空欄では決定できない）。空欄を許すときは `optional: true`
+```tsx
+// 1つのものの複数の値をまとめて変更する（表の行には小さな「編集」ボタン1つだけを置く。docs/writing.md §3）
+const v = await formDialog({
+  title: 'タグの編集',
+  fields: [
+    { name: 'name', label: '名前', initial: tag.name },
+    { name: 'description', label: '説明', initial: tag.description ?? '', optional: true },
+  ],
+  okLabel: '保存',
+});
+if (v === null) return; // キャンセル
+await api.patch(`/tags/${tag.id}`, v);
+```
+
+- 入力ダイアログは既定で必須（空欄では決定できない）。空欄を許すときは `optional: true`（`formDialog()` は欄ごと）
+- 表の1行に「名前を変更」「説明を変更」のような同じものの値を変えるボタンを並べず、「編集」1つにして `formDialog()` で聞く
 - 確認の文は「〜しますか？」で終え、決定ボタンには操作の名前（「削除」「承認」）を書く
 
 ### 3.10 公開サイトの見た目（`data-look="site"`、`site.css`）
