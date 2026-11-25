@@ -130,7 +130,7 @@ function FileDropDemo() {
               accept={isCsv}
               inputAccept=".csv,text/csv"
               selected={csv || undefined}
-              rejectHint="拡張子が .csv のファイルを選んでください。"
+              rejectHint="拡張子が .csv のファイルを選択してください。"
               hint="名簿の CSV（UTF-8 か Shift_JIS）。"
               icons={DROP_ICONS}
               onFiles={(f) => setCsv(`${f[0]!.name}（${f[0]!.size} バイト）`)}
@@ -146,17 +146,17 @@ function FileDropDemo() {
           inputAccept="image/*,application/pdf"
           multiple
           camera
-          rejectHint="JPEG・PNG・WebP の画像か PDF だけです。"
+          rejectHint="JPEG・PNG・WebP の画像か PDF のみ受け付けます。"
           hint="JPEG・PNG・WebP の画像か PDF（1つ 10MB まで）。"
           icons={DROP_ICONS}
           onFiles={(f) => setFiles((x) => [...x, ...f.map((y) => y.name)])}
         />
         <p className="muted small mt-md">受け取ったファイル：{files.join('・') || '（まだありません）'}</p>
       </Card>
-      <Card title="低い形・アイコンなし・使えないとき">
-        <FileDrop label="領収書などのファイル" dropLabel="追加" accept={isImageOrPdf} inputAccept="image/*,application/pdf" compact rejectHint="画像か PDF だけです。" onFiles={() => {}} />
+      <Card title="低い形・アイコンなし・使用不可">
+        <FileDrop label="領収書などのファイル" dropLabel="追加" accept={isImageOrPdf} inputAccept="image/*,application/pdf" compact rejectHint="画像か PDF のみ受け付けます。" onFiles={() => {}} />
         <div className="mt-md">
-          <FileDrop label="証憑のファイル" dropLabel="アップロード" accept={isImageOrPdf} inputAccept="image/*" disabled disabledMessage="1つの取引に付けられる証憑は 10 個までです。" rejectHint="" icons={DROP_ICONS} onFiles={() => {}} />
+          <FileDrop label="証憑のファイル" dropLabel="アップロード" accept={isImageOrPdf} inputAccept="image/*" disabled disabledMessage="1つの取引に添付できる証憑は 10 個までです。" rejectHint="" icons={DROP_ICONS} onFiles={() => {}} />
         </div>
       </Card>
     </>
@@ -214,7 +214,7 @@ function CollectionDemo() {
         { label: '利用中', count: 1, active: view === 'ok', onSelect: () => setView('ok') },
       ]}
       search={<span className="search-field"><input type="search" aria-label="会員を検索" /></span>}
-      selection={{ count: sel.count, onClear: sel.clear, actions: <button type="button" className="button small-btn" onClick={() => toast(`${sel.count} 件にタグを付けました。`)}>タグを付ける</button> }}
+      selection={{ count: sel.count, onClear: sel.clear, actions: <button type="button" className="button small-btn" onClick={() => toast(`${sel.count} 件にタグを付与しました。`)}>タグを付与</button> }}
       summary={`${rows.length} 件`}
     >
       <table>
@@ -222,7 +222,7 @@ function CollectionDemo() {
         <tbody>
           {rows.map((r) => (
             <tr key={r.id} className={sel.isSelected(r.id) ? 'selected' : undefined}>
-              <td className="check-cell"><input type="checkbox" {...sel.rowProps(r.id, `${r.name}を選ぶ`)} /></td>
+              <td className="check-cell"><input type="checkbox" {...sel.rowProps(r.id, `${r.name}を選択`)} /></td>
               <td>{r.name}</td>
               <td><span className={`status-dot ${r.status}`}>{LABEL[r.status]}</span></td>
             </tr>

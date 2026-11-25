@@ -279,9 +279,9 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `[aria-invalid="true"]` | 誤りのある入力欄（枠が赤）。誤りの文は欄の直後の `.error.small`（`<Field error>`） |
 | `.search-field` | 虫めがねつきの検索欄（`span.search-field > input[type=search]`）。入力欄に `aria-label`（「会員を検索」）。一覧の上は `.toolbar` の中、全体の検索は `.console-search` の中 |
 | `.dropdown` / `.dropdown-menu` / `.dropdown-label` | 押すと開くメニュー（`details.dropdown > summary + div.dropdown-menu`）。中は `a`・`button`・`label.check`（絞り込みの選択肢）・`hr`・小さい見出しの `.dropdown-label`。`.dropdown-menu.end` は右端にそろえる（ヘッダーの右など）。`button.danger` は赤い文字。外を押す・Esc・項目を押すと閉じる（React は `<AppShell>`・`<ConsoleShell>`、素の HTML は `js/console.js`）。表の中では開かない（表の枠で切れる） |
-| `.filter-tags` / `.filter-tag` | 適用中の絞り込みの条件（`.toolbar` の下）。1つの条件ごとに `button.filter-tag`（「期：1期 ×」。押すとその条件を外す。`aria-label` は「期：1期 の条件を外す」）、最後に「すべて外す」（`.link`）。条件がないときは出さない |
+| `.filter-tags` / `.filter-tag` | 適用中の絞り込みの条件（`.toolbar` の下）。1つの条件ごとに `button.filter-tag`（「期：1期 ×」。押すとその条件を解除。`aria-label` は「期：1期 の条件を外す」）、最後に「すべて外す」（`.link`）。条件がないときは出さない |
 | `.file-button` | ファイルを選ぶボタン（`label.button.secondary.file-button` の中に `.visually-hidden` の `input type=file`。キーボードで選んだときは枠を出し、`input` が `disabled` なら薄くする）（1.8.0） |
-| `.file-drop-wrap` / `.file-drop` / `.file-drop-icon` / `.file-drop-body` / `.file-drop-title` / `.file-drop-actions` / `.file-drop-hint` / `.file-drop-error` | ファイルのドロップ領域（React は `<FileDrop>`。§4・§8.7）。点線の枠・コラムの地・丸いアイコン・「〇〇をここにドラッグ＆ドロップ」と「または」「ファイルを選ぶ」。状態：`.is-over`（受け付けるファイルを重ねている。ブランド色の枠と淡い地）・`.is-invalid`（種類が合わない・いまは受け付けない。注意の色）・`.is-selected`（1つ選んだあと。実線の枠と淡い緑）・`.is-disabled`。`.compact` はフォームの中の低い形。指で操作する端末では点線とアイコンをやめる（1.8.0） |
+| `.file-drop-wrap` / `.file-drop` / `.file-drop-icon` / `.file-drop-body` / `.file-drop-title` / `.file-drop-actions` / `.file-drop-hint` / `.file-drop-error` | ファイルのドロップ領域（React は `<FileDrop>`。§4・§8.7）。点線の枠・コラムの地・丸いアイコン・「〇〇をここにドラッグ＆ドロップ」と「または」「ファイルを選択」。状態：`.is-over`（受け付けるファイルを重ねている。ブランド色の枠と淡い地）・`.is-invalid`（種類が合わない・いまは受け付けない。注意の色）・`.is-selected`（1つ選んだあと。実線の枠と淡い緑）・`.is-disabled`。`.compact` はフォームの中の低い形。指で操作する端末では点線とアイコンをやめる（1.8.0） |
 | `.suggest` | 入力欄の下に出す候補リスト（`ul.suggest` の中の `li > button`。マウスを載せた候補は淡い地。学校の検索など） |
 
 - 入力の誤りは、その項目の直後に `<span className="error small">…</span>` で出す
@@ -333,7 +333,7 @@ React では `<AppShell>`（ヘッダー＋本文＋ダイアログ）か `<AppH
 | `.table-card` | 表を入れるカード（管理コンソールの一覧）。表を端から端まで広げ、行の中身を上下の中央にそろえる。中は `.table-card-bar` → `.table-wrap` か `.empty-state` → `.table-card-foot` |
 | `.table-card-bar` / `.table-card-bar.bulk` | 表の上の帯（左に件数、右に表示中の範囲への小さい操作）。行を選んでいるあいだは `.bulk`（淡いブランド色。「n 件を選択中」・一括操作・「選択を解除」） |
 | `.table-card-foot` | 表の下の帯（ページ送り `.pager`） |
-| `.check-cell` | 一括操作のチェックボックスの列（`th.check-cell` は「表示中の行をすべて選ぶ」）。チェックボックスには `aria-label`（「山田 太郎を選ぶ」） |
+| `.check-cell` | 一括操作のチェックボックスの列（`th.check-cell` は「表示中の行をすべて選択」）。チェックボックスには `aria-label`（「山田 太郎を選択」） |
 | `button.sort` | 並べ替えられる列の見出し（`th[aria-sort="none|ascending|descending"] > button.sort`）。並べ替えている列は緑の矢印、ほかは淡い矢印。押すたびに昇順 ↔ 降順 |
 | `.num` | 数値の列（金額・件数）を右にそろえる（`th.num`・`td.num`）。会員番号などの番号は左のまま |
 | `.actions-cell` | 行の操作の列（右端、折り返さない）。操作は `.button.small-btn` を1〜2個まで。同じ操作は詳細の画面でもできるようにする |
@@ -598,7 +598,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 | `<DetailLayout back title status summary>` | `.back-link`＋基本情報のカード＋続くカード | 詳細の画面。続く操作は `<Card level={3}>` を並べ、取り消せない操作は最後 |
 | `<Tiles items>` | `.tiles` / `.tile` | ダッシュボードの数値（`href` があれば一覧へのリンク） |
 | `<Field label optional? hint? error? as?>` | `.form-field` | フォームの1項目（`.form` の中に並べる） |
-| `<FileDrop label dropLabel accept inputAccept multiple? camera? disabled? disabledMessage? busy? selected? hint? rejectHint compact? icons? onFiles>` | `.file-drop-wrap`（`.file-drop`） | ファイルのドロップ領域（§8.7）。ドラッグ＆ドロップか「ファイルを選ぶ」で `onFiles` に受け付けるファイルだけを渡す（受け付けないものは枠の下に理由）。`selected` にファイル名を渡すと「選んだあと」の形。`icons` は `{ drop, invalid, selected, choose, camera }`（共通 UI はアイコンを配らないので、各アプリの Lucide を渡す。§3.12）（1.8.0） |
+| `<FileDrop label dropLabel accept inputAccept multiple? camera? disabled? disabledMessage? busy? selected? hint? rejectHint compact? icons? onFiles>` | `.file-drop-wrap`（`.file-drop`） | ファイルのドロップ領域（§8.7）。ドラッグ＆ドロップか「ファイルを選択」で `onFiles` に受け付けるファイルだけを渡す（受け付けないものは枠の下に理由）。`selected` にファイル名を渡すと「選んだあと」の形。`icons` は `{ drop, invalid, selected, choose, camera }`（共通 UI はアイコンを配らないので、各アプリの Lucide を渡す。§3.12）（1.8.0） |
 | `useFileDrop({ accept, onFiles, disabled? })` | — | 表の行など、ほかの要素でドロップを受けるとき。`{ over, invalid, props }` を返し、`props` を要素に付ける（`over` で行の色を変える） |
 | `usePreventFileNavigation()` | — | ドロップを受け付ける画面で1回呼ぶ。領域の外にファイルを落としたとき、ブラウザがファイルを開いて入力中の内容が消えないようにする |
 | `<Badge kind>` | `.badge` | 状態（`ok` / `warn` / `ng` / `none`）。必ず文字を入れる |
@@ -710,7 +710,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
       </tr></thead>
       <tbody>{rows.map((r) => (
         <tr key={r.id} className={sel.isSelected(r.id) ? 'clickable selected' : 'clickable'} onClick={rowClick(() => open(r.id))}>
-          <td className="check-cell"><input type="checkbox" {...sel.rowProps(r.id, `${r.name}を選ぶ`)} /></td>
+          <td className="check-cell"><input type="checkbox" {...sel.rowProps(r.id, `${r.name}を選択`)} /></td>
           <td><a className="person" href={`#/members/${r.id}`}><span className="avatar" aria-hidden="true">{r.name[0]}</span><span className="person-text"><span className="person-name">{r.name}</span><span className="person-sub">{r.email}</span></span></a></td>
           <td><span className={`status-dot ${r.status}`}>{label[r.status]}</span></td>
         </tr>
@@ -732,7 +732,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 - 入力欄は `label` の中に入れるか、`aria-label` を付ける
 - 状態は色だけで伝えない（バッジ・メッセージには必ず文字を入れる）
 - 押せる要素は `button` か `a` にする（`div` に `onClick` を付けない。表の行 `tr.clickable` は例外。その行の中にも同じ行き先のリンクを置く）
-- アイコンだけのボタン（`.icon-button`）・チェックボックスの列・検索欄には `aria-label` を付ける（「ヘルプ」「山田 太郎を選ぶ」「会員を検索」）。アイコンの `svg` は `aria-hidden="true"`
+- アイコンだけのボタン（`.icon-button`）・チェックボックスの列・検索欄には `aria-label` を付ける（「ヘルプ」「山田 太郎を選択」「会員を検索」）。アイコンの `svg` は `aria-hidden="true"`
 - 並べ替えられる列は `th[aria-sort]`、選んでいる表示の切り替えは `aria-current="page"` か `aria-pressed="true"`。どれも見た目は CSS が属性から付けるので、クラスで真似しない
 - 誤りのある入力欄は `aria-invalid="true"`。送信の結果は `toast()`（読み上げの領域に入る）、入力の誤りのまとめは `.message-box.ng[role=alert]`
 
@@ -759,7 +759,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 2. 取り消せない主要操作のボタンと、却下ボタンのクラスは？ → `button primary inline` と `button danger inline`
 3. 管理画面の一覧の画面はどう組む？ → タブの枠なら `<ListLayout>` に `filters`・`summary`・`pager` を渡し、中に `table`（行は `tr.clickable`）。管理コンソールなら `<PageHeader>` ＋ `<CollectionLayout>`（§4.6）
 4. 一覧の「ロール」の列の「メンバー」と、「状態」の列の「停止中」のマークアップは？ → `<span class="tag">メンバー</span>`（分類）と `<span class="status-dot ng">停止中</span>`（状態）
-5. 検索して1件もないときは？ → 表の代わりに `.empty-state`（「条件に当てはまる会員はいません」＋「条件をすべて外す」）。まだ1件も作っていないときとは文言を分ける（§8.4）
+5. 検索して1件もないときは？ → 表の代わりに `.empty-state`（「条件に当てはまる会員はいません」＋「条件をすべて解除」）。まだ1件も作っていないときとは文言を分ける（§8.4）
 
 ## 7. 変更の手順
 
@@ -797,7 +797,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 - サーバーに問い合わせる検索は **Enter で実行**する（`<form role="search">`。`<CollectionLayout onSearch>`）。手元にあるデータを絞るだけなら、打つたびに絞ってよい
 - **よく使う条件は表示の切り替え**（`.segmented`：すべて・利用中・停止中）にして、件数を添える。件数は、ほかの条件で絞ったうえでの数にする
 - それ以外の条件は**ドロップダウン**（`details.dropdown`）にまとめ、選択肢はチェックボックス（`label.check`）。選んでいる間はボタンを `.applied` にして選んだ数を出す
-- 適用中の条件は `.filter-tags` に並べ、1つずつ外せるようにし、「すべて外す」を置く。条件はできるだけ URL（`?status=ok&cohort=1`・`#/members?…`）に残し、再読み込み・戻る・共有で同じ一覧が出るようにする
+- 適用中の条件は `.filter-tags` に並べ、1つずつ解除できるようにし、「すべて解除」を置く。条件はできるだけ URL（`?status=ok&cohort=1`・`#/members?…`）に残し、再読み込み・戻る・共有で同じ一覧が出るようにする
 - 条件を変えたら1ページ目に戻す。0件のときは §8.4
 - ヘッダーの全体の検索（`.console-search`）は、画面・設定・会員を名前で探して移るためのもの。一覧の中を絞る検索は、その一覧の `.toolbar` に置く（2つを兼ねない）
 
@@ -820,7 +820,7 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 | 場合 | 題名（`.empty-state-title`） | 説明と操作 |
 |---|---|---|
 | まだ1件もない | 「お知らせはまだありません」 | 何ができるか・作るとどうなるか。操作は「お知らせを作成」（`.button.primary`。画面の見出しの主要な操作と同じ） |
-| 検索・絞り込みに当てはまらない | 「条件に当てはまる会員はいません」 | 「検索の言葉を変えるか、絞り込みの条件を外してください。」。操作は「条件をすべて外す」（`.button.secondary`） |
+| 検索・絞り込みに当てはまらない | 「条件に当てはまる会員はいません」 | 「検索語を変更するか、絞り込みの条件を解除してください。」。操作は「条件をすべて外す」（`.button.secondary`） |
 | 権限がない・読み込めない | 「会員の一覧を表示できません」 | 理由と、次にすること（管理者に頼む・再読み込み）。エラーは `.message-box.ng` でもよい |
 
 飾りの絵は入れない（§3.10 と同じく、生成した画像・イラストを使わない）。
@@ -851,9 +851,9 @@ React（JSX）では属性を `strokeWidth={2}` のように書き換える。�
 
 ファイルを受け取る画面は、`input type=file` をそのまま置かず `<FileDrop>` にする（freee のデザインシステム vibes の FileUploader・FileDropArea を参考にした。コードは写していない）。
 
-- ドラッグ＆ドロップと「ファイルを選ぶ」の両方で受け付ける。指で操作する端末ではドラッグの案内を出さず、写真なら「写真を撮影」（`camera`）も出す
+- ドラッグ＆ドロップと「ファイルを選択」の両方で受け付ける。指で操作する端末ではドラッグの案内を出さず、写真なら「写真を撮影」（`camera`）も出す
 - 受け付ける種類は `accept` で確かめ、合わないファイルを重ねたら注意の色、落としたら枠の下に理由（`rejectHint`）を出して送らない。最後はサーバーが中身で確かめる
-- 1つだけ選ぶもの（CSV の取り込み）は、選んだあと `selected` にファイル名（と件数）を渡し、「別のファイルを選ぶ」で選び直せるようにする
+- 1つだけ選ぶもの（CSV の取り込み）は、選んだあと `selected` にファイル名（と件数）を渡し、「別のファイルを選択」で選び直せるようにする
 - 受け付ける種類・大きさは `hint` に書く（「JPEG・PNG・WebP の画像か PDF（1つ 10MB まで）」）
 - ドロップを受け付ける画面では `usePreventFileNavigation()` を呼ぶ（1.8.1：領域が受け付けたドラッグ（`preventDefault` 済み）には触らない。1.8.0 は window で `dropEffect` を `none` に上書きし、どの領域にもドロップできなかった）
 - 文言：「〇〇をここにドラッグ＆ドロップ」「ドロップして〇〇」（アップロード・読み込む・追加）「このファイルの種類は受け付けられません」

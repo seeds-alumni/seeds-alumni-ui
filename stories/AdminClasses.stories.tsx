@@ -56,9 +56,9 @@ export const 検索と絞り込み: Story = {
       </div>
       <div className="filter-tags">
         <span className="muted">絞り込み：</span>
-        <button type="button" className="filter-tag" aria-label="期：1期 の条件を外す">期：1期</button>
-        <button type="button" className="filter-tag" aria-label="期：2期 の条件を外す">期：2期</button>
-        <button type="button" className="link">すべて外す</button>
+        <button type="button" className="filter-tag" aria-label="期：1期 の条件を解除">期：1期</button>
+        <button type="button" className="filter-tag" aria-label="期：2期 の条件を解除">期：2期</button>
+        <button type="button" className="link">すべて解除</button>
       </div>
       <section>
         <h2>キーの案内つきの検索欄（.search-field ＋ .kbd）</h2>
@@ -72,13 +72,13 @@ export const メニュー: Story = {
   render: () => (
     <section>
       <h2>ドロップダウン（details.dropdown）</h2>
-      <p className="muted small">外を押す・Esc・項目を押すと閉じます。右端に置くときは .dropdown-menu.end。</p>
+      <p className="muted small">外側のクリック・Esc・項目の選択で閉じます。右端に置くときは .dropdown-menu.end。</p>
       <div className="row">
         <details className="dropdown" open>
           <summary className="button secondary has-caret">操作</summary>
           <div className="dropdown-menu">
             <a href="#">詳細を開く</a>
-            <button type="button">タグを付ける</button>
+            <button type="button">タグを付与</button>
             <hr />
             <button type="button" className="danger">停止</button>
           </div>
@@ -97,16 +97,16 @@ const PEOPLE = [
 export const 表のカード: Story = {
   render: () => (
     <div className="table-card">
-      <div className="table-card-bar bulk" role="region" aria-label="選んだ行の操作">
+      <div className="table-card-bar bulk" role="region" aria-label="選択した行の操作">
         <span>1 件を選択中</span>
-        <button type="button" className="button small-btn">タグを付ける</button>
+        <button type="button" className="button small-btn">タグを付与</button>
         <button type="button" className="link small">選択を解除</button>
       </div>
       <div className="table-wrap">
         <table>
           <thead>
             <tr>
-              <th className="check-cell"><input type="checkbox" aria-label="表示中の行をすべて選ぶ" /></th>
+              <th className="check-cell"><input type="checkbox" aria-label="表示中の行をすべて選択" /></th>
               <th aria-sort="ascending"><button type="button" className="sort">氏名</button></th>
               <th aria-sort="none"><button type="button" className="sort">会員番号</button></th>
               <th>区分</th>
@@ -118,7 +118,7 @@ export const 表のカード: Story = {
           <tbody>
             {PEOPLE.map((p, i) => (
               <tr key={p.number} className={i === 0 ? 'clickable selected' : 'clickable'}>
-                <td className="check-cell"><input type="checkbox" defaultChecked={i === 0} aria-label={`${p.name}を選ぶ`} /></td>
+                <td className="check-cell"><input type="checkbox" defaultChecked={i === 0} aria-label={`${p.name}を選択`} /></td>
                 <td><a className="person" href="#"><span className="avatar" aria-hidden="true">{p.name[0]}</span><span className="person-text"><span className="person-name">{p.name}</span><span className="person-sub">{p.email}</span></span></a></td>
                 <td className="nowrap">{p.number}</td>
                 <td><span className="tag">{p.type}</span>{p.role && <> <span className="tag brand">{p.role}</span></>}</td>
@@ -175,14 +175,14 @@ export const 知らせ: Story = {
   render: () => (
     <section>
       <h2>画面の中の知らせ（.message-box）</h2>
-      <div className="message-box info"><p className="message-title">名簿の取り込みについて</p><p>取り込んだあと、名簿と一致しなかった会員は「審査中」になります。</p></div>
+      <div className="message-box info"><p className="message-title">名簿の取り込みについて</p><p>名簿と一致しなかった会員は「審査中」になります。</p></div>
       <div className="message-box ok"><p>名簿を取り込みました（1,276 件）。</p></div>
       <div className="message-box warn"><p className="message-title">3 件は名簿と一致しませんでした</p><p>一覧の「審査中」で確認してください。</p></div>
       <div className="message-box ng" role="alert"><p className="message-title">入力の誤りが 2 件あります</p><ul><li>メールアドレスの形式が正しくありません。</li><li>会員番号は5桁の数字で入力してください。</li></ul></div>
       <h3>画面の下の短い知らせ（.toast。React は toast()）</h3>
       <div className="stack">
-        <div className="toast"><span className="toast-text">設定を保存しました。</span><button type="button" className="toast-close" aria-label="知らせを閉じる">×</button></div>
-        <div className="toast ng"><span className="toast-text">保存できませんでした。時間をおいて、もう一度お試しください。</span><button type="button" className="toast-close" aria-label="知らせを閉じる">×</button></div>
+        <div className="toast"><span className="toast-text">設定を保存しました。</span><button type="button" className="toast-close" aria-label="通知を閉じる">×</button></div>
+        <div className="toast ng"><span className="toast-text">保存できませんでした。時間をおいて、もう一度お試しください。</span><button type="button" className="toast-close" aria-label="通知を閉じる">×</button></div>
       </div>
     </section>
   ),
@@ -194,15 +194,15 @@ export const 空の状態: Story = {
       <div className="table-card">
         <div className="empty-state">
           <p className="empty-state-title">お知らせはまだありません</p>
-          <p>作成したお知らせは、公開する日時になるとマイポータルのトップに出ます。</p>
+          <p>公開日時にマイポータルのトップに表示されます。</p>
           <div className="row"><button type="button" className="button primary inline">{icons.plus}お知らせを作成</button></div>
         </div>
       </div>
       <div className="table-card">
         <div className="empty-state">
           <p className="empty-state-title">条件に当てはまる会員はいません</p>
-          <p>検索の言葉を変えるか、絞り込みの条件を外してください。</p>
-          <div className="row"><button type="button" className="button secondary">条件をすべて外す</button></div>
+          <p>検索語を変更するか、絞り込みの条件を解除してください。</p>
+          <div className="row"><button type="button" className="button secondary">条件をすべて解除</button></div>
         </div>
       </div>
     </div>
@@ -218,11 +218,11 @@ export const 横並びのフォーム: Story = {
         <label className="form-field">
           <span>問い合わせ先</span>
           <input type="email" defaultValue="office@" aria-invalid="true" />
-          <span className="muted small">会員に送るメールの差出人になります。</span>
+          <span className="muted small">会員宛てメールの差出人です。</span>
           <span className="error small">メールアドレスの形式が正しくありません（例：office@example.com）。</span>
         </label>
         <label className="form-field"><span>案内の文（任意）</span><textarea /></label>
-        <label className="check"><input type="checkbox" defaultChecked /> 申請が届いたら運営にメールで知らせる</label>
+        <label className="check"><input type="checkbox" defaultChecked /> 申請を受け付けたら運営にメールで通知</label>
         <div className="form-actions">
           <button className="button primary inline">変更を保存</button>
           <button type="button" className="button secondary">元に戻す</button>

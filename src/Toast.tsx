@@ -51,7 +51,7 @@ export function ToastHost() {
   const render = (list: Item[]) => list.map((i) => (
     <div key={i.id} className={i.kind === 'ng' ? 'toast ng' : 'toast'}>
       <span className="toast-text">{i.message}</span>
-      <button type="button" className="toast-close" aria-label="知らせを閉じる" onClick={() => close(i.id)}>×</button>
+      <button type="button" className="toast-close" aria-label="通知を閉じる" onClick={() => close(i.id)}>×</button>
     </div>
   ));
 

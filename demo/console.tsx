@@ -180,9 +180,9 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
   const open = (id: number) => (location.hash = `#console/members/${id}`);
 
   async function addTag() {
-    const tag = await inputDialog({ title: 'タグを付ける', label: 'タグの名前', message: `${sel.count} 人の会員にタグを付けます。`, okLabel: 'タグを付ける' });
+    const tag = await inputDialog({ title: 'タグの付与', label: 'タグの名前', message: `${sel.count} 人の会員にタグを付与します。`, okLabel: '付与' });
     if (tag === null) return;
-    toast(`${sel.count} 人に「${tag}」のタグを付けました。`);
+    toast(`${sel.count} 人に「${tag}」のタグを付与しました。`);
     sel.clear();
   }
   async function suspend() {
@@ -192,9 +192,9 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
     toast(`${ids.size} 人の会員を停止しました。`);
   }
   async function invite() {
-    const email = await inputDialog({ title: '会員の招待', label: 'メールアドレス', hint: '本登録の申請の案内を送ります。', okLabel: '招待を送信' });
+    const email = await inputDialog({ title: '会員の招待', label: 'メールアドレス', hint: '本登録の申請の案内を送信します。', okLabel: '招待を送信' });
     if (email === null) return;
-    toast(`${email} に招待を送りました。`);
+    toast(`${email} に招待を送信しました。`);
   }
 
   return (
@@ -203,7 +203,6 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
         breadcrumb={[{ label: '会員管理', href: '#console/members' }, { label: '会員' }]}
         title="会員"
         count={rows.length}
-        description="SEEDS同窓会の会員と、ログイン・利用の状態を管理します。"
         actions={
           <>
             <button type="button" className="button secondary" onClick={() => toast(`${filtered.length} 件の CSV をダウンロードしました（見本）。`)}>{icons.download}CSV をダウンロード</button>
@@ -233,10 +232,10 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
         applied={filtering && (
           <>
             <span className="muted">絞り込み：</span>
-            {cohorts.map((c) => <button key={c} type="button" className="filter-tag" aria-label={`期：${c}期 の条件を外す`} onClick={() => change(setCohorts)(cohorts.filter((x) => x !== c))}>期：{c}期</button>)}
-            {types.map((t) => <button key={t} type="button" className="filter-tag" aria-label={`区分：${t} の条件を外す`} onClick={() => change(setTypes)(types.filter((x) => x !== t))}>区分：{t}</button>)}
-            {query && <button type="button" className="filter-tag" aria-label={`検索「${query}」を外す`} onClick={() => { setQ(''); change(setQuery)(''); }}>検索：{query}</button>}
-            <button type="button" className="link" onClick={clearAll}>すべて外す</button>
+            {cohorts.map((c) => <button key={c} type="button" className="filter-tag" aria-label={`期：${c}期 の条件を解除`} onClick={() => change(setCohorts)(cohorts.filter((x) => x !== c))}>期：{c}期</button>)}
+            {types.map((t) => <button key={t} type="button" className="filter-tag" aria-label={`区分：${t} の条件を解除`} onClick={() => change(setTypes)(types.filter((x) => x !== t))}>区分：{t}</button>)}
+            {query && <button type="button" className="filter-tag" aria-label={`検索「${query}」を解除`} onClick={() => { setQ(''); change(setQuery)(''); }}>検索：{query}</button>}
+            <button type="button" className="link" onClick={clearAll}>すべて解除</button>
           </>
         )}
         selection={{
@@ -244,7 +243,7 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
           onClear: sel.clear,
           actions: (
             <>
-              <button type="button" className="button small-btn" onClick={addTag}>タグを付ける</button>
+              <button type="button" className="button small-btn" onClick={addTag}>タグを付与</button>
               <button type="button" className="button small-btn" onClick={suspend}>停止</button>
             </>
           ),
@@ -253,8 +252,8 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
         empty={filtered.length === 0 ? (
           <div className="empty-state">
             <p className="empty-state-title">条件に当てはまる会員はいません</p>
-            <p>検索の言葉を変えるか、絞り込みの条件を外してください。</p>
-            <div className="row"><button type="button" className="button secondary" onClick={clearAll}>条件をすべて外す</button></div>
+            <p>検索語を変更するか、絞り込みの条件を解除してください。</p>
+            <div className="row"><button type="button" className="button secondary" onClick={clearAll}>条件をすべて解除</button></div>
           </div>
         ) : undefined}
         pager={{ total: filtered.length, page: current, pageSize: PAGE_SIZE, onPage: setPage }}
@@ -274,7 +273,7 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
           <tbody>
             {shown.map((r) => (
               <tr key={r.id} className={sel.isSelected(r.id) ? 'clickable selected' : 'clickable'} onClick={rowClick(() => open(r.id))}>
-                <td className="check-cell"><input type="checkbox" {...sel.rowProps(r.id, `${r.name}を選ぶ`)} /></td>
+                <td className="check-cell"><input type="checkbox" {...sel.rowProps(r.id, `${r.name}を選択`)} /></td>
                 <td>
                   <a className="person" href={`#console/members/${r.id}`}>
                     <span className="avatar" aria-hidden="true">{r.name[0]}</span>
@@ -299,13 +298,13 @@ export function ConsoleMembersPage({ initialQuery = '' }: { initialQuery?: strin
 export function ConsoleEmptyPage() {
   return (
     <>
-      <PageHeader breadcrumb={[{ label: '運営', href: '#console/notices' }, { label: 'お知らせ' }]} title="お知らせ" count={0} description="マイポータルに出すお知らせを作成します。"
+      <PageHeader breadcrumb={[{ label: '運営', href: '#console/notices' }, { label: 'お知らせ' }]} title="お知らせ" count={0} description="マイポータルに表示するお知らせです。"
         actions={<button type="button" className="button primary inline">{icons.plus}お知らせを作成</button>} />
       <CollectionLayout
         empty={
           <div className="empty-state">
             <p className="empty-state-title">お知らせはまだありません</p>
-            <p>作成したお知らせは、公開する日時になるとマイポータルのトップに出ます。</p>
+            <p>公開日時にマイポータルのトップに表示されます。</p>
             <div className="row"><button type="button" className="button primary inline">{icons.plus}お知らせを作成</button></div>
           </div>
         }
@@ -326,7 +325,7 @@ export function ConsoleSettingsPage() {
     if (!/^[^@\s]+@[^@\s]+$/.test(email)) next.email = 'メールアドレスの形式が正しくありません（例：office@example.com）。';
     setErrors(next);
     if (Object.keys(next).length) {
-      toast('保存できませんでした。入力の誤りを直してください。', { kind: 'ng' });
+      toast('保存できませんでした。入力内容を修正してください。', { kind: 'ng' });
       return;
     }
     setSaving(true);
@@ -337,7 +336,7 @@ export function ConsoleSettingsPage() {
   const errorList = Object.values(errors);
   return (
     <>
-      <PageHeader breadcrumb={[{ label: '設定' }, { label: '同窓会の設定' }]} title="同窓会の設定" description="マイポータルと、送るメールに使う情報です。" />
+      <PageHeader breadcrumb={[{ label: '設定' }, { label: '同窓会の設定' }]} title="同窓会の設定" />
       <Card title="基本情報">
         <form className="form aligned" onSubmit={submit} noValidate>
           {errorList.length > 0 && (
@@ -347,7 +346,7 @@ export function ConsoleSettingsPage() {
             </div>
           )}
           <Field label="同窓会の名前"><input name="name" defaultValue="大阪大学SEEDSプログラム同窓会" autoComplete="off" required /></Field>
-          <Field label="問い合わせ先" hint="会員に送るメールの差出人と、問い合わせの宛先になります。" error={errors.email}>
+          <Field label="問い合わせ先" hint="会員宛てメールの差出人と、問い合わせの宛先です。" error={errors.email}>
             <input name="email" type="email" defaultValue="office@" autoComplete="off" aria-invalid={!!errors.email} required />
           </Field>
           <Field label="本登録の承認">
@@ -356,8 +355,8 @@ export function ConsoleSettingsPage() {
               <option value="auto">名簿と一致したら自動で承認する</option>
             </select>
           </Field>
-          <Field label="案内の文" optional hint="本登録の申請の画面の上に出ます。"><textarea name="intro" /></Field>
-          <label className="check"><input type="checkbox" name="notify" defaultChecked /> 申請が届いたら運営にメールで知らせる</label>
+          <Field label="案内の文" optional hint="本登録の申請画面の上部に表示します。"><textarea name="intro" /></Field>
+          <label className="check"><input type="checkbox" name="notify" defaultChecked /> 申請を受け付けたら運営にメールで通知</label>
           <div className="form-actions">
             <button className="button primary inline" disabled={saving}>{saving ? '保存しています…' : '変更を保存'}</button>
             <button type="reset" className="button secondary" disabled={saving} onClick={() => setErrors({})}>元に戻す</button>
@@ -371,7 +370,7 @@ export function ConsoleSettingsPage() {
 export function ConsoleDashboardPage() {
   return (
     <>
-      <PageHeader title="ダッシュボード" description="対応が必要なことから順に並べています。" />
+      <PageHeader title="ダッシュボード" description="対応が必要な順に表示しています。" />
       <Tiles
         items={[
           { label: '審査待ちの申請', value: 3, href: '#console/applications' },
@@ -395,7 +394,7 @@ export function ConsoleDemo({ route, envLabel }: { route: string; envLabel?: str
   else body = (
     <>
       <PageHeader title={navFor(route).flatMap((g) => g.items).find((i) => i.current)?.label ?? '画面'} />
-      <Card><div className="empty-state"><p className="empty-state-title">この画面は見本では省略しています</p><p>一覧は「会員」、フォームは「同窓会の設定」を見てください。</p></div></Card>
+      <Card><div className="empty-state"><p className="empty-state-title">この画面は見本では省略しています</p><p>一覧は「会員」、フォームは「同窓会の設定」を参照してください。</p></div></Card>
     </>
   );
   return <ConsoleFrame route={route} envLabel={envLabel}>{body}</ConsoleFrame>;

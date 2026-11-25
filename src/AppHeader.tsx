@@ -176,7 +176,7 @@ function NavScreenItem({ item }: { item: NavItem }) {
           className="nav-screen-expand"
           aria-controls={subId}
           aria-expanded={expanded}
-          aria-label={typeof item.label === 'string' ? `${item.label}の下のページ` : '下のページ'}
+          aria-label={typeof item.label === 'string' ? `${item.label}のページ一覧` : 'ページ一覧'}
           onClick={() => setExpanded(!expanded)}
         />
       </div>

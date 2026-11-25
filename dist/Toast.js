@@ -33,7 +33,7 @@ export function ToastHost() {
                 timers.current.set(i.id, setTimeout(() => close(i.id), i.duration));
         }
     }, [items]);
-    const render = (list) => list.map((i) => (_jsxs("div", { className: i.kind === 'ng' ? 'toast ng' : 'toast', children: [_jsx("span", { className: "toast-text", children: i.message }), _jsx("button", { type: "button", className: "toast-close", "aria-label": "\u77E5\u3089\u305B\u3092\u9589\u3058\u308B", onClick: () => close(i.id), children: "\u00D7" })] }, i.id)));
+    const render = (list) => list.map((i) => (_jsxs("div", { className: i.kind === 'ng' ? 'toast ng' : 'toast', children: [_jsx("span", { className: "toast-text", children: i.message }), _jsx("button", { type: "button", className: "toast-close", "aria-label": "\u901A\u77E5\u3092\u9589\u3058\u308B", onClick: () => close(i.id), children: "\u00D7" })] }, i.id)));
     // 読み上げ：失敗はすぐ（assertive）、ほかは区切りのよいところで（polite）。領域は先に置いておく（後から足した要素は読まれないことがある）
     return (_jsxs("div", { className: "toast-region", children: [_jsx("div", { className: "toast-list", "aria-live": "assertive", children: render(items.filter((i) => i.kind === 'ng')) }), _jsx("div", { className: "toast-list", "aria-live": "polite", children: render(items.filter((i) => i.kind !== 'ng')) })] }));
 }
