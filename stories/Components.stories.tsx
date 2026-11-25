@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState, type ReactNode } from 'react';
-import { AccountMenu, AppHeader, Badge, Card, CollectionLayout, Field, FileDrop, PageHeader, Pager, Tabs, Tiles, confirmDialog, inputDialog, toast, useSelection } from '../src';
+import { AccountMenu, AppHeader, Badge, Card, CollectionLayout, Field, FileDrop, PageHeader, Pager, Tabs, Tiles, confirmDialog, formDialog, inputDialog, toast, useSelection } from '../src';
 import { SITE_NAV } from './SitePage';
 
 /** React の部品（docs/catalog.md §4）。Controls で props を変えて確かめられる */
@@ -171,13 +171,14 @@ function PagerDemo() {
 export const ページ送り: StoryObj = { render: () => <PagerDemo /> };
 
 function DialogDemo() {
-  const [result, setResult] = useState('（まだ押していません）');
+  const [result, setResult] = useState('（未操作）');
   return (
     <Card title="ダイアログ">
       <div className="row">
         <button type="button" className="button secondary" onClick={async () => setResult(String(await confirmDialog('この申請を承認しますか？', { title: '申請の承認', okLabel: '承認' })))}>承認</button>
         <button type="button" className="button danger inline" onClick={async () => setResult(String(await confirmDialog('この会員を停止しますか？', { title: '会員の停止', okLabel: '停止', danger: true })))}>停止</button>
         <button type="button" className="button secondary" onClick={async () => setResult(String(await inputDialog({ title: 'SA 登録の解除', label: '終了日', type: 'date', okLabel: '登録を解除' })))}>SA 登録を解除</button>
+        <button type="button" className="button small-btn" onClick={async () => setResult(JSON.stringify(await formDialog({ title: 'タグの編集', fields: [{ name: 'name', label: '名前', initial: '実行委員会' }, { name: 'description', label: '説明', initial: '', optional: true }], okLabel: '保存' })))}>編集</button>
       </div>
       <p className="muted small mt-md">結果：{result}</p>
     </Card>
